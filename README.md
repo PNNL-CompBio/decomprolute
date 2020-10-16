@@ -21,3 +21,6 @@ We will need to create a module that collects the code and formats it appropriat
 
 ### Tumor assignment code
 Here we describe tools that run various modules
+
+### Deconvolution comparison
+The main crux of the approach is to evaluate _how_ we compare the different algorithms. This includes the mapping of patients between GDC and PDC and also the many statistical implications of missing data. 
