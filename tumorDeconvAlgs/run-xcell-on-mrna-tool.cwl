@@ -6,7 +6,7 @@ baseCommand: Rscript
 
 requirements:
    - class: DockerRequirement
-     dockerPull: vacatrion/xcell
+     dockerPull: vacat ion/xcell
 
 arguments:
   - xcell.r
@@ -49,10 +49,8 @@ inputs:
     inputBinding:
       position: 9
     
-
 outputs:
-  merged:
-    type: stdout
-
-stdout:
-  merged.txt
+  pathways:
+     type: File
+     outputBinding:
+        glob: "*/pathways.csv"
