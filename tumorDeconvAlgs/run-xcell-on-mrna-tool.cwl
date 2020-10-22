@@ -6,7 +6,7 @@ baseCommand: Rscript
 
 requirements:
    - class: DockerRequirement
-     dockerPull: vacat ion/xcell
+     dockerPull: vacation/xcell
 
 arguments:
   - xcell.r
