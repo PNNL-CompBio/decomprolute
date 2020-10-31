@@ -65,6 +65,8 @@ Because there are many pieces of this project I thought it would be wise to chec
 
 | Milestone | Description | Lead | Deadline | Relevant Issue|
 |--- | --- | --- | --- | ---|
-|Create docker images for 3 convolution tools | We are currently collected/building docker images for xCell, CIBERSORTx and MCPcounter | Song | |#2 |
-|Create CWL front-ends for each docker image ||Song ||
-|
+|Create docker images for 3 convolution tools | We are currently collected/building docker images for xCell, CIBERSORTx and MCPcounter | Song | | |
+|Create CWL front-ends for each docker image ||Song || |
+|Create docker + CWL for correlation test|| Song|||
+|Create docker + CWL for MI test |||||
+
