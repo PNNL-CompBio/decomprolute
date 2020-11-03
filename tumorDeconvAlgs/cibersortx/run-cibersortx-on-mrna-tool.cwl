@@ -2,7 +2,7 @@ label: run-cibersortx-on-mrna
 id: run-cibersortx-on-mrna
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: Rscript
+baseCommand: 
 
 requirements:
   class: DockerRequirement
