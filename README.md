@@ -69,10 +69,11 @@ We will need to create a module that collects the code and formats it appropriat
 How to assign tumor types based on scRNA-seq profiles.
 
 ### Deconvolution comparison
-The main crux of the approach is to evaluate _how_ we compare the different algorithms. This includes the mapping of patients between GDC and PDC and also the many statistical implications of missing data. Currently we are comparing various statistics to compare overall clustering.
+The main crux of the approach is to evaluate _how_ we compare the different algorithms. This includes the mapping of patients between GDC and PDC and also the many statistical implications of missing data. Currently we are comparing various statistics to compare overall clustering. Various performance evaluations will go in the [perfEval](./perfEval) directory
 
-1. Spearman rank correlation. This is currently handled in the [correlation](./correlation) directory.
-2. Mutual information. *TODO*: create a script that computes mutual information.
+
+1. Spearman rank correlation. This is currently handled in the [correlation](./perfEval/correlations) directory.
+2. Mutual information. *TODO*: create a script that computes mutual information. 
 
 
 ## Project Timeline
