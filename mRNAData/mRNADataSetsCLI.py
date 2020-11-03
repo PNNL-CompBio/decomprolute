@@ -2,9 +2,8 @@
 '''
 Basic CLI to import CPTAC proteomic data
 '''
-
-import cptac
 import argparse
+import cptac
 
 
 def main():
@@ -23,9 +22,8 @@ def main():
         dat = cptac.Ovarian()
     else:
         exit()
-
     df = dat.get_transcriptomics()
-    df.to_csv(df, sep="\t", path="file.tsv")
+    df.to_csv(path_or_buf="file.tsv", sep='\t')
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

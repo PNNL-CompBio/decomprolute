@@ -4,7 +4,10 @@ label: mrna-data-cwl-tool
 id:  mrna-data-cwl-tool
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: mRNADataSetsCLI.py
+baseCommand: python
+
+arguments:
+     - /bin/mRNADataSetsCLI.py
 
 requirements:
     - class: DockerRequirement
