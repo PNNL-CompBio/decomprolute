@@ -68,3 +68,92 @@ Because there are many pieces of this project I thought it would be wise to chec
 |Create CWL front-ends for each docker image ||Song || |
 |Create docker + CWL for correlation test|| Song|||
 |Create docker + CWL for MI test |||||
+=======
+# Proteomics Tumor Deconvolution Metrics
+A suite of scientific workflows to assess metrics to compare efficacy of protein-based tumor deconvolution algorithms. The goal of this project is to standardize the analysis and comparison of various tumor deconvolution datasets to compare their efficacy with different parameters.
+
+We propose a modular architecture to enable 'plug and play' comparisons of different datasets and tools.The modules fall into three categories, each with a data collection and analysis module.
+![Architecture](./arch.png)
+
+These modules are each describe below.
+
+## Proteomic data collection
+We have written a short script that pulls proteomic data from the PDC and formats it so it can be analyzed on basic tumor deconvolution platforms.
+
+### Data source
+We have collect pre-formatted sample data from the [CPTAC Python API](https://github.com/PayneLab/cptac) to better match the mRNA data. This CWL tool and Docker image are in the [protData](./protData) directory.
+
+To run:
+
+``` shell
+cd protData
+docker build -t sgosline/prot-dat
+cwl-runner prot-data-cwl-tool.cwl
+```
+This will output a `file.tsv` containing a matrix of protein values.
+
+We will also build a script/image that computes tumor-normal data from the [Proteomic Data Commons](https://proteomic.datacommons.cancer.gov/pdc/) in a self-contained docker image that selects the most differentially expressed proteins in each tumor sample. This can be found in the [protData](./protData) directory.
+
+### Deconvolution code
+
+We are currently evaluating three different tumor de-convolution algorithms for this project. These docker images can be found in the [tumorDeconvAlgs](./tumorDeconvAlgs) directory.
+
+### Deconvolution signatures
+There are numerous ways to define the individual cell types we are using to run the deconvolution algorithms. We will upload specific lists to compare in our workflow.
+
+| List Name | Description | Source |
+| --- | --- | --- |
+| LM7c | Seven cell types (B, CD4 T, CD8 T, dendritic cells, granulocytes, monocytes, NK) collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
+| 3' PBMCs | Seven cell types (B, CD4 T, CD8 T, dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
+| LM10 | Ten cell types predicted by MCPCounter signature | |
+| ? | Should we add additional cell type markers? | |
+
+
+
+## Bulk RNA-Seq comparisons
+For this work we need to run tumor deconvolution on bulk RNA-seq from the same PDC patients. These tools will operate similarly to the proteomics data.
+
+### Data collection
+All data is currently being downloaded via the [CPTAC Python API](https://github.com/PayneLab/cptac) to pull matched mRNA data for each proteomic patient sample. The code is located in the [mRNA module](./mRNAData).
+
+To run:
+
+``` shell
+cd mRNAData
+docker build -t sgosline/mrna-dat .
+cwl-runner mrna-data-cwl-tool.cwl --cancerType ccrcc
+```
+This will output a file.tsv that includes a matrix of CCRCC data.
+
+### RNA deconvolution code
+We will also run similar algorithms from the [tumorDeconvAlgs](./tumorDeconvAlgs) directory to identify specific cell types. I believe most of these have their own gene lists and therefore we will not sample from various gene lists.
+
+## scRNA-Seq comparisons
+For this we will need to run cell identifications on scRNA seq
+_TBD_
+
+### Data collection
+We will need to create a module that collects the code and formats it appropriately.
+
+### Tumor assignment code
+How to assign tumor types based on scRNA-seq profiles.
+
+### Deconvolution comparison
+The main crux of the approach is to evaluate _how_ we compare the different algorithms. This includes the mapping of patients between GDC and PDC and also the many statistical implications of missing data. Currently we are comparing various statistics to compare overall clustering. Various performance evaluations will go in the [perfEval](./perfEval) directory
+
+
+1. Spearman rank correlation. This is currently handled in the [correlation](./perfEval/correlations) directory.
+2. Mutual information. *TODO*: create a script that computes mutual information.
+
+
+## Project Timeline
+
+Because there are many pieces of this project I thought it would be wise to check in on the various aspects of the timeline.
+
+| Milestone | Description | Lead | Deadline | Relevant Issue|
+|--- | --- | --- | --- | ---|
+|Create docker images for 3 convolution tools | We are currently collected/building docker images for xCell, CIBERSORTx and MCPcounter | Song | | |
+|Create CWL front-ends for each docker image ||Song || |
+|Create docker + CWL for correlation test|| Song|||
+|Create docker + CWL for MI test |||||
+>>>>>>> 0e5abd509aa6eb0636488da47014368a783eaf0b

@@ -25,7 +25,8 @@ def main():
         exit()
 
     df = dat.get_proteomics()
-    df.to_csv(df, sep="\t", path_or_buf="/tmp/file.tsv")
+    df.to_csv(sep="\t", path_or_buf="/tmp/file.tsv")
+
 
 if __name__=='__main__':
     main()
