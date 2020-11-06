@@ -1,12 +1,9 @@
 from amancevice/pandas
 
-RUN apt-get update -qq
-RUN pip install requests
-RUN pip install seaborn
-RUN pip install matplotlib
-
-COPY . protData
-WORKDIR protData
+RUN pip install cptac
+COPY protDataSetsCLI.py /bin
+RUN chmod 777 /bin/protDataSetsCLI.py
+COPY getAllDatasets.py /bin/
+RUN python /bin/getAllDatasets.py
 
 VOLUME ['/tmp']
-CMD ["python","queryPDCfiles.py"]
