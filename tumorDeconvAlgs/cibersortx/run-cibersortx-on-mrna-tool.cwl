@@ -11,67 +11,127 @@ hints:
     # dockerPull: cibersortx/hires
 
 inputs:
-  data:
-    type: File
-    inputBinding:
-      prefix: -v
-      position: 1
-  outDir:
-     type: Directory
-     inputBinding:
-       prefix: -v
-       position: 2
+  # data:
+  #   type: File
+  #   inputBinding:
+  #     prefix: -v
+  #     position: 1
+  # outDir:
+  #    type: Directory
+  #    inputBinding:
+  #      prefix: -v
+  #      position: 2
   username:
     type: string
     inputBinding:
       prefix: --username
-      position: 3
   token:
     type: string
     inputBinding:
       prefix: --token
-      position: 4
-  single_cell:
-    type: boolean
-    inputBinding:
-      prefix: --single_cell
-      position: 5
-  refsample:
-    type: File
-    inputBinding:
-      prefix: --refsample
-      position: 6
   mixture:
     type: File
     inputBinding:
       prefix: --mixture
-      position: 7
-  fraction:
+  sigmatrix:
+    type: File
+    inputBinding:
+      prefix: --sigmatrix
+  perm:
     type: int
     inputBinding:
-      prefix: --fraction
-      position: 8
+      prefix: --perm
+  samplelabel:
+    type: string
+    inputBinding:
+      prefix: --label
   rmbatchSmode:
     type: string
     inputBinding:
       prefix: --rmbatchSmode
-      position: 9
-  phenoclasses:
+  rmbatchBmode:
+    type: string
+    inputBinding:
+      prefix: --rmbatchBmode
+  sourceGEPs:
     type: File
     inputBinding:
-      prefix: --phenoclasses
-      position: 10
+      prefix: --sourceGEPs
   qn:
     type: string
     inputBinding:
       prefix: --QN
-      position: 11
-  
+  absolute:
+    type: string
+    inputBinding:
+      prefix: --absolute
+  abs_method:
+    type: string
+    inputBinding:
+      prefix: --abs_method
+  verbose:
+    type: string
+    inputBinding:
+      prefix: --verbose
+  outdir:
+    type: Directory
+    inputBinding:
+      prefix: --outdir
+  refsample:
+    type: File
+    inputBinding:
+      prefix: --refsample
+  phenoclasses:
+    type: File
+    inputBinding:
+      prefix: --phenoclasses
+  single_cell:
+    type: boolean
+    inputBinding:
+      prefix: --single_cell
+  G.min:
+    type: int
+    inputBinding:
+      prefix: --G.min
+  G.max:
+    type: int
+    inputBinding:
+      prefix: --G.max
+  q.value:
+    type: int
+    inputBinding:
+      prefix: --q.value
+  filter:
+    type: string
+    inputBinding:
+      prefix: --filter
+  k.max:
+    type: int
+    inputBinding:
+      prefix: --k.max
+  remake:
+    type: string
+    inputBinding:
+      prefix: --remake
+  replicates:
+    type: int
+    inputBinding:
+      prefix: --replicates
+  sampling:
+    type: float
+    inputBinding:
+      prefix: sampling
+  fraction:
+    type: float
+    inputBinding:
+      prefix: --fraction
+
+
+
 outputs:
   output:
      type: File
      outputBinding:
        prefix: -v
-       position: 2
        
        

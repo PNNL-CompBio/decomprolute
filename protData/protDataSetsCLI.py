@@ -33,7 +33,7 @@ def main():
     else:
         exit()
     df = dat.get_proteomics()
-    df.to_csv(path_or_buf="file.tsv", sep='\t')
+    df.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
 
 
 if __name__ == '__main__':
