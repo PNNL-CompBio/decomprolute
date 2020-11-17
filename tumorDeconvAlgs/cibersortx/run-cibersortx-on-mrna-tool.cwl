@@ -12,12 +12,12 @@ hints:
 
 inputs:
   # data:
-  #   type: File
+  #   type: string
   #   inputBinding:
   #     prefix: -v
   #     position: 1
   # outDir:
-  #    type: Directory
+  #    type: string
   #    inputBinding:
   #      prefix: -v
   #      position: 2
@@ -126,12 +126,10 @@ inputs:
     inputBinding:
       prefix: --fraction
 
-
-
 outputs:
   output:
      type: File
      outputBinding:
-       prefix: -v
+       glob: "*.txt"
        
        
