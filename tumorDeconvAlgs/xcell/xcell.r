@@ -21,9 +21,8 @@ file1 <- args[2]
 #     stop("At least one argument must be provided (input file)\n", call.=FALSE)
 # }
 
-library(MCPcounter)
+library(xCell)
 
-data <- read.csv(file0, sep = "\t", row.names = 1)
-mcp <- MCPcounter.estimate(data, featuresType = "HUGO_symbols")
-
-write.table(mcp, file=file1, quote = FALSE, col.names = NA, sep = "\t")
+df <- read.csv(file0, sep = "\t", row.names = 1)
+xc <- xCellAnalysis(df)
+write.table(xc, file=file1, quote = FALSE, col.names = NA, sep = "\t")
