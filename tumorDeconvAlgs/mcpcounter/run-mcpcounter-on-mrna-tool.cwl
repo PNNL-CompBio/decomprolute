@@ -4,16 +4,28 @@ cwlversion: v1.0
 class: CommandLineTool
 baseCommand: Rscript
 
-requirements:
-    - class: DockerRequirement
-      dockerPull: quay.io/biocontainers/r-mcpcounter:1.1.0--r40_1
-
 arguments:
-    - mcpcounter.r
+  - --vanilla
+  - /root/mcpcounter.r
+
+requirements:
+  - class: DockerRequirement
+    dockerPull: lifeworks/mcpcounter
 
 inputs:
-    rnaseq:
-        type: string
-        inputBinding:
-            position: 1
-    
+  rnaseq:
+    type: string
+    inputBinding:
+      position: 1
+  output:
+    type: string
+    inputBinding:
+      position: 2
+
+outputs:
+  deconvoluted:
+    type: File
+    outputBinding:
+      glob: $(inputs.output) #"deconvoluted.tsv"#
+
+

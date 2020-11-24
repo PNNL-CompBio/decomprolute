@@ -14,9 +14,9 @@ RUN curl https://cran.r-project.org/src/base/R-4/$R_VERSION.tar.gz -o $R_VERSION
 RUN apt-get install -y libssl-dev libssh2-1-dev && \
     Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
     Rscript -e 'install.packages(c("devtools","curl"),repos = "http://cran.us.r-project.org")' && \
-    Rscript -e 'library(devtools);install_github("ebecht/MCPcounter",ref="master", subdir="Source")'
+    Rscript -e 'library(devtools);install_github("dviraran/xCell")'
 
-COPY mcpcounter.r /root
+COPY xcell.r /root
 
 ENV HOME /root
 WORKDIR /root
