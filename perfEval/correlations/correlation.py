@@ -26,3 +26,7 @@ def main():
                               for sample in proCols])
     correlations.index = proCols
     correlations.to_csv(opts.output, sep='\t')
+
+
+if __name__ == '__main__':
+    main()
