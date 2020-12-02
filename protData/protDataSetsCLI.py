@@ -35,7 +35,6 @@ def main():
     df = dat.get_proteomics()
     df.columns = df.columns.droplevel(1)
     df.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
->>>>>>> dde02aa743aad62b7045987d469028f4ca5afc3c
 
 
 if __name__ == '__main__':
