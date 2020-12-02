@@ -4,7 +4,11 @@ label: prot-data-cwl-tool
 id:  prot-data-cwl-tool
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: protDataSetsCLI.py
+baseCommand: python
+
+arguments:
+     - /bin/protDataSetsCLI.py
+
 
 requirements:
     - class: DockerRequirement
