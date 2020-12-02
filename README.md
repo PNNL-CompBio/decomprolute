@@ -104,7 +104,7 @@ There are numerous ways to define the individual cell types we are using to run 
 | List Name | Description | Source |
 | --- | --- | --- |
 | LM7c | Seven cell types (B, CD4 T, CD8 T, dendritic cells, granulocytes, monocytes, NK) collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
-| 3' PBMCs | Seven cell types (B, CD4 T, CD8 T, dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
+| 3' PBMCs | Seven cell types (B, CD4 T, CD8 T (CD8 T + NK T), dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
 | LM10 | Ten cell types predicted by MCPCounter signature | |
 | ? | Should we add additional cell type markers? | |
 

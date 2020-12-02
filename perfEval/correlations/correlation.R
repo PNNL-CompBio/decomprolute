@@ -4,10 +4,10 @@
 # file3 <- args[3]
 # fileM <- args[4]
 
-filePro <- "./test/CIBERSORTx_Job76_Adjusted_CCRCC_proteinimputed_LM22.txt"
-fileRnaT <- "./test/CIBERSORTx_Job23_Adjusted_CCRCC_T_rna_LM22.txt"
-fileRnaN <- "./test/CIBERSORTx_Job1_Adjusted_CCRCC_N_rna_LM22.txt"
-fileMap <- "./test/mapping_sampleid.tsv"
+filePro <- "../../test_data/CIBERSORTx_Job76_Adjusted_CCRCC_proteinimputed_LM22.txt"
+fileRnaT <- "../../test_data/CIBERSORTx_Job23_Adjusted_CCRCC_T_rna_LM22.txt"
+fileRnaN <- "../../test_data/CIBERSORTx_Job1_Adjusted_CCRCC_N_rna_LM22.txt"
+fileMap <- "../../test_data/mapping_sampleid.tsv"
 
 dfPro <- read.table(filePro, header = TRUE)
 dfRnaT <- read.table(fileRnaT, header = TRUE)
