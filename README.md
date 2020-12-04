@@ -23,8 +23,8 @@ We are currently evaluating three different tumor de-convolution algorithms for 
 ### Deconvolution signatures
 There are numerous ways to define the individual cell types we are using to run the deconvolution algorithms. We will upload specific lists to compare in our workflow.
 
-| List Name | Description                                             | Source                                                        |         |                                               |                                |
-| ---       | ---                                                     | ---                                                           |         |                                               |                                |
+| List Name | Description       | Source |         |                                               |                                |
+| ---       | ---               | --- | ---        | ---                                               |                      ---      |
 | LM28      | 28 Protein derived cell types from original manuscript  | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/) |         |                                               |                                |
 | LM22      | Cibertort X derived cell types from original manuscript |                                                               |         |                                               |                                |
 | LM10      | Ten cell types predicted by MCPCounter signature        |                                                               |         |                                               |                                |
