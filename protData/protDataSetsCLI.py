@@ -4,6 +4,7 @@ Basic CLI to import CPTAC proteomic data
 '''
 import argparse
 import cptac
+import numpy as np
 
 
 def main():
@@ -33,8 +34,15 @@ def main():
     else:
         exit()
     df = dat.get_proteomics()
-    df.columns = df.columns.droplevel(1)
-    df.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
+    # some dataset has two level of indices some has only one
+    if df.columns.nlevels == 2:
+        df.columns = df.columns.droplevel(1)
+    elif df.columns.nlevels != 1:
+        print("The number of column levels is larger not 1 or 2!\n")
+        raise
+    dfE = np.exp(df)
+    dfU = np.log(dfE.sum(axis=1, level=0, min_count=1))
+    dfU.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
 
 
 if __name__ == '__main__':

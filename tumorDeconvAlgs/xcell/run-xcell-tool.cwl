@@ -1,3 +1,5 @@
+#!/usr/bin/env cwltool
+
 label: run-xcell-on-mrna
 id: run-xcell-on-mrna
 cwlVersion: v1.0
@@ -6,24 +8,24 @@ baseCommand: Rscript
 
 arguments:
   - --vanilla
-  - /root/xcell.r
+  - /bin/xcell.r
 
 requirements:
    - class: DockerRequirement
      dockerPull: lifeworks/xcell
 
 inputs:
-  rnaseq:
-   type: string
+  expression:
+   type: File
    inputBinding:
       position: 1
-  output:
-    type: string
-    inputBinding:
-      position: 2
+  # output:
+  #   type: string
+  #   inputBinding:
+  #     position: 2
 
 outputs:
   deconvoluted:
      type: File
      outputBinding:
-       glob: $(inputs.output) #"deconvoluted.tsv"
+       glob: "deconvoluted.tsv" #$(inputs.output) 

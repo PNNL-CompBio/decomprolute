@@ -1,4 +1,4 @@
-#!/usr/bin/env cwl-runner
+#!/usr/bin/env cwltool
 
 label: deconv-corr-cwl-tool
 id:  deconv-corr-cwl-tool
@@ -16,20 +16,20 @@ requirements:
 
 inputs:
   transcriptomics:
-    type: string
+    type: File
     inputBinding:
       prefix: --transcriptomics
   proteomics:
-    type: string
+    type: File
     inputBinding:
       prefix: --proteomics
-  output:
-    type: string
-    inputBinding:
-      prefix: --output
+  # output:
+  #   type: string
+  #   inputBinding:
+  #     prefix: --output
 
 outputs:
   corr:
     type: File
     outputBinding:
-      glob: $(inputs.output)
+      glob: "corr.tsv" #$(inputs.output)

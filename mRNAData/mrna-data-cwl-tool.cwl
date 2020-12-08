@@ -1,4 +1,4 @@
-#!/usr/bin/env cwl-runner
+#!/usr/bin/env cwltool
 
 label: mrna-data-cwl-tool
 id:  mrna-data-cwl-tool
@@ -11,7 +11,7 @@ arguments:
 
 requirements:
     - class: DockerRequirement
-      dockerPull: sgosline/mrna-dat
+      dockerPull: lifeworks/deconv-mrna
 
 inputs:
     cancerType:
