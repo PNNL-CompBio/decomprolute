@@ -11,7 +11,7 @@ arguments:
 
 requirements:
     - class: DockerRequirement
-      dockerPull: sgosline/prot-dat
+      dockerPull: lifeworks/deconv-prot
 
 inputs:
     cancerType:
