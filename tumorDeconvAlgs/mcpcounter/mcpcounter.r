@@ -1,7 +1,7 @@
 #!/usr/local/bin/env Rscript --vanilla
 args <- commandArgs(TRUE)
 file0 <- args[1]
-file1 <- args[2]
+# file1 <- args[2]
 # library("optparse")
 # 
 # option_list = list(
@@ -26,4 +26,4 @@ library(MCPcounter)
 data <- read.csv(file0, sep = "\t", row.names = 1)
 mcp <- MCPcounter.estimate(data, featuresType = "HUGO_symbols")
 
-write.table(mcp, file=file1, quote = FALSE, col.names = NA, sep = "\t")
+write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
