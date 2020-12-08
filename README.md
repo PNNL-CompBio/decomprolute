@@ -72,7 +72,7 @@ The main crux of the approach is to evaluate _how_ we compare the different algo
 
 
 1. Spearman rank correlation. This is currently handled in the [correlation](./perfEval/correlations) directory.
-2. Mutual information. *TODO*: create a script that computes mutual information. 
+2. Mutual information. *TODO*: create a script that computes mutual information.
 
 
 ## Project Timeline

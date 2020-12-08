@@ -9,6 +9,7 @@ baseCommand: python
 arguments:
      - /bin/protDataSetsCLI.py
 
+
 requirements:
     - class: DockerRequirement
       dockerPull: lifeworks/deconv-prot
