@@ -1,4 +1,5 @@
-from amancevice/pandas
+FROM python:3.7.9
+RUN pip install pandas
 
 COPY correlation.py /bin
 
