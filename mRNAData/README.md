@@ -4,7 +4,7 @@ This module enables the collection of mRNA patient data using the `cptac` Python
 | File name| Description|
 | --- | ---|
 |`getAllDatasets.py`| This script is run within the Docker build process to get all datasets into the `Python` environment|
-| 'mRNADataSetsCLI.py`| This script is the primary tool to pull a specific cancer data type |
+| `mRNADataSetsCLI.py`| This script is the primary tool to pull a specific cancer data type |
 | `Dockerfile` | This file contains the two scripts above and the `cptac` Python package|
 |`mrna-data-cwl-tool.cwl`| This is a CWL tool to run the Docker image with the command line tool|
 
@@ -24,7 +24,7 @@ Then you can run the command via the docker interactive mode
 
 ``` bash
 docker build . -t mrna-module
-docker run -ti mrna-module /bin/mRNADataSetsCLI.py --cancerType=brca
+docker run --volume $PWD:/tmp -ti mrna-module mRNADataSetsCLI.py --cancerType=brca
 ```
 
 ### If you have Docker and a CWL engine
