@@ -17,5 +17,6 @@ Below is a table of various tests and the individual links to files that perform
 | CIBERSORTx | LM22 | Rieckmann |
 | xCell | LM22 | Rieckmann |
 | mcpcounter |LM22 | Rieckmann |
-
+| EPIC | LM22 | LM22 |
+| EPIC | LM22 | Rieckmann |
 
