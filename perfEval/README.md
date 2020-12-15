@@ -11,4 +11,4 @@ Below is a table of various tests and the individual links to files that perform
 
 | Algorithm | Cell Matrix for mRNA | Cell Matrix for Protein |
 | --- | --- | --- |
-|  | | |
+| CIBERSORTx | LM22 | LM22  |
