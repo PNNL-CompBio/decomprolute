@@ -11,13 +11,22 @@ RUN R -e "install.packages('foreach',dependencies=TRUE, repos='http://cran.rstud
 RUN R -e "install.packages('itertools',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('iterators',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('Matrix',dependencies=TRUE, repos='http://cran.rstudio.com/')"
-
 RUN R -e "install.packages('BiocManager',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "BiocManager::install('impute')"
 RUN R -e "install.packages('remotes',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e 'require("devtools"); require("remotes"); install_github("WangLab-MSSM/DreamAI/Code")'
 
 # copy DreamAI script
 COPY DreamAI.R /bin/DreamAI.R
 RUN chmod 777 /bin/DreamAI.R
 
-CMD ["Rscript", "/bin/DreamAI.R" ]
+COPY sandbox_DreamAI.R /bin/sandbox_DreamAI.R
+RUN chmod 777 /bin/sandbox_DreamAI.R
+#
+#RUN mkdir -p /usr/local/lib/R/site-library
+#RUN chmod -R 777 /usr/local/lib/R/site-library
+#
+#RUN mkdir -p /bin/R/site-library
+#RUN chmod -R 777 /bin/R/site-library
+
+VOLUME ['/tmp']
