@@ -1,0 +1,5 @@
+input_f:
+  class: File
+  path: /Users/anna/Desktop/test-data.csv
+
+use_missForest: 'false'
