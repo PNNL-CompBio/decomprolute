@@ -2,4 +2,4 @@ input_f:
   class: File
   path: test-data.csv
 
-use_missForest: 'gdd'
+use_missForest: 'false'
