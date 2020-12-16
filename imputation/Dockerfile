@@ -20,13 +20,4 @@ RUN R -e 'require("devtools"); require("remotes"); install_github("WangLab-MSSM/
 COPY DreamAI.R /bin/DreamAI.R
 RUN chmod 777 /bin/DreamAI.R
 
-COPY sandbox_DreamAI.R /bin/sandbox_DreamAI.R
-RUN chmod 777 /bin/sandbox_DreamAI.R
-#
-#RUN mkdir -p /usr/local/lib/R/site-library
-#RUN chmod -R 777 /usr/local/lib/R/site-library
-#
-#RUN mkdir -p /bin/R/site-library
-#RUN chmod -R 777 /bin/R/site-library
-
 VOLUME ['/tmp']

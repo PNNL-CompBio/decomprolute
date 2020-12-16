@@ -10,7 +10,7 @@ baseCommand: Rscript
 
 
 arguments:
-  - /bin/sandbox_DreamAI.R
+  - /bin/DreamAI.R
 
 
 requirements:
