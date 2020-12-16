@@ -9,7 +9,7 @@ This tool can be run from the command-line with the CWL tool file and an input Y
 cwl-runner imputation-tool.cwl imputation-input.yml 
 ```
 
-This will output an `imputed_file.tsv` containing a matrix of imputed protein values in the CWL tool's working directory.
+This will output an `imputed_file.tsv` containing a tab-separated matrix of imputed protein values in the CWL tool's working directory.
 
 ### Inputs
 
