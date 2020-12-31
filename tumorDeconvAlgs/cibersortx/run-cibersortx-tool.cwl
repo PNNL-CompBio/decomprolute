@@ -1,5 +1,5 @@
-label: run-cibersortx-on-mrna
-id: run-cibersortx-on-mrna
+label: run-cibersortx-tool
+id: run-cibersortx-tool
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
@@ -11,16 +11,6 @@ hints:
     # dockerPull: cibersortx/hires
 
 inputs:
-  # data:
-  #   type: string
-  #   inputBinding:
-  #     prefix: -v
-  #     position: 1
-  # outDir:
-  #    type: string
-  #    inputBinding:
-  #      prefix: -v
-  #      position: 2
   username:
     type: string
     inputBinding:
@@ -89,18 +79,18 @@ inputs:
     type: boolean
     inputBinding:
       prefix: --single_cell
-  G.min:
-    type: int
-    inputBinding:
-      prefix: --G.min
-  G.max:
-    type: int
-    inputBinding:
-      prefix: --G.max
-  q.value:
-    type: int
-    inputBinding:
-      prefix: --q.value
+  # G.min:
+  #   type: int
+  #   inputBinding:
+  #     prefix: --G.min
+  # G.max:
+  #   type: int
+  #   inputBinding:
+  #     prefix: --G.max
+  # q.value:
+  #   type: int
+  #   inputBinding:
+  #     prefix: --q.value
   filter:
     type: string
     inputBinding:
@@ -131,5 +121,3 @@ outputs:
      type: File
      outputBinding:
        glob: "*.txt"
-       
-       
