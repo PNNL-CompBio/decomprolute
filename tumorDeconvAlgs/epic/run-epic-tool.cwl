@@ -1,7 +1,7 @@
 #!/usr/bin/env cwltool
 
-label: run-xcell-on-mrna
-id: run-xcell-on-mrna
+label: run-epic-on-mrna
+id: run-epic-on-mrna
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: Rscript
