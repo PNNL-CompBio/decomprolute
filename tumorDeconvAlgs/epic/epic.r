@@ -6,23 +6,26 @@ if (!is.null(args[1])) {
     stop("No expression matrix provided!")
 }
 
-library(MCPcounter)
+library(EPIC)
 
 if (!is.null(args[2])) {
     ref <- read.csv(args[2], sep = "\t", row.names = 1) ### Need to change later
     markerGenes <- c()
-    cellTypes <- c()
     for (s in colnames(ref)) {
         genesTemp <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.90),])
         markerGenes <- c(markerGenes, genesTemp)
-        cellTypes <- c(cellTypes, rep(s, length(genesTemp)))
+        genesNull <- rownames(ref[ref[,s] <= quantile(ref[,s], prob=0.90),])
+        ref[genesNull, s] <- 0.0
     }
-    sigList <- data.frame("HUGO symbols" = markerGenes, "Cell population" = cellTypes)
-    colnames(sigList) <- c("HUGO symbols", "Cell population")
+    markerGenes <- unique(markerGenes)
     
-    mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols", genes = sigList)
+    epicRef <- list()
+    epicRef$refProfiles <- ref
+    epicRef$sigGenes <- markerGenes
+    
+    xc <- EPIC(bulk = df, reference = epicRef)
 } else {
-    mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols")
+    xc <- EPIC(bulk = df)
 }
 
-write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
+write.table(t(xc$cellFractions), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
