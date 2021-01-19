@@ -1,7 +1,7 @@
 #!/usr/bin/env cwltool
 
-label: run-epic-on-mrna
-id: run-epic-on-mrna
+label: run-epic-tool
+id: run-epic-tool
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: Rscript
@@ -19,10 +19,10 @@ inputs:
    type: File
    inputBinding:
       position: 1
-  # output:
-  #   type: string
-  #   inputBinding:
-  #     position: 2
+  signature:
+    type: File
+    inputBinding:
+      position: 2
 
 outputs:
   deconvoluted:

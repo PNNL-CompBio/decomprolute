@@ -12,9 +12,9 @@ WORKDIR $SRC
 RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
     Rscript -e 'install.packages("e1071")' && \
     Rscript -e 'install.packages("parallel")' && \
-    Rscript -e 'install.packages("preprocessCore")'
+    Rscript -e 'install.packages("BiocManager"); BiocManager::install("preprocessCore")'
 
-COPY CIBERSORT.r /bin
+COPY cibersort.r /bin
 
 ENV HOME /bin
 WORKDIR /bin
