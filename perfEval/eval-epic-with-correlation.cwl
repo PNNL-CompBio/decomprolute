@@ -1,8 +1,8 @@
 #!/usr/bin/env cwltool
 
 class: Workflow
-label: eval-xcell-with-correlation
-id: eval-xcell-with-correlation
+label: eval-epic-with-correlation
+id: eval-epic-with-correlation
 cwlVersion: v1.0
 
 requirements:
@@ -47,7 +47,7 @@ steps:
   #     [matrix]
 
   mrna-deconv:
-    run: run-xcell-tool.cwl
+    run: run-epic-tool.cwl
     in:
       expression:
         source: download-mrna/matrix
@@ -56,7 +56,7 @@ steps:
       [deconvoluted]
 
   prot-deconv:
-    run: run-xcell-tool.cwl
+    run: run-epic-tool.cwl
     in:
       expression:
         source: download-prot/matrix
