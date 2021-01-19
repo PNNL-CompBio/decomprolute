@@ -250,4 +250,4 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
 
 cs <- CIBERSORT(args[2], args[1])
 
-write.table(cs[, 1:(dim(cs)[2]-3)], file="deconvoluted.tsv", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
+write.table(t(cs[, 1:(dim(cs)[2]-3)]), file="deconvoluted.tsv", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
