@@ -16,9 +16,9 @@ def main():
         dat = cptac.Brca()
     elif opts.type.lower() == 'ccrcc':
         dat = cptac.Ccrcc()
-    elif opts.type.lower() == 'coad':
+    elif opts.type.lower() == 'colon':
         dat = cptac.Colon()
-    elif opts.type.lower() == 'ovca':
+    elif opts.type.lower() == 'ovarian':
         dat = cptac.Ovarian()
     elif opts.type.lower() == 'endometrial':
         dat = cptac.Endometrial()
