@@ -246,11 +246,11 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
   obj <- obj[-1,]
   obj <- matrix(as.numeric(unlist(obj)),nrow=nrow(obj))
   rownames(obj) <- colnames(Y)
-  #if(!absolute){colnames(obj) <- c(colnames(X),"P-value","Correlation","RMSE")}
-  #else{colnames(obj) <- c(colnames(X),"P-value","Correlation","RMSE",paste('Absolute score (',abs_method,')',sep=""))}
-  obj
+  if(!absolute){colnames(obj) <- c(colnames(X),"P-value","Correlation","RMSE")}
+  else{colnames(obj) <- c(colnames(X),"P-value","Correlation","RMSE",paste('Absolute score (',abs_method,')',sep=""))}
+  obj[, 1:(dim(X)[2])]
 }
 
 cs <- CIBERSORT(args[2], args[1])
 
-write.table(t(cs[, 1:(dim(cs)[2]-3)]), file="deconvoluted.tsv", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
+write.table(t(cs), file="deconvoluted.tsv", quote = FALSE, sep = "\t")

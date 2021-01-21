@@ -29,6 +29,9 @@ def main():
     pro = pro.transpose()
     rnaCols = list(rna.columns)
     proCols = list(pro.columns)
+    intersected = list(set(rnaCols) & set(proCols))
+    rna = rna[intersected]
+    pro = pro[intersected]
     corrList = [pro[sample].corr(rna[sample]) for sample in proCols]
     correlations = pd.Series(corrList)
     correlations.index = proCols
