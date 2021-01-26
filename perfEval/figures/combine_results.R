@@ -74,16 +74,16 @@ main<-function(){
   argv <- commandArgs(trailingOnly = TRUE)
   file.list<-argv[2:length(argv)]
 
-  if(argv[1]=='--sample'){
+  if(argv[1]=='sample'){
     tab<-combinePatientCors(file.list)
     print(dim(tab))
     write.table(tab,'combinedSampleCorrelationTab.tsv',row.names=F,col.names=T)
-  }else if(argv[1]=='--cellType'){
+  }else if(argv[1]=='cellType'){
     tab<-combineCellTypeCors(file.list)
     print(dim(tab))
     write.table(tab,'combinedCellTypeCorrelationTabl.csv',row.names=F,col.names=T)
   }else{
-    print("First argument must be `--cellType` or `--sample`")
+    print("First argument must be `cellType` or `sample`")
     
   }
   
