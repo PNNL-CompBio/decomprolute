@@ -12,6 +12,7 @@ arguments:
 requirements:
    - class: DockerRequirement
      dockerPull: tumordeconv/figures
+   - class: MultipleInputFeatureRequirement
 
 inputs:
    sampOrCell:
@@ -19,17 +20,17 @@ inputs:
      inputBinding:
        position: 1
    files:
-     type: string
+     type: [File]
      inputBinding:
-     position: 2
+        position: 2
 
 outputs:
    table:
      type: File
      outputBinding:
-       glob: *.tsv
+       glob: "*.tsv"
    fig:
      type: File
      outputBinding:
-     glob: *.pdf
+        glob: "*.pdf"
     
