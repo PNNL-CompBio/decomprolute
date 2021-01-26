@@ -22,9 +22,18 @@ inputs:
       type: [File]
       
 outputs:
-   pat-cor-tab: 
-   figures:
-
+   pat-cor-tab:
+        type: File
+        outputSource: get-patient-cors/table
+   pat-fig:
+        type: File
+        outputSource: get-patient-cors/fig
+   cell-cor-tab:
+        type: File
+        outputSource: get-celltype-cors/table
+   cell-fig:
+        type: File
+        outputSource: get-celltype-cors/fig
 steps:
     run-all-algs-by-sig:
        run: run-algs-with-sig-alg-cancer.cwl
@@ -48,6 +57,6 @@ steps:
         run: figures/plot-figs.cwl
         in:
           sampOrCell: sample
-          files:[run-all-algs-by-sig/sample-matrix]
+          files: [run-all-algs-by-sig/sample-matrix]
         out:
           [table,fig]
