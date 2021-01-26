@@ -14,7 +14,7 @@ RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
     Rscript -e 'install.packages("parallel")' && \
     Rscript -e 'install.packages("BiocManager"); BiocManager::install("preprocessCore")'
 
-COPY cibersort.r /bin
+COPY CIBERSORT.R /bin
 
 ENV HOME /bin
 WORKDIR /bin
