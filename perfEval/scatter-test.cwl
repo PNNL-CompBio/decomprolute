@@ -13,13 +13,13 @@ requirements:
 
 inputs:
    cancerTypes:
-      type: [string]
+      type: string[]
    prot-algorithms:
-      type: [string]
+      type: string[]
    mrna-algorithms:
-      type: [string]
+      type: string[]
    signatures:
-      type: [File]
+      type: File[]
       
 outputs:
    pat-cor-tab:
@@ -51,7 +51,7 @@ steps:
         in:
           sampOrCell:
              valueFrom: "sample"
-          files: [run-all-algs-by-sig/corr]
+          files: run-all-algs-by-sig/corr
         out:
           [table,fig]
    # get-celltype-cors:
@@ -59,6 +59,7 @@ steps:
    #     in:
    #       sampOrCell:
    #           valueFrom: "cellType"
-   #       files: [run-all-algs-by-sig/sample-matrix]
+   #       files:
+   #           source: [run-all-algs-by-sig/sample-matrix]
    #     out:
    #       [table,fig]

@@ -20,7 +20,7 @@ inputs:
      inputBinding:
        position: 1
    files:
-     type: [File]
+     type:  File[]
      inputBinding:
         position: 2
 
