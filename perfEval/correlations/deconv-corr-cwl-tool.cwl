@@ -23,6 +23,10 @@ inputs:
     type: File
     inputBinding:
       prefix: --proteomics
+  spearmanOrPearson:
+    type: string
+    inputBinding:
+      prefix: --spearOrPears
   # output:
   #   type: string
   #   inputBinding:
