@@ -71,6 +71,12 @@ steps:
         source: mrna-deconv/deconvoluted
       proteomics:
         source: prot-deconv/deconvoluted
+      cancerType:
+        source: cancerType
+      algorithm:
+        valueFrom: "cibersort"
+      signature:
+        source: signature
     out:
       [corr]
    

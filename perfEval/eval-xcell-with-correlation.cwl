@@ -71,6 +71,13 @@ steps:
         source: mrna-deconv/deconvoluted
       proteomics:
         source: prot-deconv/deconvoluted
+      cancerType:
+        source: cancerType
+      algorithm:
+        valueFrom: "xcell"
+      signature:
+        source: signature
+       
     out:
       [corr]
 
