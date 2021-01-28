@@ -26,6 +26,7 @@ def main():
     if len(rnaCols) != len(proCols) or len(intersected) != len(proCols):
         print(
             "The colums of proteomics matrix and transcriptomics matrix are not the same!\n")
+        print("Keeping "+str(len(intersected))+' that are intersecting')
     rna = rna[intersected]
     pro = pro[intersected]
     rnaCols = list(rna.columns)

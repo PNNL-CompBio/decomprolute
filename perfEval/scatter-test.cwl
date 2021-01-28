@@ -10,7 +10,8 @@ requirements:
    - class: SubworkflowFeatureRequirement
    - class: MultipleInputFeatureRequirement
    - class: ScatterFeatureRequirement
-
+   - class: StepInputExpressionRequirement
+   
 inputs:
    cancerTypes:
       type: string[]
