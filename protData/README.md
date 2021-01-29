@@ -15,6 +15,7 @@ There are three ways to get proteomics data, depending on your environment. Each
 ### If you have Python and cptac installed
 Simply run the command
 ``` python
+python getAllDatasets.py
 python protDataSetsCLI.py --cancerType=brca
 
 ```
