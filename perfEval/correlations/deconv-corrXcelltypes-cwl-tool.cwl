@@ -11,7 +11,7 @@ arguments:
 
 requirements:
   - class: DockerRequirement
-    dockerPull: lifeworks/deconv-corr
+    dockerPull: tumordeconv/correlation
 
 
 inputs:
@@ -23,6 +23,12 @@ inputs:
     type: File
     inputBinding:
       prefix: --proteomics
+  spearmanOrPearson:
+    type: string
+    inputBinding:
+      prefix: --spearOrPears
+    default: "pearson"
+
   # output:
   #   type: string
   #   inputBinding:

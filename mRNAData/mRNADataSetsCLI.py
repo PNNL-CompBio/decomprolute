@@ -6,19 +6,22 @@ import argparse
 import cptac
 
 
-def main():
+def parse_cancer_type():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cancerType', dest='type',
                         help='Cancer type to be collected')
-    opts = parser.parse_args()
+    return parser.parse_args()
+
+def main(cancer_type):
+    opts = cancer_type
 
     if opts.type.lower() == 'brca':
         dat = cptac.Brca()
     elif opts.type.lower() == 'ccrcc':
         dat = cptac.Ccrcc()
-    elif opts.type.lower() == 'colon':
+    elif opts.type.lower() == 'coad':
         dat = cptac.Colon()
-    elif opts.type.lower() == 'ovarian':
+    elif opts.type.lower() == 'ovca':
         dat = cptac.Ovarian()
     elif opts.type.lower() == 'endometrial':
         dat = cptac.Endometrial()
@@ -37,4 +40,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(cancer_type=parse_cancer_type())
