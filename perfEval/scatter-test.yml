@@ -1,0 +1,14 @@
+cancerTypes:
+  - brca
+  - ccrcc
+prot-algorithms:
+  - cibersort
+  - xcell
+mrna-algorithms:
+  - cibersort
+  - xcell
+signatures:
+  - class: File
+    path: ../signature_matrices/LM7c.txt
+#  - class: File
+#    path: ../signature_matrices/LM9.txt

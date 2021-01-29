@@ -21,17 +21,17 @@ outputs:
   corr:
     type: File
     outputSource: calc-corr/corr
-
+    
 steps:
   download-mrna:
-    run: mrna-data-cwl-tool.cwl
+    run: ../mRNAData/mrna-data-cwl-tool.cwl
     in:
       cancerType: cancerType
     out:
       [matrix]
 
   download-prot:
-    run: prot-data-cwl-tool.cwl
+    run: ../protData/prot-data-cwl-tool.cwl
     in:
       cancerType: cancerType
     out:
@@ -47,7 +47,7 @@ steps:
   #     [matrix]
 
   mrna-deconv:
-    run: run-cibersort-tool.cwl
+    run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
     in:
       expression:
         source: download-mrna/matrix
@@ -56,7 +56,7 @@ steps:
       [deconvoluted]
 
   prot-deconv:
-    run: run-cibersort-tool.cwl
+    run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
     in:
       expression:
         source: download-prot/matrix
@@ -65,13 +65,18 @@ steps:
       [deconvoluted]
 
   calc-corr:
-    run: deconv-corr-cwl-tool.cwl
+    run: correlations/deconv-corr-cwl-tool.cwl
     in:
       transcriptomics:
         source: mrna-deconv/deconvoluted
       proteomics:
         source: prot-deconv/deconvoluted
+      cancerType:
+        source: cancerType
+      algorithm:
+        valueFrom: "cibersort"
+      signature:
+        source: signature
     out:
       [corr]
-
-  
+   
