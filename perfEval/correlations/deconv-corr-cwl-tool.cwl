@@ -11,8 +11,9 @@ arguments:
 
 requirements:
   - class: DockerRequirement
-    dockerPull: lifeworks/deconv-corr
-
+    dockerPull: tumordeconv/correlation
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
   transcriptomics:
@@ -23,6 +24,17 @@ inputs:
     type: File
     inputBinding:
       prefix: --proteomics
+  spearmanOrPearson:
+    type: string
+    inputBinding:
+      prefix: --spearOrPears
+    default: "pearson"
+  cancerType:
+    type: string
+  algorithm:
+    type: string
+  signature:
+    type: File
   # output:
   #   type: string
   #   inputBinding:
@@ -32,4 +44,11 @@ outputs:
   corr:
     type: File
     outputBinding:
-      glob: "corr.tsv" #$(inputs.output)
+      glob: "corr.tsv" 
+      outputEval: |
+        ${
+          var mat = inputs.signature.nameroot
+          var name = inputs.cancerType + '-' + inputs.algorithm + '-' + mat + '-corr.tsv'
+          self[0].basename = name;
+          return self[0]
+         }
