@@ -4,11 +4,13 @@ cancerTypes:
 prot-algorithms:
   - cibersort
   - xcell
+  - mcpcounter
 mrna-algorithms:
   - cibersort
   - xcell
+  - mcpcounter
 signatures:
   - class: File
     path: ../signature_matrices/LM7c.txt
-#  - class: File
-#    path: ../signature_matrices/LM9.txt
+  - class: File
+    path: ../signature_matrices/LM9.txt

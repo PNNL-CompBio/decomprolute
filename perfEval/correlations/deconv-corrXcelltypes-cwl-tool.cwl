@@ -33,6 +33,8 @@ inputs:
     inputBinding:
       prefix: --spearOrPears
     default: "spearman"
+  signature:
+    type: File
 
 outputs:
   corr:
