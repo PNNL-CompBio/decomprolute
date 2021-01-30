@@ -7,8 +7,7 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-  - class: StepInputExpressionRequirement
-
+  
 inputs:
    signature: File
    mrna-alg: string
@@ -46,9 +45,9 @@ steps:
        protAlg: prot-alg
        signature: signature
        proteomics:
-         valueFrom: deconv-prot/deconvoluted
+         source: deconv-prot/deconvoluted
        transcriptomics:
-         valueFrom: deconv-mrna/deconvoluted
+         source: deconv-mrna/deconvoluted
      out: [corr]
   celltype-cor:
      run: ./correlations/deconv-corrXcelltypes-cwl-tool.cwl
@@ -58,7 +57,7 @@ steps:
        protAlg: prot-alg
        signature: signature
        proteomics:
-         valueFrom: deconv-prot/deconvoluted
+         source: deconv-prot/deconvoluted
        transcriptomics:
-         valueFrom: deconv-mrna/deconvoluted
+         source: deconv-mrna/deconvoluted
      out: [corr]
