@@ -29,12 +29,12 @@ outputs:
    pat-fig:
         type: File
         outputSource: get-patient-cors/fig
-#   cell-cor-tab:
-#        type: File
-#        outputSource: get-celltype-cors/table
-#   cell-fig:
-#        type: File
-#        outputSource: get-celltype-cors/fig
+   cell-cor-tab:
+        type: File
+        outputSource: get-celltype-cors/table
+   cell-fig:
+        type: File
+        outputSource: get-celltype-cors/fig
 steps:
     run-all-algs-by-sig:
        run: call-deconv-and-cor.cwl
@@ -46,13 +46,13 @@ steps:
          mrna-alg: mrna-algorithms
          cancerType: cancerTypes
        out:
-         [patient-correlation,celltype-correlation]
+         [pat-cor-file,cell-cor-file]
     get-patient-cors:
         run: figures/plot-figs.cwl
         in:
           sampOrCell:
              valueFrom: "sample"
-          files: run-all-algs-by-sig/patient-correlation
+          files: run-all-algs-by-sig/pat-cor-file
         out:
           [table,fig]
     get-celltype-cors:
@@ -61,6 +61,6 @@ steps:
           sampOrCell:
               valueFrom: "cellType"
           files:
-              source: run-all-algs-by-sig/celltype-correlation
+              source: run-all-algs-by-sig/cell-cor-file
         out:
           [table,fig]

@@ -16,12 +16,12 @@ inputs:
    cancerType: string
 
 outputs:
-   pat-cor-file:
+  pat-cor-file:
      type: File
      outputSource: patient-cor/corr
-#   cell-cor-file:
-#     type: File
-#     outputSource: celltype-cor/corr
+  cell-cor-file:
+     type: File
+     outputSource: celltype-cor/corr
 
 steps:
   deconv-mrna:
@@ -30,13 +30,14 @@ steps:
        cancerType: cancerType
        mrnaAlg: mrna-alg
        signature: signature
-     out: deconvoluted
+     out: [deconvoluted]
   deconv-prot:
+     run: prot-deconv.cwl
      in:
        cancerType: cancerType
        protAlg: prot-alg
        signature: signature
-     out: deconvoluted
+     out: [deconvoluted]
   patient-cor:
      run: ./correlations/deconv-corr-cwl-tool.cwl
      in:
@@ -48,7 +49,7 @@ steps:
          valueFrom: deconv-prot/deconvoluted
        transcriptomics:
          valueFrom: deconv-mrna/deconvoluted
-     out: corr
+     out: [corr]
   celltype-cor:
      run: ./correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
@@ -60,4 +61,4 @@ steps:
          valueFrom: deconv-prot/deconvoluted
        transcriptomics:
          valueFrom: deconv-mrna/deconvoluted
-     out: corr
+     out: [corr]
