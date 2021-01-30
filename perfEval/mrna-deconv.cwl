@@ -11,9 +11,12 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
-   signature: File
-   mrnaAlg: string
-   cancerType: string
+   signature:
+      type: File
+   mrnaAlg:
+      type: string
+   cancerType:
+      type: string
 
 steps:
   download-mrna:
@@ -22,7 +25,6 @@ steps:
       cancerType: cancerType
     out:
       [matrix]
-
   run-cibersort:
     run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
     when: $(inputs.mrnaAlg == 'cibersort')
@@ -30,42 +32,45 @@ steps:
       expression:
         source: download-mrna/matrix
       signature: signature
+      mrnaAlg: mrnaAlg
     out:
       [deconvoluted]
-
   run-xcell:
-     run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
-     when: $(inputs.mrnaAlg == 'xcell')
-     in:
-       signature: signature
-       expression:
-         source: download-mrna/matrix
-     out: [deconvoluted]
+    run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
+    when: $(inputs.mrnaAlg == 'xcell')
+    in:
+      signature: signature
+      expression:
+        source: download-mrna/matrix
+      mrnaAlg: mrnaAlg
+    out: [deconvoluted]
   run-epic:
-     run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
-     when: $(inputs.mrnaAlg == 'epic')
-     in:
-       expression:
-         source: download-mrna/matrix
-       signature: signature
-     out: [deconvoluted]
+    run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
+    when: $(inputs.mrnaAlg == 'epic')
+    in:
+      expression:
+        source: download-mrna/matrix
+      signature: signature
+      mrnaAlg: mrnaAlg
+    out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
 #     when: $(inputs.mrnaAlg == 'cibersortx')
 #     in:
 #       signature: signature
 #       expression:
- #        source: download-mrna/matrix
+#        source: download-mrna/matrix
+#       mrnaAlg: mrnaAlg
 #     out: [deconvoluted]
   run-mcpcounter:
-     run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
-     when: $(inputs.mrnaAlg == 'mcpcounter')
-     in:
-       expression:
-         source: download-mrna/matrix
-       signature: signature
-     out: [deconvoluted]
-  
+    run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
+    when: $(inputs.mrnaAlg == 'mcpcounter')
+    in:
+      expression:
+        source: download-mrna/matrix
+      signature: signature
+      mrnaAlg: mrnaAlg       
+    out: [deconvoluted]
 outputs:
   deconvoluted:
     type: File

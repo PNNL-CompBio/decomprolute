@@ -11,9 +11,12 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
-   signature: File
-   protAlg: string
-   cancerType: string
+   signature:
+     type: File
+   protAlg:
+     type: string
+   cancerType:
+     type: string
 
 steps:
   download-prot:
@@ -22,7 +25,6 @@ steps:
       cancerType: cancerType
     out:
       [matrix]
-
   run-cibersort:
     run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
     when: $(inputs.protAlg == 'cibersort')
@@ -30,14 +32,15 @@ steps:
       expression:
         source: download-prot/matrix
       signature: signature
+      protAlg: protAlg    
     out:
       [deconvoluted]
-
   run-xcell:
      run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
      when: $(inputs.protAlg == 'xcell')
      in:
        signature: signature
+       protAlg: protAlg
        expression:
          source: download-prot/matrix
      out: [deconvoluted]
@@ -48,14 +51,16 @@ steps:
        expression:
          source: download-prot/matrix
        signature: signature
+       protAlg: protAlg
      out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
 #     when: $(inputs.protAlg == 'cibersortx')
 #     in:
 #       signature: signature
+#      progAlg: protAlg
 #       expression:
- #        source: download-prot/matrix
+#        source: download-prot/matrix
 #     out: [deconvoluted]
   run-mcpcounter:
      run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
@@ -64,6 +69,7 @@ steps:
        expression:
          source: download-prot/matrix
        signature: signature
+       protAlg: protAlg
      out: [deconvoluted]
   
 outputs:
