@@ -13,7 +13,6 @@ requirements:
   - class: DockerRequirement
     dockerPull: tumordeconv/correlation
 
-
 inputs:
   transcriptomics:
     type: File
@@ -23,19 +22,27 @@ inputs:
     type: File
     inputBinding:
       prefix: --proteomics
+  mrnaAlg:
+    type: string
+  protAlg:
+    type: string
+  cancerType:
+    type: string
   spearmanOrPearson:
     type: string
     inputBinding:
       prefix: --spearOrPears
-    default: "pearson"
-
-  # output:
-  #   type: string
-  #   inputBinding:
-  #     prefix: --output
+    default: "spearman"
 
 outputs:
   corr:
     type: File
     outputBinding:
       glob: "corrXcelltypes.tsv" #$(inputs.output)
+      outputEval: |
+        ${
+          var mat = inputs.signature.nameroot
+          var name = inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-cellTypecorr.tsv'
+          self[0].basename = name;
+          return self[0]
+         }
