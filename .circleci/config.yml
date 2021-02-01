@@ -5,10 +5,21 @@ jobs:
     machine:
       image: ubuntu-2004:202010-01
     steps:
-      - checkout
+#      - checkout
       - run:
           name: Install dependencies to VM
-          command: python --version
+          command: pip3 install cwltool
+      - run:
+          name: Download data
+          command: cd ~/project/protData && cwltool prot-data-cwl-tool.cwl --cancerType brca
+      - run:
+          name: Test that file was downloaded
+          command: |
+            if [ -f ~/project/protData/file.tsv ]; then
+                echo "~/project/protData/file.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+            fi
 
 workflows:
   test:
