@@ -1,13 +1,24 @@
 version: 2.1
 
+
+filter: &filter
+  filters:
+    branches:
+      only:
+        - anna
+
 workflows:
   test:
     jobs:
-      - test-download-brca:
-          filters:
-              branches:
-                only:
-                  - anna
+      - test-dl-brca:
+          <<: *filter
+
+
+executors:
+  ubuntu:
+    machine:
+      image: ubuntu-2004:202010-01
+
 
 commands:
   download-data:
@@ -16,6 +27,7 @@ commands:
         type: string
         default: 'brca'
     steps:
+      - checkout
       - run:
           name: Install dependencies to VM
           command: pip3 install cwltool
@@ -32,11 +44,15 @@ commands:
                 exit 1
             fi
 
+
 jobs:
-  test-download-brca:
-    machine:
-      image: ubuntu-2004:202010-01
+  test-dl-brca:
+    executor: ubuntu
     steps:
-      - checkout
       - download-data:
-          cancerType: 'test'
+          cancerType: 'brca'
+  test-dl-ccrcc:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'ccrcc'
