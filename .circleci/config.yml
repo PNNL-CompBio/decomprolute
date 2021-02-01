@@ -5,7 +5,7 @@ jobs:
     machine:
       image: ubuntu-2004:202010-01
     steps:
-#      - checkout
+      - checkout
       - run:
           name: Install dependencies to VM
           command: pip3 install cwltool
