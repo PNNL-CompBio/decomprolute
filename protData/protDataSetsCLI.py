@@ -42,7 +42,7 @@ def main():
         raise
     dfE = np.exp(df)
     dfU = np.log(dfE.sum(axis=1, level=0, min_count=1))
-    dfU.transpose().to_csv(path_or_buf=f"/tmp/file.tsv", sep='\t')
+    dfU.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
 
 
 if __name__ == '__main__':
