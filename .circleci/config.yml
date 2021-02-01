@@ -7,7 +7,7 @@ jobs:
     parameters:
       cancerType:
         type: string
-        default: ''
+        default: 'brca'
     steps:
       - checkout
       - run:
