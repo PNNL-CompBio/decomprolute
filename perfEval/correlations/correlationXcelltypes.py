@@ -10,6 +10,8 @@ def main():
                         help='Deconvoluted matrix of transcriptomics data')
     parser.add_argument('--proteomics', dest='profile',
                         help='Deconvoluted matrix of proteomics data')
+    parser.add_argument('--spearOrPears',dest='sop',help='Use spearman or pearson correlation',\
+                        default='pearson')
     # parser.add_argument('--output', dest='output',
     #                     help='Output file for the correlation values')
     opts = parser.parse_args()
@@ -32,7 +34,11 @@ def main():
     intersected = list(set(rnaCols) & set(proCols))
     rna = rna[intersected]
     pro = pro[intersected]
-    corrList = [pro[sample].corr(rna[sample]) for sample in proCols]
+    if opts.sop=='pearson':
+        corrList = [pro[sample].corr(rna[sample]) for sample in proCols]
+    else:
+        corrList = [pro[sample].corr(rna[sample],method='spearman') for sample in proCols]
+
     correlations = pd.Series(corrList)
     correlations.index = proCols
     correlations.to_csv("corrXcelltypes.tsv", sep='\t', header=False)
