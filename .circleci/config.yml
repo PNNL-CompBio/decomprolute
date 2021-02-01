@@ -1,6 +1,20 @@
 version: 2.1
 
 jobs:
+  sanity-check:
+      machine:
+        image: ubuntu-2004:202010-01
+      steps:
+        - checkout
+        - run:
+            name: File does not exist and should fail
+            command: |
+              if [ -f ~/project/protData/file.tsv ]; then
+                  echo "~/project/protData/file.tsv successfully created!"
+              else
+                  echo "Test cases failed !!!"
+                  exit 1
+              fi
   build:
     machine:
       image: ubuntu-2004:202010-01
@@ -24,4 +38,8 @@ jobs:
 workflows:
   test:
     jobs:
-      - build
+      - sanity-check:
+          filters:
+              branches:
+                only:
+                  - anna
