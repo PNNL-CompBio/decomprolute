@@ -2,11 +2,13 @@ version: 2.1
 
 jobs:
   build:
-    machine: true
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
-      - run: sudo apt-get install python3.8 && sudo apt install python3-pip
-      - run: pip3 install cwltool
+      - run:
+          name: Install dependencies to VM
+          command: python --version
 
 workflows:
   test:
