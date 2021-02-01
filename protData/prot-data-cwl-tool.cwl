@@ -12,7 +12,7 @@ arguments:
 
 requirements:
     - class: DockerRequirement
-      dockerPull: lifeworks/deconv-prot
+      dockerPull: tumordeconv/prot-data
 
 inputs:
     cancerType:
