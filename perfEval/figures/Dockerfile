@@ -1,7 +1,7 @@
 FROM rocker/tidyverse
 
 
-RUN Rscript -e 'install.packages("argparser")'
+RUN Rscript -e 'install.packages("argparser"); install.packages("cowplot")'
 COPY combine_results.R /bin
 
 RUN chmod 777 /bin/combine_results.R
