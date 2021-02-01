@@ -23,7 +23,7 @@ combinePatientCors<-function(file.list){
       matrix=vars[4]
       tab<-read.table(file,fill=TRUE)
       colnames(tab)<-(c('patient','correlation'))
-      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm.matrix))
+      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm,matrix))
   }))
 
    full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm))
@@ -48,7 +48,7 @@ combineCellTypeCors<-function(file.list){
       matrix=vars[4]
       tab<-read.table(file,fill=TRUE,sep='\t')
       colnames(tab)<-(c('cellType','correlation'))
-      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm.matrix))
+      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm,matrix))
 
   }))
 
