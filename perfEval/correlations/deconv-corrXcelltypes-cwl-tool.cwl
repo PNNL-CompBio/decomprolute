@@ -12,7 +12,8 @@ arguments:
 requirements:
   - class: DockerRequirement
     dockerPull: tumordeconv/correlation
-
+  - class: InlineJavascriptRequirement
+  
 inputs:
   transcriptomics:
     type: File
@@ -28,7 +29,7 @@ inputs:
     type: string
   cancerType:
     type: string
-  spearmanOrPearson:
+  spearOrPears:
     type: string
     inputBinding:
       prefix: --spearOrPears
