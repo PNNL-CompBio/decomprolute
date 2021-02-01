@@ -7,10 +7,21 @@ filter: &filter
       only:
         - anna
 
+
 workflows:
   test:
     jobs:
       - test-dl-brca:
+          <<: *filter
+      - test-dl-ccrcc:
+          <<: *filter
+      - test-dl-luad:
+          <<: *filter
+      - test-dl-colon:
+          <<: *filter
+      - test-dl-ovarian:
+          <<: *filter
+      - test-dl-endometrial:
           <<: *filter
 
 
@@ -56,3 +67,25 @@ jobs:
     steps:
       - download-data:
           cancerType: 'ccrcc'
+  test-dl-luad:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'luad'
+  test-dl-colon:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'colon'
+  test-dl-ovarian:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'ovarian'
+  test-dl-endometrial:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'endometrial'
+
+
