@@ -1,23 +1,13 @@
 version: 2.1
 
 jobs:
-  sanity-check:
-      machine:
-        image: ubuntu-2004:202010-01
-      steps:
-        - checkout
-        - run:
-            name: File does not exist and should fail
-            command: |
-              if [ -f ~/project/protData/file.tsv ]; then
-                  echo "~/project/protData/file.tsv successfully created!"
-              else
-                  echo "Test cases failed !!!"
-                  exit 1
-              fi
-  build:
+  download-data:
     machine:
       image: ubuntu-2004:202010-01
+    parameters:
+      cancerType:
+        type: string
+        default: ''
     steps:
       - checkout
       - run:
@@ -25,7 +15,7 @@ jobs:
           command: pip3 install cwltool
       - run:
           name: Download data
-          command: cd ~/project/protData && cwltool prot-data-cwl-tool.cwl --cancerType brca
+          command: cd ~/project/protData && cwltool prot-data-cwl-tool.cwl --cancerType << parameters.cancerType >>
       - run:
           name: Test that file was downloaded
           command: |
@@ -33,12 +23,13 @@ jobs:
                 echo "~/project/protData/file.tsv successfully created!"
             else
                 echo "Test cases failed !!!"
+                exit 1
             fi
 
 workflows:
   test:
     jobs:
-      - sanity-check:
+      - download-data:
           filters:
               branches:
                 only:
