@@ -43,13 +43,16 @@ combineCellTypeCors<-function(file.list){
    full.tab<-do.call(rbind,lapply(file.list,function(file){
       vars <- unlist(strsplit(basename(file),split='-')) #split into pieces
       disease=vars[1]
-      algorithm=vars[2]
-      matrix=vars[3]
+      mrna.algorithm=vars[2]
+      prot.algorithm=vars[3]
+      matrix=vars[4]
       tab<-read.table(file,fill=TRUE,sep='\t')
       colnames(tab)<-(c('cellType','correlation'))
-      return(data.frame(tab,disease,algorithm,matrix))
+      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm.matrix))
+
   }))
 
+  full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm))
    require(cowplot)
 
    plist<-lapply(unique(full.tab$matrix),function(m){
