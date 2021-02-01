@@ -1,5 +1,14 @@
 version: 2.1
 
+workflows:
+  test:
+    jobs:
+      - test-download-brca:
+          filters:
+              branches:
+                only:
+                  - anna
+
 commands:
   download-data:
     parameters:
@@ -29,14 +38,5 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - checkout
-      - download-data
-
-
-workflows:
-  test:
-    jobs:
-      - test-download-brca:
-          filters:
-              branches:
-                only:
-                  - anna
+      - download-data:
+          cancerType: 'test'
