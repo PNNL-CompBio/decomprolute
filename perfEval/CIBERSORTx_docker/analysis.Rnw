@@ -1,0 +1,560 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<< CCRCC >>=
+
+# setwd("~/Library/Mobile Documents/com~apple~CloudDocs/Research/ciber_cptac_rnaseq")
+# imp <- read.delim('../pan_immune/6_CPTAC3_CCRCC_Whole_abundance_gene_protNorm=2_CB_imputed_clean_1108.tsv')
+# imp <- imp[,-1]
+# imp <- t(imp[1:2,])
+# imp <- cbind(imp,id=rownames(imp))
+# imp[,2] <- ifelse(imp[,2]=='Tumor','-T','-N')
+# rownames(imp) <- paste0(imp[,1],imp[,2])
+# ccrcc_annot <- imp
+# 
+# library(readxl)
+# mmc7 <- read_excel("/Users/pietro/Library/Mobile Documents/com~apple~CloudDocs/Research/pan_immune/mmc7.xlsx", sheet = "xCell Signatures", skip = 2)
+# mmc7 <- mmc7[,-1]
+# mmc7 <- t(mmc7[1,])
+# mmc7 <- as.data.frame(mmc7)
+# colnames(mmc7) <- 'Subtype'
+# mmc7 <- cbind(mmc7,Tissue=NA)
+# mmc7$Tissue <- ifelse(mmc7$Subtype %in% c('Pure NAT','Infiltrated NAT'),'Normal','Tumor')
+# tab <- mmc7
+# tab$Subtype[tab$Subtype=='CD8- inflamed'] <- "CD8- Inflamed"
+# tab$Subtype[tab$Subtype=='CD8+ inflamed'] <- "CD8+ Inflamed"
+# tab$Subtype[tab$Subtype=='VEGF immune-desert'] <- "VEGF Immune-desert"
+# tab$Subtype[tab$Subtype=='Metabolic immune-desert'] <- "Metabolic Immune-desert"
+# 
+# setwd("~/Library/Mobile Documents/com~apple~CloudDocs/Research/cibersort_docker")
+# save(ccrcc_annot,tab,file = 'ccrcc_annot.RData')
+
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/Research/cibersort_docker")
+b <- 'ccrcc'
+a <- paste0('CIBERSORTx_',b,'_rna_Adjusted.txt')
+
+tmp <- read.delim(a,check.names = F)
+tmp[,1] <- gsub('\\.','-',tmp[,1])
+tmp <- tmp[,setdiff(colnames(tmp),c('P-value',"Correlation","RMSE"))]
+rel <- tmp
+
+rel[,"T cells CD8"] <- rel[,"T cells CD8"]+rel[,"NK T cells"]
+rel <- rel[,setdiff(colnames(rel),"NK T cells")]
+rel <- rel[,c("Mixture","B cells","T cells CD4","T cells CD8","Dendritic cells","Megakaryocytes","Monocytes","NK cells")]
+tmp <- sapply(strsplit(rel$Mixture,'-RNA-Seq'), function(x) x[1])
+tmp2 <- sapply(strsplit(rel$Mixture,'-'), function(x) x[5])
+tmp2 <- ifelse(tmp2=='T','-T','-N')
+tmp <- paste0(tmp,tmp2)
+anyDuplicated(tmp) #0
+rownames(rel) <- tmp
+rel <- rel[,-1]
+
+rna <- rel
+
+a <- paste0('CIBERSORTx_',b,'_protein_Adjusted.txt')
+tmp <- read.delim(a,check.names = F)
+tmp <- tmp[,setdiff(colnames(tmp),c('P-value',"Correlation","RMSE"))]
+anyDuplicated(tmp$Mixture) #0
+rownames(tmp) <- tmp$Mixture
+tmp <- tmp[,-1]
+prot <- tmp
+
+load('ccrcc_annot.RData')
+
+tmp <- intersect(rownames(rna),rownames(ccrcc_annot))
+ccrcc_annot <- ccrcc_annot[tmp,]
+rna <- rna[tmp,]
+rownames(rna) <- ccrcc_annot[,3]
+
+thor <- read.delim('pancan_immune_subtypes.csv',sep = ',')
+thor$Sample.ID <- gsub('\\.','-',thor$Sample.ID)
+thor$Sample.ID <- gsub('-A','-N',thor$Sample.ID)
+all(tmp %in% thor$Sample.ID) #T
+anyDuplicated(thor$Sample.ID) #0
+rownames(thor) <- thor$Sample.ID
+thor <- thor[tmp,]
+rownames(thor) <- ccrcc_annot[,3]
+thor <- thor[,-1]
+thor$Immune.Subtype[thor$Immune.Subtype==1] <- "C1-WoundHealing"
+thor$Immune.Subtype[thor$Immune.Subtype==2] <- "C2-IFNGammaDominant"
+thor$Immune.Subtype[thor$Immune.Subtype==3] <- "C3-Inflammatory"
+thor$Immune.Subtype[thor$Immune.Subtype==4] <- "C4-LymphocyteDepleted"
+thor$Immune.Subtype[thor$Immune.Subtype==5] <- "C5-ImmunologicallyQuiet"
+thor$Immune.Subtype[thor$Immune.Subtype==6] <- "C6-TGFBetaDominant"
+
+tmp <- intersect(rownames(rna),rownames(prot))
+rna <- rna[tmp,]
+prot <- prot[tmp,]
+
+library(ComplexHeatmap)
+com <- intersect(rownames(tab),tmp)
+tab <- tab[com,]
+tab_rna <- cbind(tab,rna[com,])
+tab_prot <- cbind(tab,prot[com,])
+
+## heatmap rna
+mat_rna <- t(tab_rna[,3:ncol(tab_rna)])
+mat_rna <- t(scale(t(mat_rna)))
+
+which(apply(mat_rna,1,anyNA))
+mat_rna[is.na(mat_rna)] <- 0
+
+annot <- rownames(tab_rna[order(tab_rna[,2],tab_rna[,1]),])
+
+tab_rna <- tab_rna[annot,]
+mat_rna <- mat_rna[,annot]
+
+all(annot %in% rownames(thor))#T
+thor <- thor[annot,]
+
+set.seed(10)
+ha = HeatmapAnnotation(Subtype = tab_rna$Subtype, Tissue = tab_rna$Tissue,ISC=thor$Immune.Subtype,
+                       col = list(Tissue = c("Normal" = "darkgrey", "Tumor" = "darkred"),ISC=c('C1-WoundHealing'='red','C2-IFNGammaDominant'='yellow','C3-Inflammatory'='green3','C4-LymphocyteDepleted'='cyan','C5-ImmunologicallyQuiet'='blue','C6-TGFBetaDominant'='magenta')))
+
+lev <- c("Infiltrated NAT","Pure NAT","CD8- Inflamed","CD8+ Inflamed","Metabolic Immune-desert","VEGF Immune-desert")
+
+tmp <- read.delim(paste0(toupper(b),'_fpkm_rna.txt'),check.names = F)
+colnames(tmp) <- gsub('\\.','-',colnames(tmp))
+rownames(tmp) <- tmp$gene; tmp <- tmp[-1]
+tmp2 <- sapply(strsplit(colnames(tmp),'-RNA-Seq'), function(x) x[1])
+tmp3 <- sapply(strsplit(colnames(tmp),'-'), function(x) x[5])
+tmp3 <- ifelse(tmp3=='T','-T','-N')
+tmp2 <- paste0(tmp2,tmp3)
+colnames(tmp) <- tmp2
+
+tmp3 <- intersect(colnames(tmp),rownames(ccrcc_annot))
+ccrcc_annot <- ccrcc_annot[tmp3,]
+tmp <- tmp[,tmp3]
+colnames(tmp) <- ccrcc_annot[,3]
+all(colnames(mat_rna) %in% colnames(tmp)) #TRUE
+tmp <- tmp[,colnames(mat_rna)]
+
+marker <- c('CD19','MS4A1','SLAMF7','CD8A','CD8B','FCER1A','CD14','ITGAM','NCR1','NKG7')
+names(marker) <- paste0(marker,' (',c('B','B','B plasma','T8','T8','DC','Monoc./Macrop.','Macrop.','NK','NK'),')')
+tmp2 <- tmp[intersect(marker,rownames(tmp)),]
+rownames(tmp2) <- names(marker[marker %in% rownames(tmp2)])
+
+tmp2 <- t(scale(t(tmp2)))
+
+rna2 <- rbind(mat_rna,tmp2)
+
+pdf(paste0("Heatmap_",b,"_RNA_sc3PBMC.pdf"), width = 20, height = 8)
+ht <- Heatmap(rna2,name = 'Z-score',top_annotation = ha,column_names_gp = gpar(fontsize = 4),
+              column_names_rot = 45,cluster_rows = F,cluster_columns = F, 
+              column_split = factor(tab_rna[,1],levels = lev), split = c(rep("A", nrow(mat_rna)),rep("B", nrow(tmp2))),
+              column_title_gp = gpar(fontsize = 10),column_gap = unit(3, "mm"),border = TRUE,
+              row_title = NULL,row_gap = unit(3, "mm"))
+draw(ht, padding = unit(c(2, 8, 2, 2), "mm")) 
+dev.off()
+
+## heatmap protein
+mat_prot <- t(tab_prot[,3:ncol(tab_prot)])
+mat_prot <- t(scale(t(mat_prot)))
+
+which(apply(mat_prot,1,anyNA))
+mat_prot[is.na(mat_prot)] <- 0
+
+tab_prot <- tab_prot[annot,]
+mat_prot <- mat_prot[,annot]
+
+tmp <- read.delim(paste0(toupper(b),'_imputed.txt'),check.names = F)
+rownames(tmp) <- tmp$gene; tmp <- tmp[-1]
+all(colnames(mat_prot) %in% colnames(tmp)) #TRUE
+tmp <- tmp[,colnames(mat_prot)]
+
+tmp2 <- tmp[intersect(marker,rownames(tmp)),]
+rownames(tmp2) <- names(marker[marker %in% rownames(tmp2)])
+
+tmp2 <- t(scale(t(tmp2)))
+
+prot2 <- rbind(mat_prot,tmp2)
+
+set.seed(10)
+ha = HeatmapAnnotation(Subtype = tab_rna$Subtype, Tissue = tab_rna$Tissue,
+                       col = list(Tissue = c("Normal" = "darkgrey", "Tumor" = "darkred")))
+
+pdf(paste0("Heatmap_",b,"_protein-imputed-LM7c.pdf"), width = 20, height = 8)
+ht <- Heatmap(prot2,name = 'Z-score',top_annotation = ha,column_names_gp = gpar(fontsize = 4),
+              column_names_rot = 45,cluster_rows = F,cluster_columns = F, 
+              column_split = factor(tab_rna[,1],levels = lev), split = c(rep("A", nrow(mat_prot)),rep("B", nrow(tmp2))),
+              column_title_gp = gpar(fontsize = 10),column_gap = unit(3, "mm"),border = TRUE,
+              row_title = NULL,row_gap = unit(3, "mm"))
+draw(ht, padding = unit(c(2, 8, 2, 2), "mm")) 
+dev.off()
+
+## boxplot rna
+library(reshape2)
+library(ggpubr)
+
+tmp <- t(mat_rna)
+tmp_rna <- cbind(tab_rna[,c(1,2)],tmp)
+tmp_rna <- tmp_rna[order(match(tmp_rna[,1],lev)),]
+tabM <- melt(tmp_rna)
+
+tabM$variable <- as.character(tabM$variable)
+col <- ha@anno_list[["Subtype"]]@color_mapping@colors
+comp <- list( c("CD8+ Inflamed","CD8- Inflamed"), c("CD8+ Inflamed", "Metabolic Immune-desert"), c("CD8- Inflamed", "Metabolic Immune-desert") )
+
+mult <- list()
+for (i in unique(tabM$variable)) {
+  print(i)
+  tmp <- tabM[tabM$variable==i,]
+  p <- ggboxplot(tmp,x='Subtype',y='value',color = 'Subtype',palette = col,add = 'jitter',xlab = F,ylab='Z-score')+
+    stat_compare_means()+stat_compare_means(comparisons = comp,method = 'wilcox.test',step.increase = 0.15) +
+    rotate_x_text(angle = 45)
+  p <- ggpar(p,main = i,font.main = 'bold')
+  mult[[i]] <- p
+}
+
+pmerged <- ggarrange(plotlist = mult,
+                     labels = NULL,
+                     ncol = 4, nrow = 2,
+                     common.legend = TRUE,
+                     legend = 'none')
+
+ggsave(pmerged,
+       file = paste0("Boxplot_",b,"_RNA_sc3PBMC.pdf"),
+       width = 20,
+       height = 15)
+
+
+## boxplot protein
+tmp <- t(mat_prot)
+tmp_prot <- cbind(tab_prot[,c(1,2)],tmp)
+tmp_prot <- tmp_prot[order(match(tmp_prot[,1],lev)),]
+tabM <- melt(tmp_prot)
+colnames(tabM)[1] <- 'Subtype'
+
+tabM$variable <- as.character(tabM$variable)
+
+mult <- list()
+for (i in unique(tabM$variable)) {
+  print(i)
+  tmp <- tabM[tabM$variable==i,]
+  p <- ggboxplot(tmp,x='Subtype',y='value',color = 'Subtype',palette = col,add = 'jitter',xlab = F,ylab='Z-score')+
+    stat_compare_means()+stat_compare_means(comparisons = comp,method = 'wilcox.test',step.increase = 0.15) +
+    rotate_x_text(angle = 45) 
+  p <- ggpar(p,main = i,font.main = 'bold')
+  mult[[i]] <- p
+}
+
+
+pmerged <- ggarrange(plotlist = mult,
+                     labels = NULL,
+                     ncol = 4, nrow = 2,
+                     common.legend = TRUE,
+                     legend = 'none')
+
+ggsave(pmerged,
+       file = paste0("Boxplot_",b,"_protein-imputed-LM7c.pdf"),
+       width = 20,
+       height = 15)
+
+## correlation
+identical(tmp_prot[,1:2],tmp_rna[,1:2]) #true
+mult <- list()
+for (i in c(3,4,5,6,8,9)) {
+  tmp <- cbind(tmp_rna[,c(1,2,i)],tmp_prot[,i])
+  colnames(tmp)[4] <- colnames(tmp_prot)[i]
+  p <- ggscatter(tmp, x = colnames(tmp)[3], y = colnames(tmp)[4],
+                 add = "reg.line",                                 
+                 conf.int = TRUE,xlab = paste0(colnames(tmp)[3],' (RNA)'),
+                 ylab = paste0(colnames(tmp)[4],' (Protein)'),title = colnames(tmp)[3],                            
+                 add.params = list(color = "blue",fill = "lightgray"),
+                 color = 'Subtype',palette = col,size = 2)+
+    stat_cor(method = "spearman",cor.coef.name = "rho")
+  p <- ggpar(p,font.main='bold')
+  mult[[colnames(tmp)[3]]] <- p
+}
+
+pmerged <- ggarrange(plotlist = mult,
+                     labels = NULL,
+                     ncol = 3, nrow = 2, 
+                     common.legend = TRUE,
+                     legend = 'right')
+
+ggsave(pmerged,
+       file = paste0('Correlation_',b,'_RNA-vs-Protein.pdf'),
+       width = 20,
+       height = 15)
+
+
+@
+
+<< LUAD >>=
+
+setwd("~/Library/Mobile Documents/com~apple~CloudDocs/Research/cibersort_docker")
+b <- 'luad'
+a <- paste0('CIBERSORTx_',b,'_rna_Adjusted.txt')
+
+tmp <- read.delim(a,check.names = F)
+tmp <- tmp[,setdiff(colnames(tmp),c('P-value',"Correlation","RMSE"))]
+rel <- tmp
+
+rel[,"T cells CD8"] <- rel[,"T cells CD8"]+rel[,"NK T cells"]
+rel <- rel[,setdiff(colnames(rel),"NK T cells")]
+rel <- rel[,c("Mixture","B cells","T cells CD4","T cells CD8","Dendritic cells","Megakaryocytes","Monocytes","NK cells")]
+
+tmp <- gsub('.RNA.Seq|.hg38','',rel$Mixture)
+tmp <- gsub('.T','',tmp)
+tmp <- gsub('.A','.N',tmp)
+anyDuplicated(tmp) #0
+rownames(rel) <- tmp
+rel <- rel[,-1]
+
+rna <- rel
+
+a <- paste0('CIBERSORTx_',b,'_protein_Adjusted.txt')
+
+tmp <- read.delim(a,check.names = F)
+tmp <- tmp[,setdiff(colnames(tmp),c('P-value',"Correlation","RMSE"))]
+anyDuplicated(tmp$Mixture) #0
+rownames(tmp) <- tmp$Mixture
+tmp <- tmp[,-1]
+prot <- tmp
+
+# library(readxl)
+# t <- read_excel("/Users/pietro/Library/Mobile Documents/com~apple~CloudDocs/Research/pan_immune/mmc1_LUAD.xlsx", sheet = "Annotions_S1A")
+# tab <- read_excel("/Users/pietro/Library/Mobile Documents/com~apple~CloudDocs/Research/pan_immune/mmc5_LUAD.xlsx", sheet = "TableS5B",skip = 2)
+# save(t,tab,file = 'luad_annot.RData')
+load('luad_annot.RData')
+
+tab <- as.data.frame(tab)
+t <- as.data.frame(t)
+tmp <- intersect(t$Aliquot,rownames(prot))
+t <- t[t$Aliquot %in% tmp,]
+
+prot <- prot[tmp,]
+rownames(prot) <- t$Sample.ID
+
+tmp <- intersect(rownames(rna),rownames(prot))
+rna <- rna[tmp,]
+prot <- prot[tmp,]
+
+library(ComplexHeatmap)
+com <- intersect(tab$`Sample ID`,tmp)
+tab <- tab[tab$`Sample ID` %in% com,]
+rownames(tab) <- tab$`Sample ID`
+tab <- cbind(tab,Type=ifelse(grepl('.N$',tab$`Sample ID`),'NAT','Tumor'))
+tab_rna <- cbind(tab[,c(2,3)],rna[com,])
+tab_prot <- cbind(tab[,c(2,3)],prot[com,])
+
+thor <- read.delim('pancan_immune_subtypes.csv',sep = ',')
+thor$Sample.ID <- gsub('.A','.N',thor$Sample.ID)
+thor$Sample.ID <- gsub('.T','',thor$Sample.ID)
+setdiff(com,thor$Sample.ID)
+anyDuplicated(thor$Sample.ID) #0
+rownames(thor) <- thor$Sample.ID
+thor <- thor[tmp,]
+thor <- thor[,-1]
+thor$Immune.Subtype[thor$Immune.Subtype==1] <- "C1-WoundHealing"
+thor$Immune.Subtype[thor$Immune.Subtype==2] <- "C2-IFNGammaDominant"
+thor$Immune.Subtype[thor$Immune.Subtype==3] <- "C3-Inflammatory"
+thor$Immune.Subtype[thor$Immune.Subtype==4] <- "C4-LymphocyteDepleted"
+thor$Immune.Subtype[thor$Immune.Subtype==5] <- "C5-ImmunologicallyQuiet"
+thor$Immune.Subtype[thor$Immune.Subtype==6] <- "C6-TGFBetaDominant"
+
+## heatmap rna
+mat_rna <- t(tab_rna[,3:ncol(tab_rna)])
+mat_rna <- t(scale(t(mat_rna)))
+
+which(apply(mat_rna,1,anyNA))
+mat_rna[is.na(mat_rna)] <- 0
+
+annot <- rownames(tab_rna[order(tab_rna[,2],tab_rna[,1]),])
+
+tab_rna <- tab_rna[annot,]
+mat_rna <- mat_rna[,annot]
+
+setdiff(annot,rownames(thor))
+thor <- thor[annot,]
+
+ha = HeatmapAnnotation(Subtype = tab_rna[,1], Tissue = tab_rna[,2],ISC=thor$Immune.Subtype,
+                    col = list(Subtype = c('NAT enriched' = "antiquewhite4", 'Cold-tumor enriched' = "darkorchid", 'Hot-tumor enriched' = "coral"),
+                               Tissue = c("NAT" = "darkgrey", "Tumor" = "darkred"),ISC=c('C1-WoundHealing'='red','C2-IFNGammaDominant'='yellow','C3-Inflammatory'='green3','C4-LymphocyteDepleted'='cyan','C5-ImmunologicallyQuiet'='blue','C6-TGFBetaDominant'='magenta')))
+
+lev <- c('NAT enriched','Cold-tumor enriched','Hot-tumor enriched')
+
+tmp <- read.delim(paste0(toupper(b),'_fpkm_rna.txt'),check.names = F)
+rownames(tmp) <- tmp$gene; tmp <- tmp[-1]
+tmp2 <- gsub('.RNA.Seq|.hg38','',colnames(tmp))
+tmp2 <- gsub('.T','',tmp2)
+tmp2 <- gsub('.A','.N',tmp2)
+colnames(tmp) <- tmp2
+
+all(colnames(mat_rna) %in% colnames(tmp)) #TRUE
+tmp <- tmp[,colnames(mat_rna)]
+
+marker <- c('CD19','MS4A1','SLAMF7','CD8A','CD8B','FCER1A','CD14','ITGAM','NCR1','NKG7')
+names(marker) <- paste0(marker,' (',c('B','B','B plasma','T8','T8','DC','Monoc./Macrop.','Macrop.','NK','NK'),')')
+tmp2 <- tmp[intersect(marker,rownames(tmp)),]
+rownames(tmp2) <- names(marker[marker %in% rownames(tmp2)])
+
+tmp2 <- t(scale(t(tmp2)))
+
+rna2 <- rbind(mat_rna,tmp2)
+
+pdf(paste0("Heatmap_",b,"_RNA_sc3PBMC.pdf"), width = 20, height = 8)
+ht <- Heatmap(rna2,name = 'Z-score',top_annotation = ha,column_names_gp = gpar(fontsize = 4),
+              column_names_rot = 45,cluster_rows = F,cluster_columns = F, 
+              column_split = factor(tab_rna[,1],levels = lev), split = c(rep("A", nrow(mat_rna)),rep("B", nrow(tmp2))),
+              column_title_gp = gpar(fontsize = 10),column_gap = unit(3, "mm"),border = TRUE,
+              row_title = NULL,row_gap = unit(3, "mm"))
+draw(ht, padding = unit(c(2, 8, 2, 2), "mm")) 
+dev.off()
+
+
+## heatmap protein
+mat_prot <- t(tab_prot[,3:ncol(tab_prot)])
+mat_prot <- t(scale(t(mat_prot)))
+
+which(apply(mat_prot,1,anyNA))
+mat_prot[is.na(mat_prot)] <- 0
+
+tab_prot <- tab_prot[annot,]
+mat_prot <- mat_prot[,annot]
+
+tmp <- read.delim(paste0(toupper(b),'_imputed.txt'),check.names = F)
+rownames(tmp) <- tmp$gene; tmp <- tmp[-1]
+
+load('luad_annot.RData')
+t <- as.data.frame(t)
+tmp2 <- intersect(t$Aliquot,colnames(tmp))
+t <- t[t$Aliquot %in% tmp2,]
+
+tmp <- tmp[,tmp2]
+colnames(tmp) <- t$Sample.ID
+
+all(colnames(mat_prot) %in% colnames(tmp)) #TRUE
+tmp <- tmp[,colnames(mat_prot)]
+
+tmp2 <- tmp[intersect(marker,rownames(tmp)),]
+rownames(tmp2) <- names(marker[marker %in% rownames(tmp2)])
+
+tmp2 <- t(scale(t(tmp2)))
+
+prot2 <- rbind(mat_prot,tmp2)
+
+ha = HeatmapAnnotation(Subtype = tab_rna[,1], Tissue = tab_rna[,2],
+                    col = list(Subtype = c('NAT enriched' = "antiquewhite4", 'Cold-tumor enriched' = "darkorchid", 'Hot-tumor enriched' = "coral"),
+                               Tissue = c("NAT" = "darkgrey", "Tumor" = "darkred")))
+
+pdf(paste0("Heatmap_",b,"_protein-imputed-LM7c.pdf"), width = 20, height = 8)
+ht <- Heatmap(prot2,name = 'Z-score',top_annotation = ha,column_names_gp = gpar(fontsize = 4),
+              column_names_rot = 45,cluster_rows = F,cluster_columns = F, 
+              column_split = factor(tab_rna[,1],levels = lev), split = c(rep("A", nrow(mat_prot)),rep("B", nrow(tmp2))),
+              column_title_gp = gpar(fontsize = 10),column_gap = unit(3, "mm"),border = TRUE,
+              row_title = NULL,row_gap = unit(3, "mm"))
+draw(ht, padding = unit(c(2, 8, 2, 2), "mm")) 
+dev.off()
+
+## boxplot rna
+library(reshape2)
+library(ggpubr)
+
+tmp <- t(mat_rna)
+tmp_rna <- cbind(tab_rna[,c(1,2)],tmp)
+tmp_rna <- tmp_rna[order(match(tmp_rna[,1],lev)),]
+tabM <- melt(tmp_rna)
+colnames(tabM)[1] <- 'Subtype'
+
+tabM$variable <- as.character(tabM$variable)
+col <- ha@anno_list[["Subtype"]]@color_mapping@colors
+comp <- list( c("NAT enriched","Cold-tumor enriched"), c("Cold-tumor enriched", "Hot-tumor enriched"), c("NAT enriched","Hot-tumor enriched"))
+
+mult <- list()
+for (i in unique(tabM$variable)) {
+  print(i)
+  tmp <- tabM[tabM$variable==i,]
+  p <- ggboxplot(tmp,x='Subtype',y='value',color = 'Subtype',palette = col,add = 'jitter',xlab = F,ylab='Z-score')+
+    stat_compare_means()+stat_compare_means(comparisons = comp,method = 'wilcox.test',step.increase = 0.15) +
+    rotate_x_text(angle = 45)
+  p <- ggpar(p,main = i,font.main = 'bold')
+  mult[[i]] <- p
+}
+
+
+pmerged <- ggarrange(plotlist = mult,
+                     labels = NULL,
+                     ncol = 4, nrow = 2,
+                     common.legend = TRUE,
+                     legend = 'none')
+
+ggsave(pmerged,
+       file = paste0("Boxplot_",b,"_RNA_sc3PBMC.pdf"),
+       width = 20,
+       height = 15)
+
+
+## boxplot protein
+tmp <- t(mat_prot)
+tmp_prot <- cbind(tab_prot[,c(1,2)],tmp)
+tmp_prot <- tmp_prot[order(match(tmp_prot[,1],lev)),]
+tabM <- melt(tmp_prot)
+colnames(tabM)[1] <- 'Subtype'
+
+tabM$variable <- as.character(tabM$variable)
+
+mult <- list()
+for (i in unique(tabM$variable)) {
+  print(i)
+  tmp <- tabM[tabM$variable==i,]
+  p <- ggboxplot(tmp,x='Subtype',y='value',color = 'Subtype',palette = col,add = 'jitter',xlab = F,ylab='Z-score')+
+    stat_compare_means()+stat_compare_means(comparisons = comp,method = 'wilcox.test',step.increase = 0.15) +
+    rotate_x_text(angle = 45) 
+  p <- ggpar(p,main = i,font.main = 'bold')
+  mult[[i]] <- p
+}
+
+
+pmerged <- ggarrange(plotlist = mult,
+                     labels = NULL,
+                     ncol = 4, nrow = 2,
+                     common.legend = TRUE,
+                     legend = 'none')
+
+ggsave(pmerged,
+       file = paste0("Boxplot_",b,"_protein-imputed-LM7c.pdf"),
+       width = 20,
+       height = 15)
+
+
+
+## correlation
+identical(tmp_prot[,1:2],tmp_rna[,1:2]) #true
+mult <- list()
+for (i in c(3,4,5,6,8,9)) {
+  tmp <- cbind(tmp_rna[,c(1,2,i)],tmp_prot[,i])
+  colnames(tmp)[4] <- colnames(tmp_prot)[i]
+  colnames(tmp)[1] <- 'Subtype'
+  p <- ggscatter(tmp, x = colnames(tmp)[3], y = colnames(tmp)[4],
+                 add = "reg.line",                                 
+                 conf.int = TRUE,xlab = paste0(colnames(tmp)[3],' (RNA)'),
+                 ylab = paste0(colnames(tmp)[4],' (Protein)'),title = colnames(tmp)[3],                            
+                 add.params = list(color = "blue",fill = "lightgray"),
+                 color = 'Subtype',palette = col,size = 2)+
+    stat_cor(method = "spearman",cor.coef.name = "rho")
+  p <- ggpar(p,font.main='bold')
+  mult[[colnames(tmp)[3]]] <- p
+}
+
+pmerged <- ggarrange(plotlist = mult,
+                     labels = NULL,
+                     ncol = 3, nrow = 2, 
+                     common.legend = TRUE,
+                     legend = 'right')
+
+ggsave(pmerged,
+       file = paste0('Correlation_',b,'_RNA-vs-Protein.pdf'),
+       width = 20,
+       height = 15)
+
+
+@
+
+
+
+
+\end{document}

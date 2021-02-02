@@ -1,0 +1,11 @@
+#CCRCC
+
+docker run -v absolute/path/to/input/dir:/src/data -v absolute/path/to/output/dir:/src/outdir cibersortx/fractions --username email_address_registered_on_CIBERSORTx_website --token token_obtained_from_CIBERSORTx_website --mixture CCRCC_fpkm_rna.txt --sigmatrix Sign_scRNA-3-PBMC.txt --rmbatchSmode TRUE --refsample Ref_scRNA-3-PBMC.txt --verbose TRUE --label 'ccrcc_rna' 
+
+docker run -v absolute/path/to/input/dir:/src/data -v absolute/path/to/output/dir:/src/outdir cibersortx/fractions --username email_address_registered_on_CIBERSORTx_website --token token_obtained_from_CIBERSORTx_website --mixture CCRCC_imputed.txt --sigmatrix LM7c.txt --rmbatchBmode TRUE --verbose TRUE --label 'ccrcc_protein'
+
+#LUAD
+
+docker run -v absolute/path/to/input/dir:/src/data -v absolute/path/to/output/dir:/src/outdir cibersortx/fractions --username email_address_registered_on_CIBERSORTx_website --token token_obtained_from_CIBERSORTx_website --mixture LUAD_fpkm_rna.txt --sigmatrix Sign_scRNA-3-PBMC.txt --rmbatchSmode TRUE --refsample Ref_scRNA-3-PBMC.txt --verbose TRUE --label 'luad_rna' 
+
+docker run -v absolute/path/to/input/dir:/src/data -v absolute/path/to/output/dir:/src/outdir cibersortx/fractions --username email_address_registered_on_CIBERSORTx_website --token token_obtained_from_CIBERSORTx_website --mixture LUAD_imputed.txt --sigmatrix LM7c.txt --rmbatchBmode TRUE --verbose TRUE --label 'luad_protein'
