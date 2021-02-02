@@ -25,7 +25,7 @@ Then you can run the command via the docker interactive mode
 
 ``` bash
 docker build . -t prot-module
-docker run --volume $PWD:/tmp -ti mrna-module protDataSetsCLI.py --cancerType=brca
+docker run --volume $PWD:/tmp -ti prot-module python /bin/protDataSetsCLI.py --cancerType=brca
 ```
 
 ### If you have Docker and a CWL engine
@@ -33,4 +33,11 @@ Here we have an example using the `cwl-tool` engine, but this should run any oth
 
 ``` bash
 cwl-tool prot-data-cwl-tool.cwl --cancerType brca
+```
+
+If using alongside another CWL implementation (like toil-cwl-runner or arvados-cwl-runner), 
+you can install then run with `cwltool`:
+```bash
+pip install cwltool
+cwltool prot-data-cwl-tool.cwl --cancerType brca
 ```
