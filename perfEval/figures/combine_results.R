@@ -87,7 +87,7 @@ main<-function(){
   }else if(argv[1]=='cellType'){
     tab<-combineCellTypeCors(file.list)
     print(dim(tab))
-    write.table(tab,'combinedCellTypeCorrelationTabl.csv',row.names=F,col.names=T)
+    write.table(tab,'combinedCellTypeCorrelationTab.tsv',row.names=F,col.names=T)
   }else{
     print("First argument must be `cellType` or `sample`")
 
