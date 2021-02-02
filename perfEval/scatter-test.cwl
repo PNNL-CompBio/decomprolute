@@ -29,38 +29,38 @@ outputs:
    pat-fig:
         type: File
         outputSource: get-patient-cors/fig
-#   cell-cor-tab:
-#        type: File
-#        outputSource: get-celltype-cors/table
-#   cell-fig:
-#        type: File
-#        outputSource: get-celltype-cors/fig
+   cell-cor-tab:
+        type: File
+        outputSource: get-celltype-cors/table
+   cell-fig:
+        type: File
+        outputSource: get-celltype-cors/fig
 steps:
     run-all-algs-by-sig:
-       run: call-deconv-by-arg.cwl
-       scatter: [signature,prot-alg,cancerType]
+       run: call-deconv-and-cor.cwl
+       scatter: [signature,mrna-alg,prot-alg,cancerType]
        scatterMethod: flat_crossproduct
        in:
          signature: signatures
          prot-alg: prot-algorithms
-      #   mrna-alg: mrna-algorithms
+         mrna-alg: mrna-algorithms
          cancerType: cancerTypes
        out:
-         [corr]
+         [pat-cor-file,cell-cor-file]
     get-patient-cors:
         run: figures/plot-figs.cwl
         in:
           sampOrCell:
              valueFrom: "sample"
-          files: run-all-algs-by-sig/corr
+          files: run-all-algs-by-sig/pat-cor-file
         out:
           [table,fig]
-   # get-celltype-cors:
-   #     run: figures/plot-figs.cwl
-   #     in:
-   #       sampOrCell:
-   #           valueFrom: "cellType"
-   #       files:
-   #           source: [run-all-algs-by-sig/sample-matrix]
-   #     out:
-   #       [table,fig]
+    get-celltype-cors:
+        run: figures/plot-figs.cwl
+        in:
+          sampOrCell:
+              valueFrom: "cellType"
+          files:
+              source: run-all-algs-by-sig/cell-cor-file
+        out:
+          [table,fig]
