@@ -24,21 +24,19 @@ inputs:
     type: File
     inputBinding:
       prefix: --proteomics
-  spearmanOrPearson:
+  spearOrPears:
     type: string
     inputBinding:
       prefix: --spearOrPears
-    default: "pearson"
+    default: "spearman"
   cancerType:
     type: string
-  algorithm:
+  mrnaAlg:
+    type: string
+  protAlg:
     type: string
   signature:
     type: File
-  # output:
-  #   type: string
-  #   inputBinding:
-  #     prefix: --output
 
 outputs:
   corr:
@@ -48,7 +46,7 @@ outputs:
       outputEval: |
         ${
           var mat = inputs.signature.nameroot
-          var name = inputs.cancerType + '-' + inputs.algorithm + '-' + mat + '-corr.tsv'
+          var name = inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-corr.tsv'
           self[0].basename = name;
           return self[0]
          }

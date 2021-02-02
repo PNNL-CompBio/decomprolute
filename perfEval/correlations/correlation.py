@@ -10,10 +10,9 @@ def main():
                         help='Deconvoluted matrix of transcriptomics data')
     parser.add_argument('--proteomics', dest='profile',
                         help='Deconvoluted matrix of proteomics data')
-    parser.add_argument('--spearOrPears',dest='sop',help='Use spearman or pearson correlation',\
+    parser.add_argument('--spearOrPears',dest='sop',help='Use spearman or pearson correlation',
                         default='pearson')
-    # parser.add_argument('--output', des
-    t='output',
+    # parser.add_argument('--output', dest='output',
     #                     help='Output file for the correlation values')
     opts = parser.parse_args()
 
