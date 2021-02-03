@@ -28,4 +28,7 @@ if (!is.null(args[2])) {
     xc <- EPIC(bulk = df)
 }
 
-write.table(t(xc$cellFractions), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
+results <- xc$cellFractions
+results <- results[,colnames(results) != "otherCells"]
+
+write.table(t(results), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
