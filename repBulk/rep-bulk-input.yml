@@ -1,0 +1,8 @@
+list_gene_file:
+  class: File
+  path: toy_list_gene.tsv
+data_file:
+  class: File
+  path: toy_data.tsv
+n_iter: '100'
+burn_in: '100'
