@@ -32,4 +32,4 @@ outputs:
     matrix:
         type: File
         outputBinding:
-            glob: "imputed_file.tsv"
+            glob: "file.tsv"
