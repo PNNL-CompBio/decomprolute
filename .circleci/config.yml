@@ -9,21 +9,23 @@ filter: &filter
 
 
 workflows:
-  test:
+  test-with-cwl:
     jobs:
-      - test-dl-brca:
-          <<: *filter
-      - test-dl-ccrcc:
-          <<: *filter
-      - test-dl-luad:
-          <<: *filter
-      - test-dl-colon:
-          <<: *filter
-      - test-dl-ovarian:
-          <<: *filter
+#      - test-dl-brca:
+#          <<: *filter
+#      - test-dl-ccrcc:
+#          <<: *filter
+#      - test-dl-luad:
+#          <<: *filter
+#      - test-dl-colon:
+#          <<: *filter
+#      - test-dl-ovarian:
+#          <<: *filter
       - test-dl-endometrial:
           <<: *filter
-
+      - imputation:
+          requires:
+            - test-dl-endometrial
 
 executors:
   ubuntu:
@@ -54,7 +56,10 @@ commands:
                 echo "Test cases failed !!!"
                 exit 1
             fi
-
+      - persist_to_workspace:
+          root: /bin/
+          paths:
+            - file.tsv
 
 jobs:
   test-dl-brca:
@@ -87,5 +92,12 @@ jobs:
     steps:
       - download-data:
           cancerType: 'endometrial'
+  imputation:
+    executor: ubuntu
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ls /tmp/workspace
 
 
