@@ -57,7 +57,7 @@ commands:
                 exit 1
             fi
       - persist_to_workspace:
-          root: /bin/
+          root: protData
           paths:
             - file.tsv
 
