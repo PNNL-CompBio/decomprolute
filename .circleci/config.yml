@@ -99,5 +99,12 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: ls /tmp/workspace
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run imputation
+          command: cd ~/project/imputation && cwl-runner imputation-tool.cwl --input_f /tmp/workspace/file.tsv --use_missForest false
+
 
 
