@@ -15,7 +15,6 @@ requirements:
     dockerPull: tumordeconv/mcpcounter
   - class: InlineJavascriptRequirement
 
-
 inputs:
   expression:
     type: File
@@ -42,5 +41,6 @@ outputs:
            self[0].basename = name;
            return self[0]
            }
+
 
 

@@ -1,3 +1,7 @@
+test/*
+results/*.cwl
+.RData
+.Rhistory
 *~
 .*~
 .DS_Store
@@ -242,6 +246,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.idea/
 
 # Spyder project settings
 .spyderproject
@@ -260,4 +265,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-

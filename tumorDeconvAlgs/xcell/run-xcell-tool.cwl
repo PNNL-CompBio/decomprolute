@@ -14,7 +14,7 @@ requirements:
    - class: DockerRequirement
      dockerPull: tumordeconv/xcell
    - class: InlineJavascriptRequirement
-   
+
 inputs:
   expression:
    type: File
@@ -42,4 +42,3 @@ outputs:
            self[0].basename = name;
            return self[0]
            }
-       

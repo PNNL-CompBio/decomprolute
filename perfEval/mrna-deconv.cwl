@@ -85,7 +85,8 @@ steps:
         valueFrom: 'mrna'
       cancerType: cancerType
     out: [deconvoluted]
-    
+      mrnaAlg: mrnaAlg       
+    out: [deconvoluted]
 outputs:
   deconvoluted:
     type: File

@@ -14,6 +14,7 @@ requirements:
    - class: DockerRequirement
      dockerPull: tumordeconv/epic
    - class: InlineJavascriptRequirement
+
 inputs:
   expression:
    type: File
