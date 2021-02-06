@@ -30,7 +30,7 @@ combinePatientCors<-function(file.list){
 
    mats<-unique(full.tab$matrix)
    lapply(mats,function(mat){
-       full.tab%>%
+       p<-full.tab%>%
            subset(matrix==mat)%>%
            ggplot()+
            geom_violin(aes(x=prot.algorithm,y=correlation,fill=disease))+
@@ -67,7 +67,7 @@ combineCellTypeCors<-function(file.list){
      plist<-lapply(unique(ft$mrna.algorithm),function(m){
      stab<-subset(ft,mrna.algorithm==m)
      stab$cellType<-factor(stab$cellType)
-     ggplot(stab)+geom_jitter(aes(x=cellType,y=correlation,color=prot.algorithm,shape=disease))+
+     ggplot(stab)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=prot.algorithm,shape=disease))+
        scale_color_viridis_d()+
        theme(text = element_text(size=20),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(m)
