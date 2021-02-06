@@ -7,7 +7,6 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-  - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
 
 inputs:
@@ -33,6 +32,9 @@ steps:
         source: download-mrna/matrix
       signature: signature
       mrnaAlg: mrnaAlg
+      type:
+        valueFrom: 'mrna'
+      cancerType: cancerType      
     out:
       [deconvoluted]
   run-xcell:
@@ -43,6 +45,9 @@ steps:
       expression:
         source: download-mrna/matrix
       mrnaAlg: mrnaAlg
+      type:
+        valueFrom: 'mrna'
+      cancerType: cancerType      
     out: [deconvoluted]
   run-epic:
     run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
@@ -52,6 +57,9 @@ steps:
         source: download-mrna/matrix
       signature: signature
       mrnaAlg: mrnaAlg
+      type:
+        valueFrom: 'mrna'
+      cancerType: cancerType      
     out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
@@ -61,6 +69,9 @@ steps:
 #       expression:
 #        source: download-mrna/matrix
 #       mrnaAlg: mrnaAlg
+#      type:
+#        valueFrom: 'mrna'
+#      cancerType: cancerType
 #     out: [deconvoluted]
   run-mcpcounter:
     run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
@@ -69,7 +80,10 @@ steps:
       expression:
         source: download-mrna/matrix
       signature: signature
-      mrnaAlg: mrnaAlg       
+      mrnaAlg: mrnaAlg
+      type:
+        valueFrom: 'mrna'
+      cancerType: cancerType
     out: [deconvoluted]
 outputs:
   deconvoluted:

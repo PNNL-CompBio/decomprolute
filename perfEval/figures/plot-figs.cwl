@@ -29,8 +29,11 @@ outputs:
      type: File
      outputBinding:
      glob: "*.tsv"
+
    fig:
-     type: File[]
+     type:
+       type: array
+       items: File
      outputBinding:
-        glob: "*.pdf"
+       glob: "*.pdf"
     
