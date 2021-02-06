@@ -9,9 +9,10 @@ baseCommand: python
 arguments:
      - /bin/protDataSetsCLI.py
 
+
 requirements:
     - class: DockerRequirement
-      dockerPull: sgosline/prot-dat
+      dockerPull: tumordeconv/prot-data
 
 inputs:
     cancerType:

@@ -32,9 +32,8 @@ There are numerous ways to define the individual cell types we are using to run 
 
 | List Name | Description | Source |
 | --- | --- | --- |
-| LM9 | Nine cell types collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
-| LM28 | 28 Protein derived cell types from original manuscript | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/) |
-| LM22 | Cibertort X derived cell types from original manuscript | |
+| LM7c | Seven cell types (B, CD4 T, CD8 T, dendritic cells, granulocytes, monocytes, NK) collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
+| 3' PBMCs | Seven cell types (B, CD4 T, CD8 T (CD8 T + NK T), dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
 | LM10 | Ten cell types predicted by MCPCounter signature | |
 | ? | Should we add additional cell type markers? | |
 
@@ -73,7 +72,7 @@ The main crux of the approach is to evaluate _how_ we compare the different algo
 
 
 1. Spearman rank correlation. This is currently handled in the [correlation](./perfEval/correlations) directory.
-2. Mutual information. *TODO*: create a script that computes mutual information. 
+2. Mutual information. *TODO*: create a script that computes mutual information.
 
 
 ## Project Timeline
