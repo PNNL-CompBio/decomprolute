@@ -7,7 +7,8 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-
+  - class: InlineJavascriptRequirement
+  
 inputs:
    signature: File
    mrna-alg: string

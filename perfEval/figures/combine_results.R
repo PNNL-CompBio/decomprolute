@@ -28,11 +28,17 @@ combinePatientCors<-function(file.list){
 
    full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
 
-  p <- ggplot(full.tab)+
-    geom_violin(aes(x=algorithm,y=correlation,fill=disease))+
-    facet_grid(matrix~.)+scale_fill_viridis_d()+
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-  ggsave('patientCors.pdf',p,width=11,height=10)
+   mats<-unique(full.tab$matrix)
+   lapply(mats,function(mat){
+       full.tab%>%
+           subset(matrix==mat)%>%
+           ggplot()+
+           geom_violin(aes(x=prot.algorithm,y=correlation,fill=disease))+
+           facet_grid(mrna.algorithm~.)+scale_fill_viridis_d()+
+           theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+       ggsave(paste0(mat,'patientCors.pdf'),p,width=11,height=10)
+   })
+
   return(full.tab)
 
 }
@@ -53,12 +59,15 @@ combineCellTypeCors<-function(file.list){
   }))
 
   full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
-   require(cowplot)
+  mats<-unique(full.tab$matrix)
+  require(cowplot)
 
-   plist<-lapply(unique(full.tab$matrix),function(m){
-     stab<-subset(full.tab,matrix==m)
+  lapply(mats,function(mat){
+      ft<-full.tab%>%subset(matrix==mat)
+     plist<-lapply(unique(ft$mrna.algorithm),function(m){
+     stab<-subset(ft,mrna.algorithm==m)
      stab$cellType<-factor(stab$cellType)
-     ggplot(stab)+geom_jitter(aes(x=cellType,y=correlation,color=algorithm,shape=disease))+
+     ggplot(stab)+geom_jitter(aes(x=cellType,y=correlation,color=prot.algorithm,shape=disease))+
        scale_color_viridis_d()+
        theme(text = element_text(size=20),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(m)
@@ -66,8 +75,8 @@ combineCellTypeCors<-function(file.list){
 
    p<-cowplot::plot_grid(plotlist=plist)
 
-   ggsave('cellTypeCors.pdf',p,width=20,height=15)
-
+   ggsave(paste0(mat,'cellTypeCors.pdf'),p,width=20,height=15)
+})
   return(full.tab)
 }
 
