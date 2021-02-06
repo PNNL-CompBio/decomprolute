@@ -7,7 +7,6 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-  - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
 
 inputs:
@@ -36,6 +35,7 @@ steps:
       type:
         valueFrom: 'prot'
       cancerType: cancerType          
+      protAlg: protAlg    
     out:
       [deconvoluted]
   run-xcell:

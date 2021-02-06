@@ -41,6 +41,7 @@ outputs:
    prot-files:
         type: File[]
         outputSource: run-all-algs-by-sig/prot-file
+
 steps:
     run-all-algs-by-sig:
        run: call-deconv-and-cor.cwl

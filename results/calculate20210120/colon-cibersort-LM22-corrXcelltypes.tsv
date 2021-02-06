@@ -1,0 +1,22 @@
+B.cells.naive	0.02293097761065395
+B.cells.memory	-0.061783689935710484
+Plasma.cells	0.38128524815839776
+T.cells.CD8	0.6222756152139393
+T.cells.CD4.naive	-0.07975178991222345
+T.cells.CD4.memory.resting	0.02264916695094515
+T.cells.CD4.memory.activated	0.15900474739617548
+T.cells.follicular.helper	-0.03838312746581947
+T.cells.regulatory..Tregs.	0.01344168252361441
+T.cells.gamma.delta	-0.024844247519025028
+NK.cells.resting	0.10097099992663083
+NK.cells.activated	0.1509715700531273
+Monocytes	0.024483767664086078
+Macrophages.M0	0.2225290967251572
+Macrophages.M1	0.014255430251116776
+Macrophages.M2	0.12904300481469463
+Dendritic.cells.resting	0.10205689743290661
+Dendritic.cells.activated	
+Mast.cells.resting	0.2701817211443806
+Mast.cells.activated	-0.07924087239678378
+Eosinophils	0.12070054884960688
+Neutrophils	0.44629244838250615
