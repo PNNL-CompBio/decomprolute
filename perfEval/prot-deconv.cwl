@@ -35,7 +35,6 @@ steps:
       type:
         valueFrom: 'prot'
       cancerType: cancerType          
-      protAlg: protAlg    
     out:
       [deconvoluted]
   run-xcell:
