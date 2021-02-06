@@ -7,7 +7,6 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
-  - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
 
 inputs:
@@ -32,7 +31,10 @@ steps:
       expression:
         source: download-prot/matrix
       signature: signature
-      protAlg: protAlg    
+      protAlg: protAlg
+      type:
+        valueFrom: 'prot'
+      cancerType: cancerType          
     out:
       [deconvoluted]
   run-xcell:
@@ -43,6 +45,9 @@ steps:
        protAlg: protAlg
        expression:
          source: download-prot/matrix
+       type:
+         valueFrom: 'prot'
+       cancerType: cancerType      
      out: [deconvoluted]
   run-epic:
      run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
@@ -52,6 +57,9 @@ steps:
          source: download-prot/matrix
        signature: signature
        protAlg: protAlg
+       type:
+         valueFrom: 'prot'
+       cancerType: cancerType             
      out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
@@ -59,6 +67,9 @@ steps:
 #     in:
 #       signature: signature
 #      progAlg: protAlg
+#     type:
+#        valueFrom: 'prot'
+#      cancerType: cancerType      
 #       expression:
 #        source: download-prot/matrix
 #     out: [deconvoluted]
@@ -70,6 +81,9 @@ steps:
          source: download-prot/matrix
        signature: signature
        protAlg: protAlg
+       type:
+         valueFrom: 'prot'
+       cancerType: cancerType       
      out: [deconvoluted]
   
 outputs:

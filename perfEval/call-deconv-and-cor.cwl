@@ -7,6 +7,7 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
   
 inputs:
    signature: File
@@ -21,6 +22,12 @@ outputs:
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr
+  mrna-file:
+     type: File
+     outputSource: deconv-mrna/deconvoluted
+  prot-file:
+     type: File
+     outputSource: deconv-prot/deconvoluted
 
 steps:
   deconv-mrna:
