@@ -19,7 +19,7 @@ def main(cancer_type):
         dat = cptac.Brca()
     elif opts.type.lower() == 'ccrcc':
         dat = cptac.Ccrcc()
-    elif opts.type.lower() == 'coad':
+    elif opts.type.lower() == 'colon':
         dat = cptac.Colon()
     elif opts.type.lower() == 'ovca':
         dat = cptac.Ovarian()

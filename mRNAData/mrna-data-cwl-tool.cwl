@@ -11,7 +11,7 @@ arguments:
 
 requirements:
     - class: DockerRequirement
-      dockerPull: lifeworks/deconv-mrna
+      dockerPull: tumordeconv/mrna-data
 
 inputs:
     cancerType:
