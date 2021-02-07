@@ -1,20 +1,13 @@
 cancerTypes:
   - brca
-  - ccrcc
-  - endometrial
-  - colon 
 prot-algorithms:
-  - xcell
+  - cibersort
   - mcpcounter
   - epic 
 mrna-algorithms:
-  - xcell
+  - cibersort
   - mcpcounter
   - epic 
 signatures:
   - class: File
     path: ../signature_matrices/LM7c.txt
-  - class: File
-    path: ../signature_matrices/LM9.txt
-  - class: File
-    path: ../signature_matrices/LM22.txt
