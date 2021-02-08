@@ -10,7 +10,6 @@ require("iterators")
 require("Matrix")
 require("impute")
 require("DreamAI")
-library("tidyr")
 
 args <- commandArgs(trailingOnly = TRUE)
 argsLen <- length(args)
@@ -23,9 +22,9 @@ data = read.csv(input_f, header=TRUE, row.names=1, sep = '\t')
 data = data[rowSums(is.na(data)) != ncol(data), ]
 
 if (use_MissForest) {
-    impute<- DreamAI(data,k=10,maxiter_MF = 10, ntree = 100,maxnodes = NULL,maxiter_ADMIN=30,tol=10^(-2),gamma_ADMIN=NA,gamma=50,CV=FALSE,fillmethod="row_mean",maxiter_RegImpute=10,conv_nrmse = 1e-6,iter_SpectroFM=40, method = c("KNN", "MissForest", "ADMIN", "Birnn", "SpectroFM", "RegImpute"),out="Ensemble")
+    impute<- DreamAI(data,k=10,maxiter_MF = 10, ntree = 100,maxnodes = NULL,maxiter_ADMIN=30,tol=10^(-2),gamma_ADMIN=NA,gamma=50,CV=FALSE,fillmethod="row_mean",maxiter_RegImpute=10,conv_nrmse = 1e-6,iter_SpectroFM=40, method = c("KNN", "MissForest", "Brinn", "SpectroFM", "RegImpute"),out="Ensemble")
 } else {
-    impute<- DreamAI(data,k=10,maxiter_MF = 10, ntree = 100,maxnodes = NULL,maxiter_ADMIN=30,tol=10^(-2),gamma_ADMIN=NA,gamma=50,CV=FALSE,fillmethod="row_mean",maxiter_RegImpute=10,conv_nrmse = 1e-6,iter_SpectroFM=40, method = c("KNN", "ADMIN", "Birnn", "SpectroFM", "RegImpute"),out="Ensemble")
+    impute<- DreamAI(data,k=10,maxiter_MF = 10, ntree = 100,maxnodes = NULL,maxiter_ADMIN=30,tol=10^(-2),gamma_ADMIN=NA,gamma=50,CV=FALSE,fillmethod="row_mean",maxiter_RegImpute=10,conv_nrmse = 1e-6,iter_SpectroFM=40, method = c("KNN", "Brinn", "SpectroFM", "RegImpute"),out="Ensemble")
 }
 
 write.table(impute$Ensemble,"imputed_file.tsv",row.names=TRUE, col.names=NA, sep='\t', quote = FALSE)
