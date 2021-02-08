@@ -21,6 +21,13 @@ inputs:
             position: 1
             prefix: --cancerType
 
+    sampleType:
+        type: string?
+        # default: "all"
+        inputBinding:
+            position: 2
+            prefix: --sampleType
+
 outputs:
     matrix:
         type: File
