@@ -100,11 +100,14 @@ jobs:
           at: /tmp/workspace
       - run: ls /tmp/workspace
       - run:
+          name: Slim down test file
+          command: head -n 1000 /tmp/workspace/file.tsv > /tmp/workspace/slim_file.tsv
+      - run:
           name: Install dependencies to VM
           command: pip3 install cwltool
       - run:
           name: Run imputation
-          command: cd ~/project/imputation && cwltool imputation-tool.cwl --input_f /tmp/workspace/file.tsv --use_missForest false
+          command: cd ~/project/imputation && cwltool imputation-tool.cwl --input_f /tmp/workspace/slim_file.tsv --use_missForest false
 
 
 
