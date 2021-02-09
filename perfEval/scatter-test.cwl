@@ -1,10 +1,8 @@
 #!/usr/bin/env cwltool
-
 class: Workflow
 label: scatter-test
 id: scatter-test
 cwlVersion: v1.2
-
 
 requirements:
    - class: SubworkflowFeatureRequirement
