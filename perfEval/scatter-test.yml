@@ -1,13 +1,18 @@
 cancerTypes:
   - endometrial
-  - colon 
+  - ccrcc
+  - lscc
+  - luad
+  - ovarian
 prot-algorithms:
   - mcpcounter
-  - epic 
+  - epic
+  - xcell
 mrna-algorithms:
   - mcpcounter
-  - epic 
-tissue-types:
+  - epic
+  - xcell
+tissueTypes:
   - normal
   - tumor
 signatures:

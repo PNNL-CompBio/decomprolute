@@ -28,12 +28,11 @@ outputs:
    table:
      type: File
      outputBinding:
-	glob: "*.tsv"
-
+        glob: "*.tsv"
    fig:
      type:
        type: array
        items: File
      outputBinding:
-       glob: "*.pdf"
+        glob: "*.pdf"
     
