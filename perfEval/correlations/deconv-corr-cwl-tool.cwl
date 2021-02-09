@@ -37,6 +37,8 @@ inputs:
     type: string
   signature:
     type: File
+  sampleType:
+    type: string
 
 outputs:
   corr:
@@ -46,7 +48,7 @@ outputs:
       outputEval: |
         ${
           var mat = inputs.signature.nameroot
-          var name = inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-corr.tsv'
+          var name = inputs.sampleType+'-'+inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-corr.tsv'
           self[0].basename = name;
           return self[0]
          }
