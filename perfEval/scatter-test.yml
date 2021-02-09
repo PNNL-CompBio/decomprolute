@@ -1,9 +1,7 @@
 cancerTypes:
   - endometrial
   - ccrcc
-  - lscc
   - luad
-  - ovarian
 prot-algorithms:
   - mcpcounter
   - epic
