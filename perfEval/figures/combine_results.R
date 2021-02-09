@@ -17,16 +17,18 @@ combinePatientCors<-function(file.list){
    message(paste0('Combining ',length(file.list),' files'))
   full.tab<-do.call(rbind,lapply(file.list,function(file){
       vars <- unlist(strsplit(basename(file),split='-')) #split into pieces
-      disease=vars[1]
-      mrna.algorithm=vars[2]
-      prot.algorithm=vars[4]
-      matrix=vars[5]
+      tissue=vars[1]
+      disease=vars[2]
+      mrna.algorithm=vars[3]
+      prot.algorithm=vars[5]
+      matrix=vars[6]
       tab<-read.table(file,fill=TRUE)
       colnames(tab)<-(c('patient','correlation'))
-      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm,matrix))
+      return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
   }))
 
-   full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
+   full.tab<-full.tab%>%
+       mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
 
    mats<-unique(full.tab$matrix)
    lapply(mats,function(mat){
@@ -46,19 +48,25 @@ combinePatientCors<-function(file.list){
 #' combine list of files by cell type correlations
 combineCellTypeCors<-function(file.list){
   message(paste0('Combining ',length(file.list),' files'))
-   full.tab<-do.call(rbind,lapply(file.list,function(file){
+  full.tab<-do.call(rbind,lapply(file.list,function(file){
       vars <- unlist(strsplit(basename(file),split='-')) #split into pieces
-      disease=vars[1]
-      mrna.algorithm=vars[2]
-      prot.algorithm=vars[4]
-      matrix=vars[5]
+      tissue=vars[1]
+      disease=vars[2]
+      mrna.algorithm=vars[3]
+      prot.algorithm=vars[5]
+      matrix=vars[6]
       tab<-read.table(file,fill=TRUE,sep='\t')
       colnames(tab)<-(c('cellType','correlation'))
-      return(data.frame(tab,disease,mrna.algorithm,prot.algorithm,matrix))
+      return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
 
-  }))
+  })
 
+<<<<<<< Updated upstream
   full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
+=======
+  full.tab)<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
+
+>>>>>>> Stashed changes
   mats<-unique(full.tab$matrix)
   require(cowplot)
 
