@@ -75,7 +75,7 @@ combineCellTypeCors<-function(file.list){
      ft$cellType<-factor(ft$cellType)
      p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=disease,shape=tissue))+
        scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)
-       theme(text = element_text(size=30),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(mat)
 #    })
 #       p<-cowplot::plot_grid(plotlist=plist)
