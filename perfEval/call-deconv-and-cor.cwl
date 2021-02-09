@@ -14,7 +14,7 @@ inputs:
    mrna-alg: string
    prot-alg: string
    cancerType: string
-   tissue-type: string
+   tissueType: string
 
 outputs:
   pat-cor-file:
@@ -37,7 +37,7 @@ steps:
        cancerType: cancerType
        mrnaAlg: mrna-alg
        signature: signature
-       sampleType: tissue-type
+       sampleType: tissueType
      out: [deconvoluted]
   deconv-prot:
      run: prot-deconv.cwl
@@ -45,7 +45,7 @@ steps:
        cancerType: cancerType
        protAlg: prot-alg
        signature: signature
-       sampleType: tissue-type
+       sampleType: tissueType
      out: [deconvoluted]
   patient-cor:
      run: ./correlations/deconv-corr-cwl-tool.cwl
@@ -54,7 +54,7 @@ steps:
        mrnaAlg: mrna-alg
        protAlg: prot-alg
        signature: signature
-       sampleType: tissue-type
+       sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
@@ -67,7 +67,7 @@ steps:
        mrnaAlg: mrna-alg
        protAlg: prot-alg
        signature: signature
-       sampleType: tissue-type
+       sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
