@@ -21,6 +21,8 @@ inputs:
       type: string[]
    signatures:
       type: File[]
+   tissue-types:
+      type: string[]
       
 outputs:
    pat-cor-tab:
@@ -45,13 +47,14 @@ outputs:
 steps:
     run-all-algs-by-sig:
        run: call-deconv-and-cor.cwl
-       scatter: [signature,mrna-alg,prot-alg,cancerType]
+       scatter: [signature,mrna-alg,prot-alg,cancerType,tissue-type]
        scatterMethod: flat_crossproduct
        in:
          signature: signatures
          prot-alg: prot-algorithms
          mrna-alg: mrna-algorithms
          cancerType: cancerTypes
+         tissue-type: tissue-types
        out:
          [pat-cor-file,cell-cor-file,prot-file,mrna-file]
     get-patient-cors:
