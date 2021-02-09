@@ -42,8 +42,9 @@ combinePatientCors<-function(file.list){
    })
 
   return(full.tab)
-
 }
+
+
 
 #' combine list of files by cell type correlations
 combineCellTypeCors<-function(file.list){
@@ -62,6 +63,7 @@ combineCellTypeCors<-function(file.list){
   })
 
   full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
+
   mats<-unique(full.tab$matrix)
 #  require(cowplot)
 
@@ -74,19 +76,22 @@ combineCellTypeCors<-function(file.list){
        scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)
        theme(text = element_text(size=20),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(m)
+#    })
+#       p<-cowplot::plot_grid(plotlist=plist)
+
+       ggsave(paste0(mat,'cellTypeCors.pdf'),p,width=20,height=15)
+ # })
+ #     return(full.tab)
   # })
 
    #p<-cowplot::plot_grid(plotlist=plist)
 
-   ggsave(paste0(mat,'cellTypeCors.pdf'),p,width=20,height=15)
-})
-  return(full.tab)
 }
 
 
 
 
-main<-function(){
+ main<-function(){
 
     ##todo: store in synapse
   argv <- commandArgs(trailingOnly = TRUE)
@@ -104,13 +109,6 @@ main<-function(){
     print("First argument must be `cellType` or `sample`")
 
   }
-
-
-
-  ##plot
-
-
-
 }
 
 main()
