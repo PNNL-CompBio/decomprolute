@@ -15,7 +15,8 @@ library(ggplot2)
 #' combine list of files of patient correlations
 combinePatientCors<-function(file.list){
    message(paste0('Combining ',length(file.list),' files'))
-  full.tab<-do.call(rbind,lapply(file.list,function(file){
+
+   full.tab<-do.call(rbind,lapply(file.list,function(file){
       vars <- unlist(strsplit(basename(file),split='-')) #split into pieces
       tissue=vars[1]
       disease=vars[2]
@@ -25,8 +26,7 @@ combinePatientCors<-function(file.list){
       tab<-read.table(file,fill=TRUE)
       colnames(tab)<-(c('patient','correlation'))
       return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
-  }))
-
+   }))
    full.tab<-full.tab%>%
        mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
 
@@ -35,10 +35,10 @@ combinePatientCors<-function(file.list){
        p<-full.tab%>%
            subset(matrix==mat)%>%
            ggplot()+
-           geom_violin(aes(x=disease,y=correlation,fill=tissue))+
+           geom_violin(aes(x=tissue,y=correlation,fill=disease))+
            facet_grid(mrna.algorithm~prot.algorithm)+scale_fill_viridis_d()+
            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-       ggsave(paste0(mat,'patientCors.pdf'),p,width=11,height=10)
+       ggsave(paste0(mat,'patientCors.pdf'),p)
    })
 
   return(full.tab)
@@ -60,9 +60,10 @@ combineCellTypeCors<-function(file.list){
       colnames(tab)<-(c('cellType','correlation'))
       return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
 
-  })
+  }))
 
-  full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
+  full.tab<-full.tab%>%
+      mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
 
   mats<-unique(full.tab$matrix)
 #  require(cowplot)
@@ -72,20 +73,19 @@ combineCellTypeCors<-function(file.list){
      #plist<-lapply(unique(ft$mrna.algorithm),function(m){
      #stab<-subset(ft,mrna.algorithm==m)
      ft$cellType<-factor(ft$cellType)
-     p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=disease,shape=tossie))+
+     p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=disease,shape=tissue))+
        scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)
-       theme(text = element_text(size=20),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-               ggtitle(m)
+       theme(text = element_text(size=30),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+               ggtitle(mat)
 #    })
 #       p<-cowplot::plot_grid(plotlist=plist)
 
-       ggsave(paste0(mat,'cellTypeCors.pdf'),p,width=20,height=15)
+       ggsave(paste0(mat,'cellTypeCors.pdf'),p)
  # })
  #     return(full.tab)
-  # })
-
+   })
    #p<-cowplot::plot_grid(plotlist=plist)
-
+   return(full.tab)
 }
 
 
