@@ -47,7 +47,7 @@ outputs:
       outputEval: |
         ${
           var mat = inputs.signature.nameroot
-          var name = inputs.sampleType+'-'+inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-cellTypecorr.tsv'
+          var name = inputs.sampleType + '-' + inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-cellTypecorr.tsv'
           self[0].basename = name;
           return self[0]
          }
