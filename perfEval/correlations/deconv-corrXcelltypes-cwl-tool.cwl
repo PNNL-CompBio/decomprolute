@@ -36,6 +36,8 @@ inputs:
     default: "spearman"
   signature:
     type: File
+  sampleType:
+    type: string
 
 outputs:
   corr:
@@ -45,7 +47,7 @@ outputs:
       outputEval: |
         ${
           var mat = inputs.signature.nameroot
-          var name = inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-cellTypecorr.tsv'
+          var name = inputs.sampleType+'-'+inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-cellTypecorr.tsv'
           self[0].basename = name;
           return self[0]
          }
