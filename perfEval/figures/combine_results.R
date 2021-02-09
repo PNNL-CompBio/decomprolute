@@ -35,8 +35,8 @@ combinePatientCors<-function(file.list){
        p<-full.tab%>%
            subset(matrix==mat)%>%
            ggplot()+
-           geom_violin(aes(x=prot.algorithm,y=correlation,fill=disease))+
-           facet_grid(mrna.algorithm~.)+scale_fill_viridis_d()+
+           geom_violin(aes(x=disease,y=correlation,fill=tissue))+
+           facet_grid(mrna.algorithm~prot.algorithm)+scale_fill_viridis_d()+
            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
        ggsave(paste0(mat,'patientCors.pdf'),p,width=11,height=10)
    })
@@ -61,27 +61,22 @@ combineCellTypeCors<-function(file.list){
 
   })
 
-<<<<<<< Updated upstream
   full.tab<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
-=======
-  full.tab)<-full.tab%>%mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
-
->>>>>>> Stashed changes
   mats<-unique(full.tab$matrix)
-  require(cowplot)
+#  require(cowplot)
 
   lapply(mats,function(mat){
       ft<-full.tab%>%subset(matrix==mat)
-     plist<-lapply(unique(ft$mrna.algorithm),function(m){
-     stab<-subset(ft,mrna.algorithm==m)
-     stab$cellType<-factor(stab$cellType)
-     ggplot(stab)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=prot.algorithm,shape=disease))+
-       scale_color_viridis_d()+
+     #plist<-lapply(unique(ft$mrna.algorithm),function(m){
+     #stab<-subset(ft,mrna.algorithm==m)
+     ft$cellType<-factor(ft$cellType)
+     p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=disease,shape=tossie))+
+       scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)
        theme(text = element_text(size=20),axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(m)
-   })
+  # })
 
-   p<-cowplot::plot_grid(plotlist=plist)
+   #p<-cowplot::plot_grid(plotlist=plist)
 
    ggsave(paste0(mat,'cellTypeCors.pdf'),p,width=20,height=15)
 })
