@@ -16,12 +16,15 @@ inputs:
      type: string
    cancerType:
      type: string
+   sampleType:
+     type: string
 
 steps:
   download-prot:
     run: ../protData/prot-data-cwl-tool.cwl
     in:
       cancerType: cancerType
+      sampleType: sampleType
     out:
       [matrix]
   run-cibersort:
