@@ -4,5 +4,5 @@ list_gene_file:
 data_file:
   class: File
   path: toy_data.tsv
-n_iter: '100'
+n_iter: '1000'
 burn_in: '100'
