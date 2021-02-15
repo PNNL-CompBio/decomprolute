@@ -23,12 +23,8 @@ def main():
         dat = cptac.Ovarian()
     elif opts.type.lower() == 'endometrial':
         dat = cptac.Endometrial()
-    elif opts.type.lower() == 'gbm':
-        dat = cptac.Gbm()
     elif opts.type.lower() == 'hnscc':
         dat = cptac.Hnscc()
-    elif opts.type.lower() == 'lscc':
-        dat = cptac.Lscc()
     elif opts.type.lower() == 'luad':
         dat = cptac.Luad()
     else:
