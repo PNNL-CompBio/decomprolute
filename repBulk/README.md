@@ -27,7 +27,7 @@ data_file:
   class: File
   path: toy_data.tsv
   
-n_iter: '100'
+n_iter: '1000'
 
 burn_in: '100'
 ```
@@ -38,5 +38,5 @@ This module requires two inputs:
 | :------------------------ |:-------------:| :-------------|
 | list_gene_file	       |	           |path to tab-separated file with cell types as the column names and gene symbols as rows
 | data_file         |            |path to tab-separated expression file, with samples as the column names and gene symbols as rows
-| n_iter         |            |number of iterations ...?
+| n_iter         |            |number of iterations. Must be higher than burn_in.
 | burn_in         |            |..?
