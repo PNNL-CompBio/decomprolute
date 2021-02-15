@@ -11,17 +11,19 @@ filter: &filter
 workflows:
   test-with-cwl:
     jobs:
-#      - test-dl-brca:
-#          <<: *filter
-#      - test-dl-ccrcc:
-#          <<: *filter
-#      - test-dl-luad:
-#          <<: *filter
-#      - test-dl-colon:
-#          <<: *filter
-#      - test-dl-ovarian:
-#          <<: *filter
+      - test-dl-brca:
+          <<: *filter
+      - test-dl-ccrcc:
+          <<: *filter
+      - test-dl-luad:
+          <<: *filter
+      - test-dl-colon:
+          <<: *filter
+      - test-dl-ovarian:
+          <<: *filter
       - test-dl-endometrial:
+          <<: *filter
+      - test-dl-hnscc:
           <<: *filter
       - imputation:
           requires:
@@ -92,6 +94,11 @@ jobs:
     steps:
       - download-data:
           cancerType: 'endometrial'
+  test-dl-hnscc:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'hnscc'
   imputation:
     executor: ubuntu
     steps:
