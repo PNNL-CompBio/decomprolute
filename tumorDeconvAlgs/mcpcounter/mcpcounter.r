@@ -23,7 +23,7 @@ if (length(args) > 1) {
                 tempTb = 2 * ref[,cellTypeNames[cellTypeNames != s]] - ref[,s]
                 tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
             } else {
-                stop("The signature matrix processing option is not provided correctly!")
+                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
             }
         } else {
             tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
