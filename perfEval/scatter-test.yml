@@ -1,14 +1,18 @@
 cancerTypes:
-  - brca
+  - endometrial
   - ccrcc
+  - luad
 prot-algorithms:
-  - cibersort
+  - mcpcounter
+  - epic
   - xcell
 mrna-algorithms:
-  - cibersort
+  - mcpcounter
+  - epic
   - xcell
+tissueTypes:
+  - normal
+  - tumor
 signatures:
   - class: File
-    path: ../signature_matrices/LM7c.txt
-#  - class: File
-#    path: ../signature_matrices/LM9.txt
+    path: ../signature_matrices/LM9.txt

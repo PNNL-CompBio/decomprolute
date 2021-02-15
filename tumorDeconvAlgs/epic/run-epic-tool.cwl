@@ -12,7 +12,8 @@ arguments:
 
 requirements:
    - class: DockerRequirement
-     dockerPull: lifeworks/epic
+     dockerPull: tumordeconv/epic
+   - class: InlineJavascriptRequirement
 
 inputs:
   expression:
@@ -23,9 +24,20 @@ inputs:
     type: File
     inputBinding:
       position: 2
+  type:
+    type: string
+  cancerType:
+    type: string      
 
 outputs:
   deconvoluted:
      type: File
      outputBinding:
        glob: "deconvoluted.tsv" #$(inputs.output) 
+       outputEval: |
+         ${
+           var mat = inputs.signature.nameroot
+           var name = inputs.cancerType + '-epic-'+ mat + '-'+inputs.type+'-deconv.tsv'
+           self[0].basename = name;
+           return self[0]
+           }

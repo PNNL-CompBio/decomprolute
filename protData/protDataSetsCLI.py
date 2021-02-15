@@ -11,6 +11,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cancerType', dest='type',
                         help='Cancer type to be collected')
+    parser.add_argument('--sampleType', dest='sample', default='all',
+                        help='Sample type, tumor vs normal vs all (default), to be collected')
     opts = parser.parse_args()
 
     if opts.type.lower() == 'brca':
@@ -34,6 +36,21 @@ def main():
     else:
         exit()
     df = dat.get_proteomics()
+
+    # Get the sample type specific dataframe
+    if opts.sample.lower() != 'all':
+        meta = dat.get_clinical()
+        if opts.sample.lower() == 'tumor':
+            df = df.loc[meta[meta["Sample_Tumor_Normal"] == "Tumor"].index]
+        elif opts.sample.lower() == 'normal':
+            nIDs = list(meta[meta["Sample_Tumor_Normal"] == "Normal"].index)
+            nIDs = list(set(nIDs) & set(df.index))
+            df = df.loc[nIDs]
+            df.index = [nID[:-2] if nID[-2:] ==
+                        ".N" else nID for nID in nIDs]
+        else:
+            exit("The sample type, tumor vs normal vs all (default), is not correctly set!")
+
     # some dataset has two level of indices some has only one
     if df.columns.nlevels == 2:
         df.columns = df.columns.droplevel(1)

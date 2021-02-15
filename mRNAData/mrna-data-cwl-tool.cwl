@@ -11,7 +11,7 @@ arguments:
 
 requirements:
     - class: DockerRequirement
-      dockerPull: lifeworks/deconv-mrna
+      dockerPull: tumordeconv/mrna-data
 
 inputs:
     cancerType:
@@ -19,6 +19,13 @@ inputs:
         inputBinding:
             position: 1
             prefix: --cancerType
+
+    sampleType:
+        type: string?
+        # default: "all"
+        inputBinding:
+            position: 2
+            prefix: --sampleType
 
 outputs:
     matrix:
