@@ -8,3 +8,5 @@ COPY getAllDatasets.py /bin/
 RUN python /bin/getAllDatasets.py
 
 VOLUME ['/tmp']
+
+WORKDIR ['/tmp']

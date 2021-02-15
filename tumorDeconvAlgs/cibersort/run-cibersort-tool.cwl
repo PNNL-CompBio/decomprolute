@@ -12,8 +12,9 @@ arguments:
 
 requirements:
    - class: DockerRequirement
-     dockerPull: lifeworks/cibersort
-
+     dockerPull: tumordeconv/cibersort
+   - class: InlineJavascriptRequirement
+   
 inputs:
   expression:
    type: File
@@ -23,9 +24,21 @@ inputs:
     type: File
     inputBinding:
       position: 2
+  type:
+    type: string
+  cancerType:
+    type: string
 
 outputs:
   deconvoluted:
      type: File
      outputBinding:
        glob: "deconvoluted.tsv" #$(inputs.output) 
+       outputEval: |
+         ${
+           var mat = inputs.signature.nameroot
+           var name = inputs.cancerType + '-cibersort-'+ mat + '-'+inputs.type+'-deconv.tsv'
+           self[0].basename = name;
+           return self[0]
+           }
+
