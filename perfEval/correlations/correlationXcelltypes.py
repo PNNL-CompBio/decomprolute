@@ -24,20 +24,31 @@ def main():
     intersected = list(set(rnaCols) & set(proCols))
     if len(rnaCols) != len(proCols) or len(intersected) != len(proCols):
         print(
-            "The colums of proteomics matrix and transcriptomics matrix are not the same!\n")
+            "The columns of proteomics matrix and transcriptomics matrix are not the same!\n")
+        print("Keeping "+str(len(intersected))+' that are intersecting')
     rna = rna[intersected]
     rna = rna.transpose()
     pro = pro[intersected]
     pro = pro.transpose()
+
+    ##now check the rows and columns again
     rnaCols = list(rna.columns)
     proCols = list(pro.columns)
     intersected = list(set(rnaCols) & set(proCols))
+    if len(rnaCols) != len(proCols) or len(intersected) != len(proCols):
+        print(
+            "The columns of proteomics matrix and transcriptomics matrix are not the same!\n")
+        print("Keeping "+str(len(intersected))+' that are intersecting')
+    print(rnaCols)
+    print(proCols)
     rna = rna[intersected]
     pro = pro[intersected]
+    rnaCols = list(rna.columns)
+    proCols = list(pro.columns)
     if opts.sop=='pearson':
         corrList = [pro[sample].corr(rna[sample]) for sample in proCols]
     else:
-        corrList = [pro[sample].corr(rna[sample],method='spearman') for sample in proCols]
+        corrList = [pro[sample].corr(rna[sample], method='spearman') for sample in proCols]
 
     correlations = pd.Series(corrList)
     correlations.index = proCols
