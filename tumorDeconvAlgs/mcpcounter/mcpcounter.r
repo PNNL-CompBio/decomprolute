@@ -9,6 +9,7 @@ if (!is.null(args[1])) {
     stop("No expression matrix provided!")
 }
 
+library(matrixStats)
 library(MCPcounter)
 
 if (length(args) > 1) {
@@ -24,13 +25,15 @@ if (length(args) > 1) {
                 tempTb = 2 * ref[,cellTypeNames[cellTypeNames != s]] - ref[,s]
                 markers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
             } else {
-                markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+                markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMedians(as.matrix(ref))]]
             }
         } else {
-            markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+            markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMedians(as.matrix(ref))]]
         }
         if (length(markers) == 0) {
-            markers <- names(which.max((ref[tempMarkers,s] - rowMeans(ref[tempMarkers,]))/rowMeans(ref[tempMarkers,])))
+            # tempMarkers <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.5),])
+            deOverMedians <- (ref[tempMarkers,s] - rowMedians(as.matrix(ref[tempMarkers,])))/rowMedians(as.matrix(ref[tempMarkers,]))
+            markers <- tempMarkers[deOverMedians > quantile(deOverMedians, prob=0.9)]
         }
         genesTemp <- markers
         markerGenes <- c(markerGenes, genesTemp)
