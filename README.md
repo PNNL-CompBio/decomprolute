@@ -43,7 +43,7 @@ There are numerous ways to define the individual cell types we are using to run 
 
 
 ### Data collection
-We have collect pre-formatted sample data from the [CPTAC Python API](https://github.com/PayneLab/cptac) to better match the mRNA data. This CWL tool and Docker image are in the [protData](./protData) and [mRNAdata](./mRENAData) directories.
+We have collect pre-formatted sample data from the [CPTAC Python API](https://github.com/PayneLab/cptac) to better match the mRNA data. This CWL tool and Docker image are in the [protData](./protData) and [mRNAdata](./mRNAData) directories.
 
 Below are the available tumor types:
 
