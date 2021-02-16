@@ -11,19 +11,19 @@ filter: &filter
 workflows:
   test-with-cwl:
     jobs:
-      - test-dl-brca:
-          <<: *filter
-      - test-dl-ccrcc:
-          <<: *filter
-      - test-dl-luad:
-          <<: *filter
-      - test-dl-colon:
-          <<: *filter
-      - test-dl-ovarian:
-          <<: *filter
+#      - test-dl-brca:
+#          <<: *filter
+#      - test-dl-ccrcc:
+#          <<: *filter
+#      - test-dl-luad:
+#          <<: *filter
+#      - test-dl-colon:
+#          <<: *filter
+#      - test-dl-ovarian:
+#          <<: *filter
+#      - test-dl-hnscc:
+#          <<: *filter
       - test-dl-endometrial:
-          <<: *filter
-      - test-dl-hnscc:
           <<: *filter
       - imputation:
           requires:
@@ -116,5 +116,13 @@ jobs:
           name: Run imputation
           command: cd ~/project/imputation && cwltool imputation-tool.cwl --input_f /tmp/workspace/slim_file.tsv --use_missForest false
           no_output_timeout: 1h
-
+      - run:
+          name: Test that file was imputed
+          command: |
+            if [ -f ~/project/imputation/imputed_file.tsv ]; then
+                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
 
