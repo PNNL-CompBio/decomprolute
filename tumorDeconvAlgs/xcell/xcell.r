@@ -2,20 +2,35 @@
 args <- commandArgs(TRUE)
 if (!is.null(args[1])) {
     df <- read.csv(args[1], sep = "\t", row.names = 1)
+    if (max(df, na.rm = TRUE) < 50) {
+        df <- 2^df
+    }
 } else {
     stop("No expression matrix provided!")
 }
 
-library("xCell")
+library(xCell)
 
-if (!is.null(args[2])) {
+if (length(args) > 1) {
     ref <- read.csv(args[2], sep = "\t", row.names = 1) ### Need to change later
     ref <- as.data.frame(ref[intersect(rownames(ref), rownames(df)),])
     cellTypeNames <- colnames(ref)
     marker <- list()
     taggedNames <- c()
     for (i in seq(dim(ref)[2])) {
-        marker[[i]] <- rownames(ref[ref[,i] > quantile(ref[,i], prob=0.90),])
+        s = cellTypeNames[i]
+        tempMarkers <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.75),])
+        if (length(args) > 2) {
+            if (tolower(args[3]) == "pairwise") {
+                tempTb = 2 * ref[,cellTypeNames[cellTypeNames != s]] - ref[,s]
+                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
+            } else {
+                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+            }
+        } else {
+            tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+        }
+        marker[[i]] <- tempMarkers
         taggedNames <- c(taggedNames, paste0(colnames(ref)[i], "%", cellTypeNames[i], toString(i), "%", cellTypeNames[i], toString(i), ".txt"))
     }
     
