@@ -17,17 +17,21 @@ if (length(args) > 1) {
     markerGenes <- c()
     for (s in colnames(ref)) {
         tempMarkers <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.75),])
+        markers <- c()
         if (length(args) > 2) {
             if (tolower(args[3]) == "pairwise") {
                 tempTb = 2 * ref[,cellTypeNames[cellTypeNames != s]] - ref[,s]
-                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
+                markers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
             } else {
-                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+                markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
             }
         } else {
-            tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+            markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
         }
-        genesTemp <- tempMarkers
+        if (length(markers) == 0) {
+            markers <- names(which.max((ref[tempMarkers,s] - rowMeans(ref[tempMarkers,]))/rowMeans(ref[tempMarkers,])))
+        }
+        genesTemp <- markers
         markerGenes <- c(markerGenes, genesTemp)
         # genesNull <- rownames(ref)[!(rownames(ref) %in% genesTemp)]
         # ref[genesNull, s] <- 0.0
