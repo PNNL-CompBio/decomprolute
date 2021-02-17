@@ -39,34 +39,28 @@ There are numerous ways to define the individual cell types we are using to run 
 | LM7c | Seven cell types (B, CD4 T, CD8 T, dendritic cells, granulocytes, monocytes, NK) collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
 | 3' PBMCs | Seven cell types (B, CD4 T, CD8 T (CD8 T + NK T), dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
 | LM10 | Ten cell types predicted by MCPCounter signature | |
-| ? | Should we add additional cell type markers? | |
+| LM22 | The original matrix from cibersort  | |
 
 
-### Proteomic data collection
-We have collect pre-formatted sample data from the [CPTAC Python API](https://github.com/PayneLab/cptac) to better match the mRNA data. This CWL tool and Docker image are in the [protData](./protData) directory.
+### Data collection
+We have collect pre-formatted sample data from the [CPTAC Python API](https://github.com/PayneLab/cptac) to better match the mRNA data. This CWL tool and Docker image are in the [protData](./protData) and [mRNAdata](./mRNAData) directories.
 
-To run:
+Below are the available tumor types:
 
-``` shell
-cd protData
-docker build -t sgosline/prot-dat
-cwl-runner prot-data-cwl-tool.cwl
-```
-This will output a `file.tsv` containing a matrix of protein values.
+Dataset name | Description | Data reuse status | Publication link
+-- | -- | -- | --
+Brca | breast cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33212010/
+Ccrcc | clear cell renal cell carcinoma (kidney) | no restrictions | https://pubmed.ncbi.nlm.nih.gov/31675502/
+Colon | colorectal cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/31031003/
+Endometrial | endometrial carcinoma (uterine) | no restrictions | https://pubmed.ncbi.nlm.nih.gov/32059776/
+**Gbm | glioblastoma | password access only | unpublished**
+Hnscc | head and neck squamous cell carcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33417831/
+**Lscc | lung squamous cell carcinoma | password access only | unpublished**
+Luad | lung adenocarcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/32649874/
+Ovarian | high grade serous ovarian cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/27372738/
+**Pdac | pancreatic ductal adenocarcinoma | password access only | unpublished**
 
-We will also build a script/image that computes tumor-normal data from the [Proteomic Data Commons](https://proteomic.datacommons.cancer.gov/pdc/) in a self-contained docker image that selects the most differentially expressed proteins in each tumor sample. This can be found in the [protData](./protData) directory.
+As such, datasets have been updated to following (added hnscc):
+['brca', 'ccrcc', 'endometrial', 'colon', 'ovarian', 'hnscc', 'luad']
 
 
-
-
-### mRNA data collection
-All data is currently being downloaded via the [CPTAC Python API](https://github.com/PayneLab/cptac) to pull matched mRNA data for each proteomic patient sample. The code is located in the [mRNA module](./mRNAData).
-
-To run:
-
-``` shell
-cd mRNAData
-docker build -t sgosline/mrna-dat .
-cwl-runner mrna-data-cwl-tool.cwl --cancerType ccrcc
-```
-This will output a file.tsv that includes a matrix of CCRCC data.
