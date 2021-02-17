@@ -47,7 +47,7 @@ if (length(args) > 1) {
     spill[["K"]] <- matrix(1/length(cellTypeNames), nrow = length(cellTypeNames), ncol = length(cellTypeNames), dimnames = list(cellTypeNames, cellTypeNames))
     spill[["fv"]] <- as.data.frame(matrix(1, nrow = length(cellTypeNames), ncol = 3, dimnames = list(cellTypeNames, c("V1", "V2", "V3"))))
     
-    xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE)
+    xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
 } else {
     xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv")
 }
