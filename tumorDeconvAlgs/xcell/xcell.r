@@ -9,7 +9,10 @@ if (!is.null(args[1])) {
     stop("No expression matrix provided!")
 }
 
+library(matrixStats)
 library(xCell)
+
+BiocParallel::register(BiocParallel::SerialParam())
 
 if (length(args) > 1) {
     ref <- read.csv(args[2], sep = "\t", row.names = 1) ### Need to change later
@@ -20,17 +23,23 @@ if (length(args) > 1) {
     for (i in seq(dim(ref)[2])) {
         s = cellTypeNames[i]
         tempMarkers <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.75),])
+        markers <- c()
         if (length(args) > 2) {
             if (tolower(args[3]) == "pairwise") {
                 tempTb = 2 * ref[,cellTypeNames[cellTypeNames != s]] - ref[,s]
-                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
+                markers <- tempMarkers[tempMarkers %in% rownames(ref[rowSums(tempTb < 0) == (length(cellTypeNames) - 1), ])]
             } else {
-                tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+                markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMedians(as.matrix(ref))]]
             }
         } else {
-            tempMarkers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMeans(ref)]]
+            markers <- tempMarkers[tempMarkers %in% rownames(ref)[ref[,s] > 2 * rowMedians(as.matrix(ref))]]
         }
-        marker[[i]] <- tempMarkers
+        if (length(markers) == 0) {
+            # tempMarkers <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.5),])
+            deOverMedians <- (ref[tempMarkers,s] - rowMedians(as.matrix(ref[tempMarkers,])))/rowMedians(as.matrix(ref[tempMarkers,]))
+            markers <- tempMarkers[deOverMedians > quantile(deOverMedians, prob=0.9)]
+        }
+        marker[[i]] <- markers
         taggedNames <- c(taggedNames, paste0(colnames(ref)[i], "%", cellTypeNames[i], toString(i), "%", cellTypeNames[i], toString(i), ".txt"))
     }
     
@@ -40,7 +49,7 @@ if (length(args) > 1) {
     spill[["K"]] <- matrix(1/length(cellTypeNames), nrow = length(cellTypeNames), ncol = length(cellTypeNames), dimnames = list(cellTypeNames, cellTypeNames))
     spill[["fv"]] <- as.data.frame(matrix(1, nrow = length(cellTypeNames), ncol = 3, dimnames = list(cellTypeNames, c("V1", "V2", "V3"))))
     
-    xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE)
+    xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
 } else {
     xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv")
 }
