@@ -10,6 +10,7 @@ ENV BIN /usr/local/bin
 WORKDIR $SRC
 
 RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
+    Rscript -e 'install.packages("matrixStats")' && \
     Rscript -e 'install.packages("devtools")' && \
     Rscript -e 'install.packages("remotes")' && \
     #Rscript -e 'install.packages(c("devtools","curl","remotes"))' && \
