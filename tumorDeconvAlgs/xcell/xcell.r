@@ -12,6 +12,8 @@ if (!is.null(args[1])) {
 library(matrixStats)
 library(xCell)
 
+BiocParallel::register(BiocParallel::SerialParam())
+
 if (length(args) > 1) {
     ref <- read.csv(args[2], sep = "\t", row.names = 1) ### Need to change later
     ref <- as.data.frame(ref[intersect(rownames(ref), rownames(df)),])
