@@ -9,6 +9,12 @@ This tool can be run from the command-line with the CWL tool file and an input Y
 cwl-runner imputation-tool.cwl imputation-input.yml 
 ```
 
+This tool can also be run with a cwl engine without an input file as follows:
+
+```shell
+cwl-runner imputation-tool.cwl --input_f test-data.tsv --use_missForest false
+```
+
 This will output an `imputed_file.tsv` containing a tab-separated matrix of imputed protein values in the CWL tool's working directory.
 
 ### Inputs
