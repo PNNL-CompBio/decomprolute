@@ -45,10 +45,16 @@ if (length(args) > 1) {
     epicRef$sigGenes <- markerGenes
     
     sigMatName <- substr(args[2], 1, nchar(args[2])-4)
-    meanFile <- 
-    
-    epicRef$refProfiles <- ref
-    
+    meanFile <- paste0("/data/", sigMatName, "_refMean.txt")
+    stdFile <- paste0("/data/", sigMatName, "_refStd.txt")
+    if (file.exists(meanFile)) {
+        epicRef$refProfiles <- read.csv(meanFile, sep = "\t", row.names = 1)
+    } else {
+        epicRef$refProfiles <- ref
+    }
+    if (file.exists(stdFile)) {
+        epicRef$refProfiles.var <- read.csv(stdFile, sep = "\t", row.names = 1)
+    }
     xc <- EPIC(bulk = df, reference = epicRef)
 } else {
     xc <- EPIC(bulk = df)
