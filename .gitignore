@@ -264,3 +264,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore repBulk outputs
+tumorDeconvAlgs/repBulk/output*
