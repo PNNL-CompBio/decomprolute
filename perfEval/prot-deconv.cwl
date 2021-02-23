@@ -88,6 +88,19 @@ steps:
          valueFrom: 'prot'
        cancerType: cancerType       
      out: [deconvoluted]
+  run-repbulk:
+    run: ../tumorDeconvAlgs/repBulk/rep-bulk.cwl
+    when: $(inputs.protAlg == 'repbulk')
+    in:
+      expressionFile:
+        source: download-prot/matrix
+      signatureMatrix: signature
+      protAlg: protAlg
+      type:
+        valueFrom: 'prot'
+      cancerType: cancerType
+    out:
+      [deconvoluted]
   
 outputs:
   deconvoluted:
