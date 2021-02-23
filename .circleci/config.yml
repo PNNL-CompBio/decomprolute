@@ -144,5 +144,23 @@ jobs:
           name: Run rep-bulk
           command: |
             cd ~/project/tumorDeconvAlgs/repBulk
-            cwltool rep-bulk.cwl --expressionFile=test_data.tsv --signatureMatrix=~/project/signature_matrices/LM22.txt
+            cwltool rep-bulk.cwl --expressionFile=test_data.tsv --signatureMatrix=../../signature_matrices/LM22.txt
           no_output_timeout: 1h
+      - run:
+          name: Test that TSV output was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/repBulk/output_rep_bulk.tsv ]; then
+                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
+      - run:
+          name: Test that Rdata file was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/repBulk/output_rep_bulk_gibbs.Rdata ]; then
+                echo "output_rep_bulk_gibbs.Rdata successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
