@@ -9,21 +9,26 @@ filter: &filter
 
 
 workflows:
-  test:
+  test-with-cwl:
     jobs:
-      - test-dl-brca:
-          <<: *filter
-      - test-dl-ccrcc:
-          <<: *filter
-      - test-dl-luad:
-          <<: *filter
-      - test-dl-colon:
-          <<: *filter
-      - test-dl-ovarian:
-          <<: *filter
-      - test-dl-endometrial:
-          <<: *filter
-
+      - rep-bulk
+#      - test-dl-brca:
+#          <<: *filter
+#      - test-dl-ccrcc:
+#          <<: *filter
+#      - test-dl-luad:
+#          <<: *filter
+#      - test-dl-colon:
+#          <<: *filter
+#      - test-dl-ovarian:
+#          <<: *filter
+##      - test-dl-hnscc:
+##          <<: *filter
+#      - test-dl-endometrial:
+#          <<: *filter
+#      - imputation:
+#          requires:
+#            - test-dl-endometrial
 
 executors:
   ubuntu:
@@ -54,7 +59,10 @@ commands:
                 echo "Test cases failed !!!"
                 exit 1
             fi
-
+      - persist_to_workspace:
+          root: protData
+          paths:
+            - file.tsv
 
 jobs:
   test-dl-brca:
@@ -87,5 +95,72 @@ jobs:
     steps:
       - download-data:
           cancerType: 'endometrial'
-
-
+  test-dl-hnscc:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'hnscc'
+  imputation:
+    executor: ubuntu
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ls /tmp/workspace
+      - run:
+          name: Slim down test file
+          command: head -n 1000 /tmp/workspace/file.tsv > /tmp/workspace/slim_file.tsv
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run imputation
+          command: cd ~/project/imputation && cwltool imputation-tool.cwl --input_f /tmp/workspace/slim_file.tsv --use_missForest false
+          no_output_timeout: 1h
+      - run:
+          name: Test that file was imputed
+          command: |
+            if [ -f ~/project/imputation/imputed_file.tsv ]; then
+                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
+      - persist_to_workspace:
+          root: imputation
+          paths:
+            - imputed_file.tsv
+  rep-bulk:
+    executor: ubuntu
+    steps:
+      - checkout
+#      - attach_workspace:
+#          at: /tmp/workspace
+#      - run: ls /tmp/workspace
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run rep-bulk
+          command: |
+            cd ~/project/tumorDeconvAlgs/repBulk
+            cwltool rep-bulk.cwl --expressionFile=test_data.tsv --signatureMatrix=../../signature_matrices/LM22.txt
+          no_output_timeout: 1h
+      - run:
+          name: Test that TSV output was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/repBulk/output_rep_bulk.tsv ]; then
+                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
+      - run:
+          name: Test that Rdata file was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/repBulk/output_rep_bulk_gibbs.Rdata ]; then
+                echo "output_rep_bulk_gibbs.Rdata successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
