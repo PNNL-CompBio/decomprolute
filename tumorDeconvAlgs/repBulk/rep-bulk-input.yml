@@ -1,0 +1,6 @@
+expressionFile:
+  class: File
+  path: test_data.tsv
+signatureMatrix:
+  class: File
+  path: ../../signature_matrices/LM22.txt
