@@ -42,8 +42,12 @@ if (length(args) > 1) {
     markerGenes <- unique(markerGenes)
     
     epicRef <- list()
-    epicRef$refProfiles <- ref
     epicRef$sigGenes <- markerGenes
+    
+    sigMatName <- substr(args[2], 1, nchar(args[2])-4)
+    meanFile <- 
+    
+    epicRef$refProfiles <- ref
     
     xc <- EPIC(bulk = df, reference = epicRef)
 } else {
