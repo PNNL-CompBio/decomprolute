@@ -8,16 +8,14 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: Rscript
 
-
 arguments:
   - /bin/main.R
-
 
 requirements:
   - class: DockerRequirement
     dockerPull: tumordeconv/rep-bulk
-
-
+  - class: InlineJavascriptRequirement
+  
 inputs:
   expressionFile:
     type: File
@@ -29,13 +27,25 @@ inputs:
     inputBinding:
       position: 2
       prefix: --signatureMatrix
+  type:
+    type: string
+  cancerType:
+    type: string
 
 outputs:
-    matrix:
-        type: File
-        outputBinding:
-            glob: "output_rep_bulk.tsv"
-    gibbs:
-        type: File
-        outputBinding:
-            glob: "output_rep_bulk_gibbs.Rdata"
+  deconvoluted:
+    type: File
+    outputBinding:
+       glob: "output_rep_bulk.tsv"
+       outputEval: |
+          ${
+            var mat = inputs.signatureMatrix.nameroot
+            var name = inputs.cancerType + '-repbulk-'+ mat + '-'+inputs.type+'-deconv.tsv'
+            self[0].basename = name;
+            return self[0]
+           }
+            
+#    gibbs:
+#        type: File
+#        outputBinding:
+#            glob: "output_rep_bulk_gibbs.Rdata"
