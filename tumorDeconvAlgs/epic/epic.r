@@ -51,7 +51,7 @@ if (length(args) > 1) {
         epicRef$refProfiles <- read.csv(meanFile, sep = "\t", row.names = 1)
     } else {
         epicRef$refProfiles <- ref
-	warning("Reference profile was not provided or can not be found, using the signature matrix instead")
+        warning("Reference profile was not provided or can not be found, using the signature matrix instead")
     }
     if (file.exists(stdFile)) {
         epicRef$refProfiles.var <- read.csv(stdFile, sep = "\t", row.names = 1)
