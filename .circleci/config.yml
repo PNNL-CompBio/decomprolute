@@ -11,16 +11,17 @@ filter: &filter
 workflows:
   test-with-cwl:
     jobs:
-#      - test-dl-brca:
-#          <<: *filter
-#      - test-dl-ccrcc:
-#          <<: *filter
-#      - test-dl-luad:
-#          <<: *filter
-#      - test-dl-colon:
-#          <<: *filter
-#      - test-dl-ovarian:
-#          <<: *filter
+      - rep-bulk
+      - test-dl-brca:
+          <<: *filter
+      - test-dl-ccrcc:
+          <<: *filter
+      - test-dl-luad:
+          <<: *filter
+      - test-dl-colon:
+          <<: *filter
+      - test-dl-ovarian:
+          <<: *filter
 #      - test-dl-hnscc:
 #          <<: *filter
       - test-dl-endometrial:
@@ -125,4 +126,24 @@ jobs:
                 echo "Test cases failed !!!"
                 exit 1
             fi
-
+      - persist_to_workspace:
+          root: imputation
+          paths:
+            - imputed_file.tsv
+  rep-bulk:
+    executor: ubuntu
+    steps:
+      - checkout
+#      - attach_workspace:
+#          at: /tmp/workspace
+#      - run: ls /tmp/workspace
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run rep-bulk
+          command: |
+            cd ~/project/repBulk && cwltool rep-bulk.cwl \
+            --expressionFile=test_data.tsv \
+            --signatureMatrix=~/project/signature_matrices/LM22.txt
+          no_output_timeout: 1h
