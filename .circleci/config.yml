@@ -12,23 +12,23 @@ workflows:
   test-with-cwl:
     jobs:
       - rep-bulk
-      - test-dl-brca:
-          <<: *filter
-      - test-dl-ccrcc:
-          <<: *filter
-      - test-dl-luad:
-          <<: *filter
-      - test-dl-colon:
-          <<: *filter
-      - test-dl-ovarian:
-          <<: *filter
-#      - test-dl-hnscc:
+#      - test-dl-brca:
 #          <<: *filter
-      - test-dl-endometrial:
-          <<: *filter
-      - imputation:
-          requires:
-            - test-dl-endometrial
+#      - test-dl-ccrcc:
+#          <<: *filter
+#      - test-dl-luad:
+#          <<: *filter
+#      - test-dl-colon:
+#          <<: *filter
+#      - test-dl-ovarian:
+#          <<: *filter
+##      - test-dl-hnscc:
+##          <<: *filter
+#      - test-dl-endometrial:
+#          <<: *filter
+#      - imputation:
+#          requires:
+#            - test-dl-endometrial
 
 executors:
   ubuntu:
