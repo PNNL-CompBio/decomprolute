@@ -1,31 +1,26 @@
 #!/bin/sh
 
-#SBATCH -A hyperbio
+#SBATCH -A br20_feng626
 #SBATCH -t 168:00:00
 #SBATCH -N 1
-
-#SBATCH -n 24
-#SBATCH -J egfr_sbt
-#SBATCH -o egfr_sbt.log
-#SBATCH -e egfr_sbt.err
+#SBATCH -n 40
+#SBATCH -J imputation
+#SBATCH -o imputation.log
+#SBATCH -e imputation.err
 
 
 module purge
+module load singularity/3.6.3
 module load python/anaconda3.2019.3
 source /share/apps/python/anaconda3.2019.3/etc/profile.d/conda.sh
 conda init zsh
-conda activate te
+conda activate omics
 
-export PATH=/people/feng626/.conda/envs/te/bin:$PATH
+export PATH=/people/feng626/.conda/envs/omics/bin:$PATH
 
-cd /people/feng626/EGFR/EGFRActivation
+cd /people/feng626/proteomicsTumorDeconv/perfEval
 
-for i in `seq 0 23`; do
-    python ./fitting.py $i /people/feng626/EGFR/EGFRActivation/ &
-done
-
-wait
-
+cwltool --singularity scatter-imputation.cwl fig4-eval.yml
 
 
 
