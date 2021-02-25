@@ -1,7 +1,7 @@
 #!/usr/bin/env cwltool
 class: Workflow
-label: scatter-test
-id: scatter-test
+label: scatter-imputation
+id: scatter-imputation
 cwlVersion: v1.2
 
 
@@ -44,7 +44,7 @@ outputs:
 
 steps:
    run-all-algs-by-sig:
-      run: call-deconv-and-cor.cwl
+      run: imputed-vs-unimputed.cwl
       scatter: [signature,prot-alg,cancerType,tissueType]
       scatterMethod: flat_crossproduct
       in:
@@ -53,7 +53,7 @@ steps:
         cancerType: cancerTypes
         tissueType: tissueTypes
       out:
-        [pat-cor-file,cell-cor-file,prot-file,mrna-file]
+        [pat-cor-file,cell-cor-file,prot-file,prot-file-imputed]
    get-patient-cors:
       run: figures/plot-figs.cwl
       in:
