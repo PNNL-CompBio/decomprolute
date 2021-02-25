@@ -1,9 +1,10 @@
 #!/bin/sh
 
-#SBATCH -A br20_feng626
+#SBATCH -A hyperbio
 #SBATCH -t 168:00:00
 #SBATCH -N 1
-#SBATCH -n 40
+#SBATCH -n 24
+#SBATCH -p slurm7
 #SBATCH -J imputation
 #SBATCH -o imputation.log
 #SBATCH -e imputation.err
