@@ -5,9 +5,9 @@
 #SBATCH -N 1
 #SBATCH -n 24
 #SBATCH -p slurm7
-#SBATCH -J imput0
-#SBATCH -o imput0.log
-#SBATCH -e imput0.err
+#SBATCH -J imput1
+#SBATCH -o imput1.log
+#SBATCH -e imput1.err
 
 
 module purge
@@ -32,8 +32,8 @@ export CWL_SINGULARITY_CACHE=/people/feng626/.singularity/cwl
 
 export XDG_RUNTIME_DIR=/people/feng626/temp
 
-cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
+cd /people/feng626/proteomicsTumorDeconv/perfEval
 
-#cwltool --singularity --cachedir .cache scatter-imputation.cwl fig4-eval.yml
-cwltool --singularity --parallel --cachedir .cache scatter-imputation.cwl fig4-eval.yml
+toil-cwl-runner --singularity scatter-imputation.cwl fig4-eval.yml
+#cwltool --singularity --parallel --cachedir .cache scatter-imputation.cwl fig4-eval.yml
 
