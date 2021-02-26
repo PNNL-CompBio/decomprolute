@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#SBATCH -A hyperbio
+#SBATCH -A br20_gosl241
 #SBATCH -t 168:00:00
 #SBATCH -N 1
 #SBATCH -n 24
@@ -35,4 +35,4 @@ export XDG_RUNTIME_DIR=$HOME/temp
 cd /people/gosl241/proteomicsTumorDeconv/perfEval
 
 
-toil-cwl-runner --singularity --parellel --cachdir .cache scatter-test.cwl fig2-eval.yml
+toil-cwl-runner --singularity scatter-test.cwl fig2-eval.yml
