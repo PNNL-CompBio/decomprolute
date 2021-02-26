@@ -23,6 +23,7 @@ export PATH=/people/feng626/.nvm/versions/node/v15.8.0/bin:$PATH
 module load singularity/3.6.3
 
 export SINGULARITY_CACHEDIR=/pic/scratch/feng626/singularity
+export CWL_SINGULARITY_CACHE=/pic/scratch/feng626/singularity
 
 cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
 
