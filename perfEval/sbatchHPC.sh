@@ -5,9 +5,9 @@
 #SBATCH -N 1
 #SBATCH -n 24
 #SBATCH -p slurm7
-#SBATCH -J imputation
-#SBATCH -o imputation.log
-#SBATCH -e imputation.err
+#SBATCH -J imput0
+#SBATCH -o imput0.log
+#SBATCH -e imput0.err
 
 
 module purge
@@ -34,10 +34,6 @@ export XDG_RUNTIME_DIR=/people/feng626/temp
 
 cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
 
-#cwltool --singularity scatter-imputation.cwl fig4-eval.yml
-cwltool --singularity --parallel scatter-imputation.cwl fig4-eval.yml
-
-
-
-
+#cwltool --singularity --cachedir .cache scatter-imputation.cwl fig4-eval.yml
+cwltool --singularity --parallel --cachedir .cache scatter-imputation.cwl fig4-eval.yml
 
