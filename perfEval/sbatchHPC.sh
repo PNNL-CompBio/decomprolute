@@ -30,6 +30,8 @@ export SINGULARITY_TMPDIR=/pic/scratch/feng626/singularity/singularity_tmp
 export SINGULARITYENV_TMPDIR=/pic/scratch/feng626/singularity/singularity_tmp
 export CWL_SINGULARITY_CACHE=/pic/scratch/feng626/singularity/singularity_cwl
 
+export XDG_RUNTIME_DIR=/nonexistent
+
 cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
 
 cwltool --singularity scatter-imputation.cwl fig4-eval.yml
