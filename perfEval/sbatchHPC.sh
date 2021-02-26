@@ -30,7 +30,7 @@ export SINGULARITY_TMPDIR=/pic/scratch/feng626/singularity/singularity_tmp
 export SINGULARITYENV_TMPDIR=/pic/scratch/feng626/singularity/singularity_tmp
 export CWL_SINGULARITY_CACHE=/pic/scratch/feng626/singularity/singularity_cwl
 
-export XDG_RUNTIME_DIR=/nonexistent
+export XDG_RUNTIME_DIR=/people/feng626/temp
 
 cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
 
