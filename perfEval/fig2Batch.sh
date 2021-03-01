@@ -28,6 +28,8 @@ export SINGULARITY_CACHEDIR=$HOME/.singularity
 export SINGULARITYENV_CACHEDIR=$HOME/.singularity
 export CWL_SINGULARITY_CACHE=$HOME/.singularity/cwl
 
+mkdir $HOME/temp
+
 export XDG_RUNTIME_DIR=$HOME/temp
 
 
@@ -36,3 +38,4 @@ cd /people/gosl241/proteomicsTumorDeconv/perfEval
 
 
 toil-cwl-runner --singularity --workDir ./ --maxCores 10 scatter-test.cwl fig2-eval.yml
+
