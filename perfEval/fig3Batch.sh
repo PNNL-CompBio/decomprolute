@@ -5,9 +5,9 @@
 #SBATCH -N 1
 #SBATCH -n 24
 #SBATCH -p slurm7
-#SBATCH -J fig2
-#SBATCH -o fig2.log
-#SBATCH -e fig2.err
+#SBATCH -J fig3
+#SBATCH -o fig3.log
+#SBATCH -e fig3.err
 
 
 module purge
@@ -35,4 +35,4 @@ export XDG_RUNTIME_DIR=$HOME/temp
 cd /people/gosl241/proteomicsTumorDeconv/perfEval
 
 
-toil-cwl-runner --singularity --workDir ./ --maxCores 10 scatter-test.cwl fig2-eval.yml
+toil-cwl-runner --singularity --workDir ./ --maxCores 10 scatter-test.cwl fig3-eval.yml
