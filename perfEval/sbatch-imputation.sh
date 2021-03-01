@@ -34,6 +34,6 @@ export XDG_RUNTIME_DIR=/people/feng626/temp
 
 cd /people/feng626/proteomicsTumorDeconv/perfEval
 
-toil-cwl-runner --singularity scatter-imputation.cwl fig4-eval.yml
+toil-cwl-runner --singularity --outdir ./fig4 --workDir /qfs/people/feng626/tmp --tmpdir-prefix /qfs/people/feng626/tmp  scatter-imputation.cwl fig4-eval.yml
 #cwltool --singularity --parallel --cachedir .cache scatter-imputation.cwl fig4-eval.yml
 
