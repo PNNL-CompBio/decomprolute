@@ -2,7 +2,7 @@
 
 label: run-cibersort-tool
 id: run-cibersort-tool
-cwlVersion: v1.0
+cwlVersion: v1.2
 class: CommandLineTool
 baseCommand: Rscript
 
