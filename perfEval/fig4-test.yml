@@ -1,6 +1,6 @@
 cancerTypes:
-  - endometrial
-  - ccrcc
+  - luad
+  - brca
 prot-algorithms:
   - mcpcounter
   - epic
