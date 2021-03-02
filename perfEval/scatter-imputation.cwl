@@ -42,8 +42,8 @@ steps:
     scatter: [cancerType, sampleType]
     scatterMethod: flat_crossproduct
     in:
-      cancerType: cancerType
-      sampleType: tissueType
+      cancerType: cancerTypes
+      sampleType: tissueTypes
     out:
       [matrix]
 
@@ -61,11 +61,13 @@ steps:
 
   deconv-prot:
     run: prot-deconv-imputed.cwl
+    scatter: [expression, protAlg, signature]
+    scatterMethod: flat_crossproduct
     in:
       expression: 
         source: download-prot/matrix
       protAlg: prot-algorithms
-      signature: signature
+      signature: signatures
     out: [deconvoluted]
 
   deconv-prot-imputed:
@@ -76,5 +78,5 @@ steps:
       expression:
         source: impute-prot/matrix
       protAlg: prot-algorithms
-      signature: signature
+      signature: signatures
     out: [deconvoluted]
