@@ -24,11 +24,10 @@ inputs:
     type: File
     inputBinding:
       position: 2
-  type:
-    type: string
-  cancerType:
-    type: string
-
+  # dataType:
+  #   type: string
+  # cancerType:
+  #   type: string
 
 outputs:
   deconvoluted:
@@ -38,7 +37,8 @@ outputs:
        outputEval: |
          ${
            var mat = inputs.signature.nameroot
-           var name = inputs.cancerType + '-xcell-'+ mat + '-'+inputs.type+'-deconv.tsv'
+           var cancer = inputs.expression.nameroot
+           var name = cancer + '-xcell-'+ mat + '.tsv'
            self[0].basename = name;
            return self[0]
            }

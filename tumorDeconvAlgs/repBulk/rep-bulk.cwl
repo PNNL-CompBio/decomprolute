@@ -27,23 +27,24 @@ inputs:
     inputBinding:
       position: 2
       prefix: --signatureMatrix
-  type:
-    type: string
-  cancerType:
-    type: string
+  # dataType:
+  #   type: string
+  # cancerType:
+  #   type: string
 
 outputs:
   deconvoluted:
     type: File
     outputBinding:
-       glob: "output_rep_bulk.tsv"
-       outputEval: |
-          ${
-            var mat = inputs.signatureMatrix.nameroot
-            var name = inputs.cancerType + '-repbulk-'+ mat + '-'+inputs.type+'-deconv.tsv'
-            self[0].basename = name;
-            return self[0]
-           }
+      glob: "output_rep_bulk.tsv"
+      outputEval: |
+        ${
+          var mat = inputs.signatureMatrix.nameroot
+          var cancer = inputs.expression.nameroot
+          var name = cancer + '-repbulk-'+ mat + '.tsv'
+          self[0].basename = name;
+          return self[0]
+          }
             
 #    gibbs:
 #        type: File

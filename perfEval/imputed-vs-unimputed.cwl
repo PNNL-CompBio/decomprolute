@@ -10,10 +10,18 @@ requirements:
   - class: InlineJavascriptRequirement
   
 inputs:
-   signature: File
-   prot-alg: string
-   cancerType: string
-   tissueType: string
+   signature:
+     type:
+       File
+   prot-alg:
+     type:
+       string
+   cancerType:
+     type:
+       string
+   tissueType:
+     type:
+       string
 
 outputs:
   pat-cor-file:
@@ -30,6 +38,22 @@ outputs:
      outputSource: deconv-prot-imputed/deconvoluted
 
 steps:
+  download-prot:
+    run: ../protData/prot-data-cwl-tool.cwl
+    in:
+      cancerType: cancerType
+      sampleType: tissueType
+    out:
+      [matrix]
+  impute-prot:
+    run: ../imputation/imputation-tool.cwl
+    in:
+      input_f:
+        source: download-prot/matrix
+      use_missForest:
+        valueFrom: 'false'
+    out:
+      [matrix]
   deconv-prot-imputed:
      run: prot-deconv-imputed.cwl
      in:
