@@ -64,7 +64,7 @@ steps:
     in:
       expression: 
         source: download-prot/matrix
-      protAlg: prot-alg
+      protAlg: prot-algorithms
       signature: signature
     out: [deconvoluted]
 
@@ -75,6 +75,6 @@ steps:
     in:
       expression:
         source: impute-prot/matrix
-      protAlg: prot-alg
+      protAlg: prot-algorithms
       signature: signature
     out: [deconvoluted]
