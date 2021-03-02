@@ -4,10 +4,9 @@
 
 label: imputation-tool
 id:  imputation-tool
-cwlVersion: v1.0
+cwlVersion: v1.2
 class: CommandLineTool
 baseCommand: Rscript
-
 
 arguments:
   - /bin/DreamAI.R
@@ -26,7 +25,6 @@ inputs:
       position: 1
   use_missForest:
     type: string?
-    default: "false"
     inputBinding:
       position: 2
 
