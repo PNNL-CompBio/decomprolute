@@ -16,6 +16,7 @@ arguments:
 requirements:
   - class: DockerRequirement
     dockerPull: cptacdream/sub1
+  - class: InlineJavascriptRequirement
 
 
 inputs:

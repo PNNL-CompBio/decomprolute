@@ -12,6 +12,7 @@ arguments:
 requirements:
     - class: DockerRequirement
       dockerPull: tumordeconv/mrna-data
+    - class: InlineJavascriptRequirement
 
 inputs:
     cancerType:
@@ -34,7 +35,7 @@ outputs:
             glob: "file.tsv"
             outputEval: |
                 ${
-                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' 'mrna.tsv'
+                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' + 'mrna.tsv'
                   self[0].basename = name;
                   return self[0]
-                }
+                  }

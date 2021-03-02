@@ -8,7 +8,6 @@ prot-algorithms:
   - cibersort
 tissueTypes:
    - tumor
-   - normal
 signatures:
   - class: File
     path: ../signature_matrices/LM7c.txt
