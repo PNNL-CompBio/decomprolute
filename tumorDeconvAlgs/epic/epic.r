@@ -44,7 +44,7 @@ if (length(args) > 1) {
     epicRef <- list()
     epicRef$sigGenes <- markerGenes
     
-    sigMatName <- substr(args[2], 1, nchar(args[2])-4)
+    sigMatName <- tools::file_path_sans_ext(basename(args[2]))
     meanFile <- paste0("/data/", sigMatName, "_refMean.txt")
     stdFile <- paste0("/data/", sigMatName, "_refStd.txt")
     if (file.exists(meanFile)) {
