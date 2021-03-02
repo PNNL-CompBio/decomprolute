@@ -1,13 +1,13 @@
 cancerTypes:
-  - luad
-  - brca
+  - endometrial
+  - ccrcc
 prot-algorithms:
   - mcpcounter
   - epic
   - xcell
   - cibersort
 tissueTypes:
-   - tumor
+   - all
 signatures:
   - class: File
     path: ../signature_matrices/LM7c.txt
