@@ -1,4 +1,4 @@
-#!/usr/bin/env cwltool
+#!/usr/bin/env cwl-runner
 
 label: mrna-data-cwl-tool
 id:  mrna-data-cwl-tool
@@ -22,7 +22,7 @@ inputs:
 
     sampleType:
         type: string?
-        # default: "all"
+        default: "all"
         inputBinding:
             position: 2
             prefix: --sampleType
@@ -32,3 +32,9 @@ outputs:
         type: File
         outputBinding:
             glob: "file.tsv"
+            outputEval: |
+                ${
+                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' 'mrna.tsv'
+                  self[0].basename = name;
+                  return self[0]
+                }
