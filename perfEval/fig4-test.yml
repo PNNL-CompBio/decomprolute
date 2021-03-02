@@ -6,7 +6,6 @@ prot-algorithms:
   - epic
   - xcell
   - cibersort
-  - repbulk
 tissueTypes:
    - tumor
    - normal
