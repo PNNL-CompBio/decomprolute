@@ -4,14 +4,7 @@ RUN apt-get update && apt-get install -y gcc g++ perl python automake make wget 
 
 # texlive-full
 RUN mkdir /data
-RUN wget -O /data/LM7c_refMean.txt --no-check-certificate https://ndownloader.figshare.com/files/26576421
-RUN wget -O /data/LM7c_refStd.txt --no-check-certificate https://ndownloader.figshare.com/files/26576423
-RUN wget -O /data/LM9_refMean.txt --no-check-certificate https://ndownloader.figshare.com/files/26576447
-RUN wget -O /data/LM9_refStd.txt --no-check-certificate https://ndownloader.figshare.com/files/26576439
-RUN wget -O /data/LM22_refMean.txt --no-check-certificate https://ndownloader.figshare.com/files/26576431
-RUN wget -O /data/PBMC_refMean.txt --no-check-certificate https://ndownloader.figshare.com/files/26576433
-RUN wget -O /data/PBMC_refStd.txt --no-check-certificate https://ndownloader.figshare.com/files/26576429
-
+ADD data /data
 
 ENV SRC /usr/local/src
 ENV BIN /usr/local/bin
