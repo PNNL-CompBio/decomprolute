@@ -5,9 +5,9 @@
 #SBATCH -N 1
 #SBATCH -n 24
 #SBATCH -p slurm7
-#SBATCH -J imput3
-#SBATCH -o imput3.log
-#SBATCH -e imput3.err
+#SBATCH -J imput
+#SBATCH -o imput.log
+#SBATCH -e imput.err
 
 
 module purge
