@@ -3,7 +3,7 @@
 #SBATCH -A hyperbio
 #SBATCH -t 168:00:00
 #SBATCH -N 1
-#SBATCH -n 24
+#SBATCH -n 8
 #SBATCH -p slurm7
 #SBATCH -J imput
 #SBATCH -o imput.log
@@ -35,5 +35,5 @@ export XDG_RUNTIME_DIR=/people/feng626/tmp
 cd /people/feng626/proteomicsTumorDeconv/perfEval
 
 #toil-cwl-runner --singularity --outdir ./fig4 --workDir $PWD --tmpdir-prefix tmp/runtime  scatter-imputation.cwl fig4-eval.yml
-cwltool --singularity --parallel --outdir fig4 --tmpdir-prefix tmp/runtime --basedir $PWD --cachedir .cache scatter-imputation.cwl fig4-test.yml
+cwltool --singularity --outdir fig4 --tmpdir-prefix tmp/runtime --basedir $PWD --cachedir .cache scatter-imputation.cwl fig4-test.yml
 
