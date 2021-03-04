@@ -41,8 +41,19 @@ if (length(args) > 1) {
     }
     sigList <- data.frame("HUGO symbols" = markerGenes, "Cell population" = cellTypes)
     colnames(sigList) <- c("HUGO symbols", "Cell population")
-    
-    mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols", genes = sigList)
+    tryCatch(
+        expr = {
+            mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols", genes = sigList)
+        },
+        error = function(e){ 
+            # (Optional)
+            # Do this if an error is caught...
+            print(e)
+            X <- read.csv(args[2], sep = "\t", row.names = 1) 
+            Y <- read.csv(args[1], sep = "\t")
+            mcp <- matrix(0, ncol = length(colnames(Y)) - 1, nrow = length(colnames(X)), dimnames = list(colnames(X), colnames(Y)[2:length(colnames(Y))]))
+        }
+    )
 } else {
     mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols")
 }
