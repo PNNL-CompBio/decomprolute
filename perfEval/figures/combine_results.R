@@ -74,7 +74,7 @@ combineCellTypeCors<-function(file.list){
      #stab<-subset(ft,mrna.algorithm==m)
      ft$cellType<-factor(ft$cellType)
      p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=disease,shape=tissue))+
-       scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)
+       scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)+
        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(mat)
 #    })
