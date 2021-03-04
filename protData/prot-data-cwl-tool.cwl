@@ -35,7 +35,7 @@ outputs:
             glob: "file.tsv"
             outputEval: |
                 ${
-                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' + 'prot.tsv'
+                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' + 'prot-raw.tsv'
                   self[0].basename = name;
                   return self[0]
                   }

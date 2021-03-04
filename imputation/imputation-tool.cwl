@@ -36,7 +36,7 @@ outputs:
             outputEval: |
                 ${
                   var cancer = inputs.input_f.nameroot
-                  var name = cancer + '-imputed.tsv'
+                  var name = cancer.replace('-raw', '') + '-imputed.tsv'
                   self[0].basename = name;
                   return self[0]
                 }
