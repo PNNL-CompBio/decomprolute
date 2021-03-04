@@ -22,15 +22,15 @@ export PATH=/people/feng626/.nvm/versions/node/v15.8.0/bin:$PATH
 
 module load singularity/3.6.3
 
-export SINGULARITY_HOME=/pic/scratch/feng626/.singularity
-export SINGULARITYENV_HOME=/pic/scratch/feng626/.singularity
-export SINGULARITY_CACHEDIR=/pic/scratch/feng626/.singularity/cache
-export SINGULARITYENV_CACHEDIR=/pic/scratch/feng626/.singularity/cache
-export SINGULARITY_TMPDIR=/pic/scratch/feng626/.singularity/tmp
-export SINGULARITYENV_TMPDIR=/pic/scratch/feng626/.singularity/tmp
-export CWL_SINGULARITY_CACHE=/pic/scratch/feng626/.singularity/cwl
+export SINGULARITY_HOME=/people/feng626/.singularity
+export SINGULARITYENV_HOME=/people/feng626/.singularity
+export SINGULARITY_CACHEDIR=/people/feng626/.singularity/cache
+export SINGULARITYENV_CACHEDIR=/people/feng626/.singularity/cache
+export SINGULARITY_TMPDIR=/people/feng626/.singularity/tmp
+export SINGULARITYENV_TMPDIR=/people/feng626/.singularity/tmp
+export CWL_SINGULARITY_CACHE=/people/feng626/.singularity/cwl
 
-export XDG_RUNTIME_DIR=/pic/scratch/feng626/tmp
+export XDG_RUNTIME_DIR=/people/feng626/tmp
 
 cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
 
