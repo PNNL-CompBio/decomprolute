@@ -32,8 +32,8 @@ export CWL_SINGULARITY_CACHE=/people/feng626/.singularity/cwl
 
 export XDG_RUNTIME_DIR=/people/feng626/tmp
 
-cd /pic/scratch/feng626/proteomicsTumorDeconv/perfEval
+cd /people/feng626/proteomicsTumorDeconv/perfEval
 
-#toil-cwl-runner --singularity --outdir ./fig4-3 --workDir /pic/scratch/feng626/proteomicsTumorDeconv/perfEval/working --tmpdir-prefix /pic/scratch/feng626/proteomicsTumorDeconv/perfEval/tmp/runtime  scatter-imputation.cwl fig4-eval.yml
-cwltool --singularity --outdir /pic/scratch/feng626/proteomicsTumorDeconv/perfEval/fig4 --tmpdir-prefix /pic/scratch/feng626/proteomicsTumorDeconv/perfEval/tmp/runtime --basedir /pic/scratch/feng626/proteomicsTumorDeconv/perfEval --cachedir .cache scatter-imputation.cwl fig4-test.yml
+#toil-cwl-runner --singularity --outdir ./fig4 --workDir $PWD --tmpdir-prefix tmp/runtime  scatter-imputation.cwl fig4-eval.yml
+cwltool --singularity --parallel --outdir fig4 --tmpdir-prefix tmp/runtime --basedir $PWD --cachedir .cache scatter-imputation.cwl fig4-test.yml
 
