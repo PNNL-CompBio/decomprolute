@@ -36,11 +36,15 @@ combinePatientCors<-function(file.list){
            subset(matrix==mat)%>%
            ggplot()+
            geom_violin(aes(x=tissue,y=correlation,fill=disease))+
-           facet_grid(mrna.algorithm~prot.algorithm)+scale_fill_viridis_d()+
+          facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+
+          scale_fill_viridis_d()+
            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-       ggsave(paste0(mat,'patientCors.pdf'),p)
+       ggsave(paste0(mat,'patientCors.pdf'),p,width=12,height=12)
    })
 
+   p2<-ggplot(full.tab,aes(x=matrix,y=correlation,fill=disease))+geom_violin()+
+     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_viridis_d()
+   ggsave('allSigsPatientCors.pdf',p2,width=12,height=12)
   return(full.tab)
 }
 
@@ -70,20 +74,18 @@ combineCellTypeCors<-function(file.list){
 
   lapply(mats,function(mat){
       ft<-full.tab%>%subset(matrix==mat)
-     #plist<-lapply(unique(ft$mrna.algorithm),function(m){
-     #stab<-subset(ft,mrna.algorithm==m)
+
      ft$cellType<-factor(ft$cellType)
      p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=correlation,size=10,color=disease,shape=tissue))+
-       scale_color_viridis_d()+facet_grid(mrna.algorithm~prot.algorithm)
+       scale_color_viridis_d()+facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+
        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(mat)
-#    })
-#       p<-cowplot::plot_grid(plotlist=plist)
-
-       ggsave(paste0(mat,'cellTypeCors.pdf'),p)
- # })
- #     return(full.tab)
+      ggsave(paste0(mat,'cellTypeCors.pdf'),p,width=12,height=12)
+ 
    })
+  p2<-ggplot(full.tab,aes(x=matrix,y=correlation,fill=cellType))+geom_violin()+
+    facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_viridis_d()
+  ggsave('allSigsCellTypeCors.pdf',p2,width=1,height=12)
    #p<-cowplot::plot_grid(plotlist=plist)
    return(full.tab)
 }
