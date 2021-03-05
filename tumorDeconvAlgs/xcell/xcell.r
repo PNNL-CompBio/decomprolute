@@ -52,7 +52,7 @@ if (length(args) > 1) {
         expr = {
             xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
         },
-        error = function(e){ 
+        error = function(e){
             # (Optional)
             # Do this if an error is caught...
             print(e)
