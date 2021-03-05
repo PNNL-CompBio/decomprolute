@@ -44,18 +44,20 @@ if (length(args) > 1) {
     tryCatch(
         expr = {
             mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols", genes = sigList)
+            write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
         },
-        error = function(e){ 
+        error = function(e){
             # (Optional)
             # Do this if an error is caught...
             print(e)
             X <- read.csv(args[2], sep = "\t", row.names = 1) 
             Y <- read.csv(args[1], sep = "\t")
             mcp <- matrix(0, ncol = length(colnames(Y)) - 1, nrow = length(colnames(X)), dimnames = list(colnames(X), colnames(Y)[2:length(colnames(Y))]))
+            write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
         }
     )
 } else {
     mcp <- MCPcounter.estimate(df, featuresType = "HUGO_symbols")
+    write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
 }
 
-write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
