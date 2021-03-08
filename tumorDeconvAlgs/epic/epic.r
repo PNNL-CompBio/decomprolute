@@ -56,12 +56,28 @@ if (length(args) > 1) {
     if (file.exists(stdFile)) {
         epicRef$refProfiles.var <- read.csv(stdFile, sep = "\t", row.names = 1)
     }
-    xc <- EPIC(bulk = df, reference = epicRef)
+    tryCatch(
+        expr = {
+            xc <- EPIC(bulk = df, reference = epicRef)
+            
+            results <- xc$cellFractions
+            results <- results[,colnames(results) != "otherCells"]
+        },
+        error = function(e){ 
+            # (Optional)
+            # Do this if an error is caught...
+            print(e)
+            print("Generating all zeros")
+            Y <- read.csv(args[1], sep = "\t")
+            X <- read.csv(args[2], sep = "\t", row.names = 1) 
+            results <- matrix(0, nrow = length(colnames(Y)) - 1, ncol = length(colnames(X)), dimnames = list(colnames(Y)[2:length(colnames(Y))], colnames(X)))
+        }
+    )
 } else {
     xc <- EPIC(bulk = df)
+    
+    results <- xc$cellFractions
 }
 
-results <- xc$cellFractions
-results <- results[,colnames(results) != "otherCells"]
-
 write.table(t(results), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
+
