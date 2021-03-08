@@ -251,6 +251,18 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
   obj[, 1:(dim(X)[2])]
 }
 
-cs <- CIBERSORT(args[2], args[1])
+tryCatch(
+    expr = {
+        cs <- CIBERSORT(args[2], args[1])
+    },
+    error = function(e){ 
+      # (Optional)
+      # Do this if an error is caught...
+      print(e)
+      X <- read.csv(args[2], sep = "\t", row.names = 1) 
+      Y <- read.csv(args[1], sep = "\t")
+      cs <- matrix(0, nrow = length(colnames(Y)) - 1, ncol = length(colnames(X)), dimnames = list(colnames(Y)[2:length(colnames(Y))], colnames(X)))
+    }
+)
 
 write.table(t(cs), file="deconvoluted.tsv", quote = FALSE, sep = "\t")
