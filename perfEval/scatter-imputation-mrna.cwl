@@ -25,10 +25,10 @@ inputs:
 outputs:
   raw-data:
     type: File[]
-    outputSource: download-mrna/matrix
+    outputSource: download-raw/matrix
   imputed-data:
     type: File[]
-    outputSource: impute-mrna/matrix
+    outputSource: impute-data/matrix
   # deconvoluted:
   #   type: File[]
   #   outputSource: deconvolution/deconvoluted
