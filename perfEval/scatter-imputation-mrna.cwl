@@ -26,15 +26,15 @@ outputs:
   raw-data:
     type: File[]
     outputSource: download-raw/matrix
-  imputed-data:
-    type: File[]
-    outputSource: impute-data/matrix
-  # deconvoluted:
+  # imputed-data:
   #   type: File[]
-  #   outputSource: deconvolution/deconvoluted
-  imputed-deconvoluted:
+  #   outputSource: impute-data/matrix
+  deconvoluted:
     type: File[]
-    outputSource: imputed-deconvolution/deconvoluted
+    outputSource: deconv-raw/deconvoluted
+  # imputed-deconvoluted:
+  #   type: File[]
+  #   outputSource: imputed-deconvolution/deconvoluted
 
 steps:
   download-raw:
@@ -47,36 +47,36 @@ steps:
     out:
       [matrix]
 
-  impute-data:
-    run: ../imputation/imputation-tool.cwl
-    scatter: [input_f]
-    scatterMethod: flat_crossproduct
-    in:
-      input_f:
-        source: download-raw/matrix
-      use_missForest:
-        valueFrom: 'false'
-    out:
-      [matrix]
-
-  # deconv-prot:
-  #   run: prot-deconv-imputed.cwl
-  #   scatter: [expression, protAlg, signature]
+  # impute-data:
+  #   run: ../imputation/imputation-tool.cwl
+  #   scatter: [input_f]
   #   scatterMethod: flat_crossproduct
   #   in:
-  #     expression: 
-  #       source: download-prot/matrix
-  #     protAlg: prot-algorithms
-  #     signature: signatures
-  #   out: [deconvoluted]
+  #     input_f:
+  #       source: download-raw/matrix
+  #     use_missForest:
+  #       valueFrom: 'false'
+  #   out:
+  #     [matrix]
 
-  imputed-deconvolution:
+  deconv-raw:
     run: deconv-imputed.cwl
     scatter: [expression, alg, signature]
     scatterMethod: flat_crossproduct
     in:
-      expression:
-        source: impute-data/matrix
+      expression: 
+        source: download-raw/matrix
       alg: algorithms
       signature: signatures
     out: [deconvoluted]
+
+  # imputed-deconvolution:
+  #   run: deconv-imputed.cwl
+  #   scatter: [expression, alg, signature]
+  #   scatterMethod: flat_crossproduct
+  #   in:
+  #     expression:
+  #       source: impute-data/matrix
+  #     alg: algorithms
+  #     signature: signatures
+  #   out: [deconvoluted]
