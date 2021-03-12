@@ -38,7 +38,7 @@ outputs:
 
 steps:
   download-raw:
-    run: ../protData/mrna-data-cwl-tool.cwl
+    run: ../mRNAData/mrna-data-cwl-tool.cwl
     scatter: [cancerType, sampleType]
     scatterMethod: flat_crossproduct
     in:
@@ -47,36 +47,36 @@ steps:
     out:
       [matrix]
 
-  impute-prot:
+  impute-data:
     run: ../imputation/imputation-tool.cwl
     scatter: [input_f]
     scatterMethod: flat_crossproduct
     in:
       input_f:
-        source: download-prot/matrix
+        source: download-raw/matrix
       use_missForest:
         valueFrom: 'false'
     out:
       [matrix]
 
-  deconv-prot:
-    run: prot-deconv-imputed.cwl
-    scatter: [expression, protAlg, signature]
-    scatterMethod: flat_crossproduct
-    in:
-      expression: 
-        source: download-prot/matrix
-      protAlg: prot-algorithms
-      signature: signatures
-    out: [deconvoluted]
+  # deconv-prot:
+  #   run: prot-deconv-imputed.cwl
+  #   scatter: [expression, protAlg, signature]
+  #   scatterMethod: flat_crossproduct
+  #   in:
+  #     expression: 
+  #       source: download-prot/matrix
+  #     protAlg: prot-algorithms
+  #     signature: signatures
+  #   out: [deconvoluted]
 
-  deconv-prot-imputed:
-    run: prot-deconv-imputed.cwl
-    scatter: [expression, protAlg, signature]
+  imputed-deconvolution:
+    run: deconv-imputed.cwl
+    scatter: [expression, alg, signature]
     scatterMethod: flat_crossproduct
     in:
       expression:
-        source: impute-prot/matrix
-      protAlg: prot-algorithms
+        source: impute-data/matrix
+      alg: algorithms
       signature: signatures
     out: [deconvoluted]
