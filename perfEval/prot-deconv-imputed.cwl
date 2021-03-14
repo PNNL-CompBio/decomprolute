@@ -27,16 +27,25 @@ steps:
       sampleType: sampleType
     out:
       [matrix]
+  impute-prot:
+    run: ../imputation/imputation-tool.cwl
+    in:
+      input_f:
+        source: download-prot/matrix
+      use_missForest:
+        valueFrom: 'false'
+    out:
+      [matrix]
   run-cibersort:
     run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
     when: $(inputs.protAlg == 'cibersort')
     in:
       expression:
-        source: download-prot/matrix
+        source: impute-prot/matrix
       signature: signature
       protAlg: protAlg
       type:
-        valueFrom: 'prot'
+        valueFrom: 'protImputed'
       cancerType: cancerType          
     out:
       [deconvoluted]
@@ -47,9 +56,9 @@ steps:
        signature: signature
        protAlg: protAlg
        expression:
-         source: download-prot/matrix
+         source: impute-prot/matrix
        type:
-         valueFrom: 'prot'
+         valueFrom: 'protImputed'
        cancerType: cancerType      
      out: [deconvoluted]
   run-epic:
@@ -57,11 +66,11 @@ steps:
      when: $(inputs.protAlg == 'epic')
      in:
        expression:
-         source: download-prot/matrix
+         source: impute-prot/matrix
        signature: signature
        protAlg: protAlg
        type:
-         valueFrom: 'prot'
+         valueFrom: 'protImputed'
        cancerType: cancerType             
      out: [deconvoluted]
 #  run-cibersortx:
@@ -71,21 +80,21 @@ steps:
 #       signature: signature
 #      progAlg: protAlg
 #     type:
-#        valueFrom: 'prot'
+#        valueFrom: 'protImputed'
 #      cancerType: cancerType      
 #       expression:
-#        source: download-prot/matrix
+#        source: impute-prot/matrix
 #     out: [deconvoluted]
   run-mcpcounter:
      run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
      when: $(inputs.protAlg == 'mcpcounter')
      in:
        expression:
-         source: download-prot/matrix
+         source: impute-prot/matrix
        signature: signature
        protAlg: protAlg
        type:
-         valueFrom: 'prot'
+         valueFrom: 'protImputed'
        cancerType: cancerType       
      out: [deconvoluted]
   run-repbulk:
@@ -93,11 +102,11 @@ steps:
     when: $(inputs.protAlg == 'repbulk')
     in:
       expressionFile:
-        source: download-prot/matrix
+        source: impute-prot/matrix
       signatureMatrix: signature
       protAlg: protAlg
       type:
-        valueFrom: 'prot'
+        valueFrom: 'protImputed'
       cancerType: cancerType
     out:
       [deconvoluted]

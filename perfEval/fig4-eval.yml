@@ -12,12 +12,6 @@ prot-algorithms:
   - xcell
   - cibersort
   - repbulk
-mrna-algorithms:
-  - mcpcounter
-  - epic
-  - xcell
-  - cibersort
-  - repbulk
 tissueTypes:
    - tumor
 signatures:

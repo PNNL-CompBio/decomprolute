@@ -40,17 +40,44 @@ if (length(args) > 1) {
         # ref[genesNull, s] <- 0.0
     }
     markerGenes <- unique(markerGenes)
-    
+
     epicRef <- list()
-    epicRef$refProfiles <- ref
     epicRef$sigGenes <- markerGenes
-    
-    xc <- EPIC(bulk = df, reference = epicRef)
+
+    sigMatName <- tools::file_path_sans_ext(basename(args[2]))
+    meanFile <- paste0("/data/", sigMatName, "_refMean.txt")
+    stdFile <- paste0("/data/", sigMatName, "_refStd.txt")
+    if (file.exists(meanFile)) {
+        epicRef$refProfiles <- read.csv(meanFile, sep = "\t", row.names = 1)
+    } else {
+        epicRef$refProfiles <- ref
+        warning("Reference profile was not provided or can not be found, using the signature matrix instead\n")
+    }
+    if (file.exists(stdFile)) {
+        epicRef$refProfiles.var <- read.csv(stdFile, sep = "\t", row.names = 1)
+    }
+    tryCatch(
+        expr = {
+            xc <- EPIC(bulk = df, reference = epicRef)
+
+            results <- xc$cellFractions
+            results <- results[,colnames(results) != "otherCells"]
+            write.table(t(results), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
+        },
+        error = function(e){
+            # (Optional)
+            # Do this if an error is caught...
+            print(e)
+            Y <- read.csv(args[1], sep = "\t")
+            X <- read.csv(args[2], sep = "\t", row.names = 1)
+            results <- matrix(0, nrow = length(colnames(Y)) - 1, ncol = length(colnames(X)), dimnames = list(colnames(Y)[2:length(colnames(Y))], colnames(X)))
+            write.table(t(results), file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
+        }
+    )
 } else {
     xc <- EPIC(bulk = df)
+
+    results <- xc$cellFractions
+    write.table(t(results), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
 }
 
-results <- xc$cellFractions
-results <- results[,colnames(results) != "otherCells"]
-
-write.table(t(results), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
