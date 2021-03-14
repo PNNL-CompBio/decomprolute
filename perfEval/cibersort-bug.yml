@@ -1,0 +1,13 @@
+cancerTypes:
+  - brca
+prot-algorithms:
+  - cibersort
+  - mcpcounter
+  - epic 
+mrna-algorithms:
+  - cibersort
+  - mcpcounter
+  - epic 
+signatures:
+  - class: File
+    path: ../signature_matrices/LM7c.txt
