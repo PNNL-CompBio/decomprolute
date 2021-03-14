@@ -29,6 +29,8 @@ def main():
         dat = cptac.Hnscc()
     elif opts.type.lower() == 'luad':
         dat = cptac.Luad()
+    elif opts.type.lower() == 'gbm':
+        dat = cptac.Gbm()
     else:
         exit()
     df = dat.get_proteomics()
