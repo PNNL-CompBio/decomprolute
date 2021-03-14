@@ -1,11 +1,6 @@
 cancerTypes:
   - endometrial
   - ccrcc
-  - luad
-  - brca
-  - hnscc
-  - ovarian
-  - colon
 prot-algorithms:
   - mcpcounter
   - epic
@@ -25,7 +20,3 @@ signatures:
     path: ../signature_matrices/LM7c.txt
   - class: File
     path: ../signature_matrices/LM22.txt
-  - class: File
-    path: ../signature_matrices/PBMC.txt
-  - class: File
-    path: ../signature_matrices/LM9.txt

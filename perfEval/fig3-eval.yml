@@ -9,11 +9,13 @@ prot-algorithms:
   - epic
   - xcell
   - cibersort
+  - repbulk
 mrna-algorithms:
   - mcpcounter
   - epic
   - xcell
   - cibersort
+  - repbulk
 tissueTypes:
   - normal
   - tumor
