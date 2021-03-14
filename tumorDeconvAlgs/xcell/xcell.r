@@ -48,8 +48,20 @@ if (length(args) > 1) {
     spill <- list()
     spill[["K"]] <- matrix(1/length(cellTypeNames), nrow = length(cellTypeNames), ncol = length(cellTypeNames), dimnames = list(cellTypeNames, cellTypeNames))
     spill[["fv"]] <- as.data.frame(matrix(1, nrow = length(cellTypeNames), ncol = 3, dimnames = list(cellTypeNames, c("V1", "V2", "V3"))))
-    
-    xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
+    tryCatch(
+        expr = {
+            xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
+        },
+        error = function(e){
+            # (Optional)
+            # Do this if an error is caught...
+            print(e)
+            X <- read.csv(args[2], sep = "\t", row.names = 1) 
+            Y <- read.csv(args[1], sep = "\t")
+            mcp <- matrix(0, ncol = length(colnames(Y)) - 1, nrow = length(colnames(X)), dimnames = list(colnames(X), colnames(Y)[2:length(colnames(Y))]))
+            write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
+        }
+    )    
 } else {
     xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv")
 }

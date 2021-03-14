@@ -88,6 +88,19 @@ steps:
         valueFrom: 'mrna'
       cancerType: cancerType
     out: [deconvoluted]
+  run-repbulk:
+    run: ../tumorDeconvAlgs/repBulk/rep-bulk.cwl
+    when: $(inputs.mrnaAlg == 'repbulk')
+    in:
+      expressionFile:
+        source: download-mrna/matrix
+      signatureMatrix: signature
+      mrnaAlg: mrnaAlg
+      type:
+        valueFrom: 'mrna'
+      cancerType: cancerType
+    out:
+      [deconvoluted]
 outputs:
   deconvoluted:
     type: File
@@ -97,4 +110,5 @@ outputs:
  #     - run-cibersortx/deconvoluted
       - run-epic/deconvoluted
       - run-mcpcounter/deconvoluted
+      - run-repbulk/deconvoluted
     pickValue: first_non_null

@@ -1,4 +1,4 @@
-from amancevice/pandas
+from amancevice/pandas:1.2.0
 
 RUN pip install cptac
 COPY mRNADataSetsCLI.py /bin/
