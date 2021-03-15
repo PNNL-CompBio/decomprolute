@@ -268,3 +268,6 @@ dmypy.json
 
 # Ignore repBulk outputs
 tumorDeconvAlgs/repBulk/output*
+
+# Ignore protData outputs
+protData/file.tsv
