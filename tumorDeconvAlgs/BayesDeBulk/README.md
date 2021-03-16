@@ -6,18 +6,18 @@ Francesca's tumor deconvolution algorithm
 This tool can be run from the command-line with the CWL tool file and an input YAML file:
 
 ``` shell
-cwl-runner rep-bulk.cwl rep-bulk-input.yml 
+cwl-runner bayes-de-bulk.cwl bayes-de-bulk-input.yml 
 ```
 
-This will output an `output_rep_bulk.tsv` containing a tab-separated matrix of .... [Insert description here]
+This will output an `output_bayes_de_bulk.tsv` containing a tab-separated matrix of .... [Insert description here]
 
 ### Inputs
 
-The `rep-bulk-input.yml` file can be updated with custom inputs. 
+The `bayes-de-bulk-input.yml` file can be updated with custom inputs. 
 
 The included example file uses test dummy data in this repository:
 
-`rep-bulk-input.yml`
+`bayes-de-bulk-input.yml`
 ```yaml
 expressionFile:
   class: File
@@ -38,5 +38,5 @@ This module requires two inputs:
 
 This CWL will output two files into the working directory: 
 
-| output_rep_bulk.tsv	       |	           |...?
-| output_rep_bulk_gibbs.Rdata         |            |Rdata object with ...?
+| output_bayes_de_bulk.tsv	       |	           |...?
+| output_bayes_de_bulk_gibbs.Rdata         |            |Rdata object with ...?

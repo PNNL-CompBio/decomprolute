@@ -27,10 +27,6 @@ inputs:
     inputBinding:
       position: 2
       prefix: --signatureMatrix
-  type:
-    type: string
-  cancerType:
-    type: string
 
 outputs:
   deconvoluted:
