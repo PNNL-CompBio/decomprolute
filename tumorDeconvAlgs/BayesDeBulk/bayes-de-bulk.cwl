@@ -9,7 +9,7 @@ class: CommandLineTool
 baseCommand: Rscript
 
 arguments:
-  - /bin/main.R
+  - /bin/main_docker.R
 
 requirements:
   - class: DockerRequirement
