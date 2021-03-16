@@ -27,6 +27,12 @@ inputs:
     inputBinding:
       position: 2
       prefix: --signatureMatrix
+  rowMeansImputation:
+    type: string?
+    inputBinding:
+      position: 3
+      prefix: --rowMeansImputation
+
 
 outputs:
   deconvoluted:
