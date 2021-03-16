@@ -11,28 +11,29 @@ filter: &filter
 workflows:
   test-with-cwl:
     jobs:
-      - rep-bulk
-      - rep-bulk-with-imputation
-#          <<: *filter
-#      - test-dl-brca:
-#          <<: *filter
-#      - test-dl-ccrcc:
-#          <<: *filter
-#      - test-dl-luad:
-#          <<: *filter
-#      - test-dl-colon:
-#          <<: *filter
-#      - test-dl-ovarian:
-#          <<: *filter
-#      - test-dl-hnscc:
-#          <<: *filter
-#      - test-dl-endometrial:
-#          <<: *filter
-#      - test-dl-gbm:
-#          <<: *filter
-#      - imputation:
-#          requires:
-#            - test-dl-endometrial
+      - rep-bulk:
+          <<: *filter
+      - rep-bulk-with-imputation:
+          <<: *filter
+      - test-dl-brca:
+          <<: *filter
+      - test-dl-ccrcc:
+          <<: *filter
+      - test-dl-luad:
+          <<: *filter
+      - test-dl-colon:
+          <<: *filter
+      - test-dl-ovarian:
+          <<: *filter
+      - test-dl-hnscc:
+          <<: *filter
+      - test-dl-endometrial:
+          <<: *filter
+      - test-dl-gbm:
+          <<: *filter
+      - imputation:
+          requires:
+            - test-dl-endometrial
 
 executors:
   ubuntu:
