@@ -5,13 +5,15 @@ filter: &filter
   filters:
     branches:
       only:
-        - anna
+        - anna*
 
 
 workflows:
   test-with-cwl:
     jobs:
       - rep-bulk:
+          <<: *filter
+      - rep-bulk-with-imputation:
           <<: *filter
       - test-dl-brca:
           <<: *filter
@@ -142,34 +144,48 @@ jobs:
     executor: ubuntu
     steps:
       - checkout
-#      - attach_workspace:
-#          at: /tmp/workspace
-#      - run: ls /tmp/workspace
       - run:
           name: Install dependencies to VM
           command: pip3 install cwltool
       - run:
           name: Run rep-bulk
           command: |
-            cd ~/project/tumorDeconvAlgs/repBulk
-            cwltool rep-bulk.cwl --expressionFile=test_data.tsv --signatureMatrix=../../signature_matrices/LM22.txt --type=prot --cancerType=endometrial
+            cd ~/project/tumorDeconvAlgs/BayesDeBulk
+            cwltool bayes-de-bulk.cwl \
+              --expressionFile=../../toy_data/TOY_rna_expression_imputed.tsv \
+              --signatureMatrix=../../toy_data/TOY_signature_matrix.tsv
           no_output_timeout: 1h
       - run:
           name: Test that TSV output was created
           command: |
-            if [ -f ~/project/tumorDeconvAlgs/repBulk/*-deconv.tsv ]; then
-                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            if [ -f ~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv ]; then
+                echo "~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv successfully created!"
             else
                 echo "Test cases failed !!!"
                 exit 1
             fi
-# had to comment below because it wasn't needed for workflow
-#      - run:
-#          name: Test that Rdata file was created
-#          command: |
-#            if [ -f ~/project/tumorDeconvAlgs/repBulk/output_rep_bulk_gibbs.Rdata ]; then
-#                echo "output_rep_bulk_gibbs.Rdata successfully created!"
-#            else
-#                echo "Test cases failed !!!"
-#                exit 1
-#            fi
+  rep-bulk-with-imputation:
+    executor: ubuntu
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run rep-bulk
+          command: |
+              cd ~/project/tumorDeconvAlgs/BayesDeBulk
+              cwltool bayes-de-bulk.cwl \
+                --expressionFile=../../toy_data/TOY_rna_expression_withNA.tsv \
+                --signatureMatrix=../../toy_data/TOY_signature_matrix.tsv \
+                --rowMeansImputation=TRUE
+          no_output_timeout: 1h
+      - run:
+          name: Test that TSV output was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv ]; then
+                echo "~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
