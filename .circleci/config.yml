@@ -157,8 +157,8 @@ jobs:
       - run:
           name: Test that TSV output was created
           command: |
-            if [ -f ~/project/tumorDeconvAlgs/repBulk/*-deconv.tsv ]; then
-                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            if [ -f ~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv ]; then
+                echo "~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv successfully created!"
             else
                 echo "Test cases failed !!!"
                 exit 1
@@ -182,8 +182,8 @@ jobs:
       - run:
           name: Test that TSV output was created
           command: |
-            if [ -f ~/project/tumorDeconvAlgs/repBulk/*-deconv.tsv ]; then
-                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            if [ -f ~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv ]; then
+                echo "~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv successfully created!"
             else
                 echo "Test cases failed !!!"
                 exit 1
