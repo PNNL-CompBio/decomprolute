@@ -38,7 +38,7 @@ outputs:
   deconvoluted:
     type: File
     outputBinding:
-       glob: "output_rep_bulk.tsv"
+       glob: "output_bayes_de_bulk.tsv"
        outputEval: |
           ${
             var mat = inputs.signatureMatrix.nameroot
