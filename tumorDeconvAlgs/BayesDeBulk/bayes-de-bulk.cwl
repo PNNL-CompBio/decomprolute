@@ -9,7 +9,7 @@ class: CommandLineTool
 baseCommand: Rscript
 
 arguments:
-  - /bin/main.R
+  - /bin/main_docker.R
 
 requirements:
   - class: DockerRequirement
@@ -27,16 +27,18 @@ inputs:
     inputBinding:
       position: 2
       prefix: --signatureMatrix
-  type:
-    type: string
-  cancerType:
-    type: string
+  rowMeansImputation:
+    type: string?
+    inputBinding:
+      position: 3
+      prefix: --rowMeansImputation
+
 
 outputs:
   deconvoluted:
     type: File
     outputBinding:
-       glob: "output_rep_bulk.tsv"
+       glob: "output_bayes_de_bulk.tsv"
        outputEval: |
           ${
             var mat = inputs.signatureMatrix.nameroot
