@@ -5,7 +5,7 @@ filter: &filter
   filters:
     branches:
       only:
-        - anna
+        - anna*
 
 
 workflows:
@@ -13,25 +13,25 @@ workflows:
     jobs:
       - rep-bulk:
           <<: *filter
-      - test-dl-brca:
-          <<: *filter
-      - test-dl-ccrcc:
-          <<: *filter
-      - test-dl-luad:
-          <<: *filter
-      - test-dl-colon:
-          <<: *filter
-      - test-dl-ovarian:
-          <<: *filter
-      - test-dl-hnscc:
-          <<: *filter
-      - test-dl-endometrial:
-          <<: *filter
-      - test-dl-gbm:
-          <<: *filter
-      - imputation:
-          requires:
-            - test-dl-endometrial
+#      - test-dl-brca:
+#          <<: *filter
+#      - test-dl-ccrcc:
+#          <<: *filter
+#      - test-dl-luad:
+#          <<: *filter
+#      - test-dl-colon:
+#          <<: *filter
+#      - test-dl-ovarian:
+#          <<: *filter
+#      - test-dl-hnscc:
+#          <<: *filter
+#      - test-dl-endometrial:
+#          <<: *filter
+#      - test-dl-gbm:
+#          <<: *filter
+#      - imputation:
+#          requires:
+#            - test-dl-endometrial
 
 executors:
   ubuntu:
@@ -152,7 +152,7 @@ jobs:
           name: Run rep-bulk
           command: |
             cd ~/project/tumorDeconvAlgs/repBulk
-            cwltool rep-bulk.cwl --expressionFile=test_data.tsv --signatureMatrix=../../signature_matrices/LM22.txt --type=prot --cancerType=endometrial
+            cwltool bayes-de-bulk.cwl --expressionFile=TOY_rna_expression_imputed.tsv --signatureMatrix=toy_signature_matrix.tsv
           no_output_timeout: 1h
       - run:
           name: Test that TSV output was created
