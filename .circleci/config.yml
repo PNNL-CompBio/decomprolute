@@ -152,7 +152,7 @@ jobs:
           name: Run rep-bulk
           command: |
             cd ~/project/tumorDeconvAlgs/BayesDeBulk
-            cwltool bayes-de-bulk.cwl --expressionFile=TOY_rna_expression_imputed.tsv --signatureMatrix=toy_signature_matrix.tsv
+            cwltool bayes-de-bulk.cwl --expressionFile=../../toy_data/TOY_rna_expression_imputed.tsv --signatureMatrix=../../toy_data/TOY_signature_matrix.tsv
           no_output_timeout: 1h
       - run:
           name: Test that TSV output was created
