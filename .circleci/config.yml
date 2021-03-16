@@ -11,8 +11,8 @@ filter: &filter
 workflows:
   test-with-cwl:
     jobs:
-      - rep-bulk:
-          <<: *filter
+      - rep-bulk
+#          <<: *filter
 #      - test-dl-brca:
 #          <<: *filter
 #      - test-dl-ccrcc:
