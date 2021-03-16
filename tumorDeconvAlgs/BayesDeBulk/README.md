@@ -1,4 +1,4 @@
-## repBulk description
+## BayesDeBulk description
 Francesca's tumor deconvolution algorithm
 
 ### Usage
@@ -21,18 +21,20 @@ The included example file uses test dummy data in this repository:
 ```yaml
 expressionFile:
   class: File
-  path: slim.tsv
+  path: ../../toy_data/TOY_rna_expression_withNA.tsv
 signatureMatrix:
   class: File
-  path: signature_matrices/LM22.tsv
+  path: ../../toy_data/TOY_signature_matrix.tsv
+rowMeansImputation: 'TRUE'
 ```
 
 This module requires two inputs:
 
-| Parameter                 | Default       | Description   |	
-| :------------------------ |:-------------:| :-------------|
-| expressionFile	       |	           |path to tab-separated file with cell types as the column names and gene symbols as rows
-| signatureMatrix         |            |path to tab-separated signature matrix
+| Parameter                 | Default       | Required       | Description   |	
+| :------------------------ |:------------- | :------------- | :-------------|
+| expressionFile	       |	           | yes           |path to tab-separated file with cell types as the column names and gene symbols as rows
+| signatureMatrix         |            | yes           |path to tab-separated signature matrix
+| rowMeansImputation         | TRUE         | no           |`TRUE` or `FALSE` of whether to perform row means imputation on expression file
 
 ### Outputs
 
