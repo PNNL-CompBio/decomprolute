@@ -32,6 +32,10 @@ inputs:
     inputBinding:
       position: 3
       prefix: --rowMeansImputation
+  dataType:
+     type: string
+  cancerType:
+     type: string
 
 
 outputs:

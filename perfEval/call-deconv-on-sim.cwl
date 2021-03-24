@@ -8,11 +8,24 @@ requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
   - class: InlineJavascriptRequirement
-  
+  - class: StepInputExpressionRequirement
+
 inputs:
-   signature: File
-   permutation: string
-   prot-alg: string
+   signature:
+     type: File
+   permutation:
+     type: string
+   prot-alg:
+     type: string
+   sampleType:
+     type: string
+     default: 'normal'
+   dataType:
+     type: string
+     default: 'prot'
+   cancerType:
+     type: string
+     default: 'simulated'
 
 outputs:
   pat-cor-file:
@@ -27,40 +40,44 @@ steps:
   get-sim-data:
      run: ../simulatedData/sim-data-tool.cwl
      in:
-       repNumber: inputs/permutation
+       repNumber: permutation
      out:
        [matrix,cellType]
   deconv-prot:
-     run: prot-deconv.cwl
+     run: run-deconv.cwl
      in:
-       cancerType: cancerType
-       protAlg: prot-alg
+       alg: prot-alg
        signature: signature
-       sampleType: tissueType
+       cancerType: cancerType
+       sampleType: sampleType          
+       dataType: dataType
+       matrix: get-sim-data/matrix
      out: [deconvoluted]
   patient-cor:
      run: ./correlations/deconv-corr-cwl-tool.cwl
      in:
-       cancerType: cancerType
-       mrnaAlg: mrna-alg
+       cancerType: dataType
+       mrnaAlg:
+         valueFrom: 'cellFraction'
        protAlg: prot-alg
        signature: signature
-       sampleType: tissueType
+       sampleType: sampleType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
-         source: deconv-mrna/deconvoluted
+         source: get-sim-data/cellType
      out: [corr]
   celltype-cor:
      run: ./correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
-       cancerType: cancerType
-       mrnaAlg: mrna-alg
+       cancerType: dataType
+       mrnaAlg:
+          valueFrom: "cellFraction"
        protAlg: prot-alg
        signature: signature
-       sampleType: tissueType
+       sampleType: sampleType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
-         source: deconv-mrna/deconvoluted
+         source: get-sim-data/cellType
      out: [corr]

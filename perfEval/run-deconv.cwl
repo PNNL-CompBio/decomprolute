@@ -1,7 +1,7 @@
 #!/usr/bin/env cwltool
 class: Workflow
-label: prot-deconv
-id: prot-deconv
+label: run-deconv
+id: run-deconv
 cwlVersion: v1.2
 
 requirements:
@@ -12,101 +12,76 @@ requirements:
 inputs:
    signature:
      type: File
-   protAlg:
+   alg:
      type: string
    cancerType:
      type: string
    sampleType:
      type: string
-
+   dataType:
+     type: string
+   matrix:
+     type: File
 steps:
-  download-prot:
-    run: ../protData/prot-data-cwl-tool.cwl
-    in:
-      cancerType: cancerType
-      sampleType: sampleType
-    out:
-      [matrix]
-  impute-prot:
-    run: ../imputation/imputation-tool.cwl
-    in:
-      input_f:
-        source: download-prot/matrix
-      use_missForest:
-        valueFrom: 'false'
-    out:
-      [matrix]
   run-cibersort:
     run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
-    when: $(inputs.protAlg == 'cibersort')
+    when: $(inputs.alg == 'cibersort')
     in:
-      expression:
-        source: impute-prot/matrix
+      expression: matrix
       signature: signature
-      protAlg: protAlg
-      type:
-        valueFrom: 'protImputed'
+      alg: alg
+      type: dataType
       cancerType: cancerType          
     out:
       [deconvoluted]
   run-xcell:
      run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
-     when: $(inputs.protAlg == 'xcell')
+     when: $(inputs.alg == 'xcell')
      in:
        signature: signature
-       protAlg: protAlg
-       expression:
-         source: impute-prot/matrix
-       type:
-         valueFrom: 'protImputed'
+       alg: alg
+       expression: matrix
+       type: dataType
        cancerType: cancerType      
      out: [deconvoluted]
   run-epic:
      run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
-     when: $(inputs.protAlg == 'epic')
+     when: $(inputs.alg == 'epic')
      in:
-       expression:
-         source: impute-prot/matrix
+       expression: matrix
        signature: signature
-       protAlg: protAlg
-       type:
-         valueFrom: 'protImputed'
+       alg: alg
+       type: dataType
        cancerType: cancerType             
      out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
-#     when: $(inputs.protAlg == 'cibersortx')
+#     when: $(inputs.alg == 'cibersortx')
 #     in:
 #       signature: signature
-#      progAlg: protAlg
-#     type:
-#        valueFrom: 'protImputed'
-#      cancerType: cancerType      
-#       expression:
-#        source: impute-prot/matrix
+#       alg: alg
+#       type: dataType
+#       cancerType: cancerType      
+ #      expression: matrix
 #     out: [deconvoluted]
   run-mcpcounter:
      run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
-     when: $(inputs.protAlg == 'mcpcounter')
+     when: $(inputs.alg == 'mcpcounter')
      in:
-       expression:
-         source: impute-prot/matrix
+       expression: matrix
        signature: signature
-       protAlg: protAlg
-       type:
-         valueFrom: 'protImputed'
+       alg: alg
+       type: dataType
        cancerType: cancerType       
      out: [deconvoluted]
   run-repbulk:
     run: ../tumorDeconvAlgs/BayesDeBulk/bayes-de-bulk.cwl
-    when: $(inputs.protAlg == 'bayesdebulk')
+    when: $(inputs.alg == 'bayesdebulk')
     in:
-      expressionFile:
-        source: impute-prot/matrix
+      expressionFile: matrix
       signatureMatrix: signature
-      protAlg: protAlg
-      type:
-        valueFrom: 'protImputed'
+      alg: alg
+      dataType: dataType
       cancerType: cancerType
     out:
       [deconvoluted]
@@ -120,5 +95,5 @@ outputs:
  #     - run-cibersortx/deconvoluted
       - run-epic/deconvoluted
       - run-mcpcounter/deconvoluted
-      - run-repbulk/devoncoluted
+      - run-repbulk/deconvoluted
     pickValue: first_non_null

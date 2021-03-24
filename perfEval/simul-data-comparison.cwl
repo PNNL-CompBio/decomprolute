@@ -2,7 +2,7 @@
 class: Workflow
 label: simul-data-comparison
 id: simul-data-comparison
-cwlVersion: v1.23
+cwlVersion: v1.2
 
 requirements:
         - class: SubworkflowFeatureRequirement
@@ -14,6 +14,8 @@ inputs:
       type: string[]
   prot-algorithms:
       type: string[]
+  signature:
+      type: File
       
 outputs:
    pat-cor-tab:
@@ -28,7 +30,7 @@ outputs:
    cell-fig:
       type: File[]
       outputSource: get-celltype-cors/fig
-         outputSource: run-all-algs-by-sig/prot-file
+       
 
 steps:
    run-all-algs-by-sig:
@@ -38,8 +40,9 @@ steps:
       in:
         prot-alg: prot-algorithms
         permutation: reps
+        signature: signature
       out:
-        [pat-cor-file,cell-cor-file,prot-file]
+        [pat-cor-file,cell-cor-file]
    get-patient-cors:
       run: figures/plot-figs.cwl
       in:
