@@ -5,17 +5,17 @@ id: simul-data-comparison
 cwlVersion: v1.2
 
 requirements:
-        - class: SubworkflowFeatureRequirement
-        - class: MultipleInputFeatureRequirement
-        - class: ScatterFeatureRequirement
-        - class: StepInputExpressionRequirement
+   - class: SubworkflowFeatureRequirement
+   - class: MultipleInputFeatureRequirement
+   - class: ScatterFeatureRequirement
+   - class: StepInputExpressionRequirement
 
 inputs: 
-  reps:
+   reps:
       type: string[]
-  prot-algorithms:
+   prot-algorithms:
       type: string[]
-  signature:
+   signature:
       type: File
       
 outputs:
@@ -34,14 +34,14 @@ outputs:
 
 steps:
    run-all-algs-by-sig:
-      run: call-deconv-on-sim.cwl
-      scatter: [prot-alg,permutation]
-      scatterMethod: flat_crossproduct
-      in:
+     run: call-deconv-on-sim.cwl
+     scatter: [prot-alg,permutation]
+     scatterMethod: flat_crossproduct
+     in:
         prot-alg: prot-algorithms
         permutation: reps
         signature: signature
-      out:
+     out:
         [pat-cor-file,cell-cor-file]
    get-patient-cors:
       run: figures/plot-figs.cwl
@@ -59,5 +59,5 @@ steps:
         files:
             source: run-all-algs-by-sig/cell-cor-file
       out:
-        [table,fig]
+         [table,fig]
    
