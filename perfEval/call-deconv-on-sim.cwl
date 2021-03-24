@@ -31,7 +31,12 @@ outputs:
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr
-
+  deconv:
+     type: File
+     outputSource: deconv-prot/deconvoluted
+  cellPred:
+     type: File
+     outputSource: get-sim-data/cellType
 
 steps:
   get-sim-data:
