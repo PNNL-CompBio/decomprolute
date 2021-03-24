@@ -23,9 +23,6 @@ inputs:
    dataType:
      type: string
      default: 'prot'
-   cancerType:
-     type: string
-     default: 'simulated'
 
 outputs:
   pat-cor-file:
@@ -48,7 +45,7 @@ steps:
      in:
        alg: prot-alg
        signature: signature
-       cancerType: cancerType
+       cancerType: permutation
        sampleType: sampleType          
        dataType: dataType
        matrix: get-sim-data/matrix
@@ -56,7 +53,7 @@ steps:
   patient-cor:
      run: ./correlations/deconv-corr-cwl-tool.cwl
      in:
-       cancerType: dataType
+       cancerType: permutation
        mrnaAlg:
          valueFrom: 'cellFraction'
        protAlg: prot-alg
@@ -70,7 +67,7 @@ steps:
   celltype-cor:
      run: ./correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
-       cancerType: dataType
+       cancerType: permutation
        mrnaAlg:
           valueFrom: "cellFraction"
        protAlg: prot-alg

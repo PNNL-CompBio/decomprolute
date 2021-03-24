@@ -8,6 +8,7 @@ requirements:
         - class: SubworkflowFeatureRequirement
         - class: MultipleInputFeatureRequirement
         - class: ScatterFeatureRequirement
+        - class: StepInputExpressionRequirement
 
 inputs: 
   reps:
@@ -30,7 +31,6 @@ outputs:
    cell-fig:
       type: File[]
       outputSource: get-celltype-cors/fig
-       
 
 steps:
    run-all-algs-by-sig:
