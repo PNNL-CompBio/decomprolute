@@ -23,7 +23,7 @@ combinePatientCors<-function(file.list,metric='correlation'){
       mrna.algorithm=vars[3]
       prot.algorithm=vars[5]
       matrix=vars[6]
-      tab<-read.table(file,fill=TRUE)
+      tab<-read.table(file,fill=TRUE,check.names=FALSE)
       colnames(tab)<-(c('patient',metric))
       return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
    }))
@@ -48,16 +48,16 @@ combinePatientCors<-function(file.list,metric='correlation'){
      ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
      facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_viridis_d()
    ggsave(paste0('allSigsPatient',metric,'.pdf'),p2,width=12,height=12)
-   
+
    mean.tab<-full.tab%>%
      rename(value=metric)%>%
      group_by(tissue,disease,mrna.algorithm,prot.algorithm,matrix)%>%
           summarize(meanVal=mean(value,na.rm=T))
-   
+
    p3<-ggplot(mean.tab,aes(x=matrix,shape=tissue,y=meanVal,col=disease))+geom_jitter()+
      facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d()
    ggsave(paste0('patient',metric,'averages.pdf'),p2,width=12,height=12)
-   
+
   return(full.tab)
 }
 
@@ -74,7 +74,7 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
       mrna.algorithm=vars[3]
       prot.algorithm=vars[5]
       matrix=vars[6]
-      tab<-read.table(file,fill=TRUE,sep='\t')
+      tab<-read.table(file,fill=TRUE,sep='\t',check.names=FALSE)
       colnames(tab)<-(c('cellType',metric))
       return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
 
@@ -96,20 +96,20 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
                ggtitle(mat)
       ggsave(paste0(mat,'cellType',metric,'s.pdf'),p,width=12,height=12)
- 
+
    })
   p2<-ggplot(full.tab,aes(x=matrix,y=value,fill=cellType))+geom_violin()+
     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_viridis_d()
   ggsave(paste0('allSigsCellType',metric,'.pdf'),p2,width=1,height=12)
    #p<-cowplot::plot_grid(plotlist=plist)
-  
+
   mean.tab<-full.tab%>%group_by(tissue,disease,mrna.algorithm,prot.algorithm,matrix)%>%
     summarize(meanVal=mean(value,na.rm=T))
-  
+
   p3<-ggplot(mean.tab,aes(x=matrix,shape=tissue,y=meanVal,col=disease))+geom_jitter()+
     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d()
   ggsave(paste0('cellType',metric,'averages.pdf'),p2,width=12,height=12)
-  
+
    return(full.tab)
 }
 
@@ -134,7 +134,7 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
     print("First argument must be `cellType` or `sample`")
 
   }
-  
+
 }
 
 main()
