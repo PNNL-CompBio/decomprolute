@@ -3,6 +3,7 @@ prot-algorithms:
   - epic
   - xcell
   - cibersort
+  - repbulk
 reps:
   - "1"
   - "2"
