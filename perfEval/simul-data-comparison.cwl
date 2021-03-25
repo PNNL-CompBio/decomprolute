@@ -31,6 +31,9 @@ outputs:
    cell-fig:
       type: File[]
       outputSource: get-celltype-cors/fig
+   cell-cors:
+      type: File[]
+      outputSource: run-all-algs-by-sig/cell-cor-file
 
 steps:
    run-all-algs-by-sig:
