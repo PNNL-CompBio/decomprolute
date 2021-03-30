@@ -12,6 +12,8 @@ import argparse
 def ed(a, b):
     if len(a) != len(b):
         print("The two arrays are not same size!")
+    if np.sum(a) == 0 or np.sum(b) == 0:
+        return(np.nan)
     a /= np.sum(a)
     b /= np.sum(b)
     dist = euclidean(a, b)
@@ -21,6 +23,8 @@ def ed(a, b):
 def js(a, b):
     if len(a) != len(b):
         print("The two arrays are not same size!")
+    if np.sum(a) == 0 or np.sum(b) == 0:
+        return(np.nan)
     a /= np.sum(a)
     b /= np.sum(b)
     dist = jensenshannon(a, b)
@@ -30,6 +34,8 @@ def js(a, b):
 def ks(a, b):
     if len(a) != len(b):
         print("The two arrays are not same size!")
+    if np.sum(a) == 0 or np.sum(b) == 0:
+        return(np.nan)     
     a /= np.sum(a)
     b /= np.sum(b)
     dist = np.amax(np.abs(np.cumsum(a) - np.cumsum(b)))
@@ -43,7 +49,7 @@ def main():
     parser.add_argument('--matrixB', dest='matrixB',
                         help='Deconvoluted matrix B')
     parser.add_argument('--method', dest='method', help='Use "ed" (Euclidean distance), "js" (Jensen-Shannon divergence), or "ks" (Kolmogorov-Smirnov distance)',
-                        default='ks')
+                        default='js')
     # parser.add_argument('--output', dest='output',
     #                     help='Output file for the correlation values')
     opts = parser.parse_args()
