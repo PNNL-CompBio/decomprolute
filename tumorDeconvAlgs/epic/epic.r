@@ -1,7 +1,7 @@
 #!/usr/local/bin/env Rscript --vanilla
 args <- commandArgs(TRUE)
 if (!is.null(args[1])) {
-    df <- read.csv(args[1], sep = "\t", row.names = 1)
+    df <- read.csv(args[1], sep = "\t", row.names = 1, check.names=F)
     if (max(df, na.rm = TRUE) < 50) {
         df <- 2^df
     }
@@ -13,7 +13,7 @@ library(matrixStats)
 library(EPIC)
 
 if (length(args) > 1) {
-    ref <- read.csv(args[2], sep = "\t", row.names = 1) ### Need to change later
+    ref <- read.csv(args[2], sep = "\t", row.names = 1, check.names=F) ### Need to change later
     cellTypeNames <- colnames(ref)
     markerGenes <- c()
     for (s in colnames(ref)) {
@@ -48,13 +48,13 @@ if (length(args) > 1) {
     meanFile <- paste0("/data/", sigMatName, "_refMean.txt")
     stdFile <- paste0("/data/", sigMatName, "_refStd.txt")
     if (file.exists(meanFile)) {
-        epicRef$refProfiles <- read.csv(meanFile, sep = "\t", row.names = 1)
+        epicRef$refProfiles <- read.csv(meanFile, sep = "\t", row.names = 1, check.names=F)
     } else {
         epicRef$refProfiles <- ref
         warning("Reference profile was not provided or can not be found, using the signature matrix instead\n")
     }
     if (file.exists(stdFile)) {
-        epicRef$refProfiles.var <- read.csv(stdFile, sep = "\t", row.names = 1)
+        epicRef$refProfiles.var <- read.csv(stdFile, sep = "\t", row.names = 1, check.names=F)
     }
     tryCatch(
         expr = {
@@ -68,8 +68,8 @@ if (length(args) > 1) {
             # (Optional)
             # Do this if an error is caught...
             print(e)
-            Y <- read.csv(args[1], sep = "\t")
-            X <- read.csv(args[2], sep = "\t", row.names = 1)
+            Y <- read.csv(args[1], sep = "\t", check.names=F)
+            X <- read.csv(args[2], sep = "\t", row.names = 1, check.names=F)
             results <- matrix(0, nrow = length(colnames(Y)) - 1, ncol = length(colnames(X)), dimnames = list(colnames(Y)[2:length(colnames(Y))], colnames(X)))
             write.table(t(results), file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
         }
@@ -80,4 +80,3 @@ if (length(args) > 1) {
     results <- xc$cellFractions
     write.table(t(results), file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
 }
-
