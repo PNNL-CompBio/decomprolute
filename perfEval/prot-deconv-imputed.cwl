@@ -98,8 +98,8 @@ steps:
        cancerType: cancerType       
      out: [deconvoluted]
   run-repbulk:
-    run: ../tumorDeconvAlgs/repBulk/rep-bulk.cwl
-    when: $(inputs.protAlg == 'repbulk')
+    run: ../tumorDeconvAlgs/BayesDeBulk/bayes-de-bulk.cwl
+    when: $(inputs.protAlg == 'bayesdebulk')
     in:
       expressionFile:
         source: impute-prot/matrix
@@ -120,4 +120,5 @@ outputs:
  #     - run-cibersortx/deconvoluted
       - run-epic/deconvoluted
       - run-mcpcounter/deconvoluted
+      - run-repbulk/devoncoluted
     pickValue: first_non_null
