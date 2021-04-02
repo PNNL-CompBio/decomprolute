@@ -66,15 +66,17 @@ def main():
 
     A = A.loc[intersectRows, intersectCols]
     B = B.loc[intersectRows, intersectCols]
+    A = A.fillna(0)
+    B = B.fillna(0)
 
     if opts.method == 'ed':
-        distList = [ed(A[sample].to_numpy(), B[sample].to_numpy())
+        distList = [ed(A[sample].to_numpy().astype(np.float32), B[sample].to_numpy().astype(np.float32))
                     for sample in intersectCols]
-    elif opts.method == 'js':
-        distList = [js(A[sample].to_numpy(), B[sample].to_numpy())
+    elif opts.method == 'ks':
+        distList = [ks(A[sample].to_numpy().astype(np.float32), B[sample].to_numpy().astype(np.float32))
                     for sample in intersectCols]
     else:
-        distList = [ks(A[sample].to_numpy(), B[sample].to_numpy())
+        distList = [js(A[sample].to_numpy().astype(np.float32), B[sample].to_numpy().astype(np.float32))
                     for sample in intersectCols]
     dists = pd.Series(distList)
     dists.index = intersectCols
