@@ -1,8 +1,9 @@
-#!/usr/bin/env cwltol
+#!/usr/bin/env cwltool
 class: Workflow
-label: simul-data-comparison
-id: simul-data-comparison
+label: scatter-test
+id: scatter-test
 cwlVersion: v1.2
+
 
 requirements:
    - class: SubworkflowFeatureRequirement
@@ -10,13 +11,18 @@ requirements:
    - class: ScatterFeatureRequirement
    - class: StepInputExpressionRequirement
 
-inputs: 
-   reps:
+   
+inputs:
+   tissueTypes:
+      type: string[]
+   cancerTypes:
       type: string[]
    prot-algorithms:
       type: string[]
-   signature:
-      type: File
+   mrna-algorithms:
+      type: string[]
+   signatures:
+      type: File[]
       
 outputs:
    pat-cor-tab:
@@ -31,23 +37,31 @@ outputs:
    cell-fig:
       type: File[]
       outputSource: get-celltype-cors/fig
-   cell-cors:
+   mrna-files:
       type: File[]
-      outputSource: run-all-algs-by-sig/cell-cor-file
+      outputSource: run-all-algs-by-sig/mrna-file
+   prot-files:
+      type: File[]
+      outputSource: run-all-algs-by-sig/prot-file
+   dist-files:
+      type: File[]
+      outputSource: run-all-algs-by-sig/mat-dist-file
 
 steps:
    run-all-algs-by-sig:
-     run: call-deconv-on-sim.cwl
-     scatter: [prot-alg,permutation]
-     scatterMethod: flat_crossproduct
-     in:
+      run: call-deconv-and-cor.cwl
+      scatter: [signature,mrna-alg,prot-alg,cancerType,tissueType]
+      scatterMethod: flat_crossproduct
+      in:
+        signature: signatures
+        mrna-alg: mrna-algorithms
         prot-alg: prot-algorithms
-        permutation: reps
-        signature: signature
-     out:
-        [pat-cor-file,cell-cor-file,mat-dist-file]
+        cancerType: cancerTypes
+        tissueType: tissueTypes
+      out:
+        [pat-cor-file,cell-cor-file,prot-file,mrna-file,mat-dist-file]
    get-patient-cors:
-      run: figures/plot-figs.cwl
+      run: ../figures/plot-figs.cwl
       in:
         sampOrCell:
            valueFrom: "sample"
@@ -55,11 +69,11 @@ steps:
       out:
         [table,fig]
    get-celltype-cors:
-      run: figures/plot-figs.cwl
+      run: ../figures/plot-figs.cwl
       in:
         sampOrCell:
             valueFrom: "cellType"
         files:
             source: run-all-algs-by-sig/cell-cor-file
       out:
-         [table,fig]
+        [table,fig]
