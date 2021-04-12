@@ -15,7 +15,7 @@ requirements:
    - class: MultipleInputFeatureRequirement
 
 inputs:
-   sampOrCell:
+   metricType:
      type: string
      inputBinding:
        position: 1
