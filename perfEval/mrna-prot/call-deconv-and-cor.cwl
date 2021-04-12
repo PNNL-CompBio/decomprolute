@@ -29,10 +29,13 @@ outputs:
   prot-file:
      type: File
      outputSource: deconv-prot/deconvoluted
+  mat-dist-file:
+     type: File
+     outputSource: matrix-distance/dist
 
 steps:
   deconv-mrna:
-     run: mrna-deconv.cwl
+     run: ../mrna-deconv.cwl
      in:
        cancerType: cancerType
        mrnaAlg: mrna-alg
@@ -40,7 +43,7 @@ steps:
        sampleType: tissueType
      out: [deconvoluted]
   deconv-prot:
-     run: prot-deconv.cwl
+     run: ../prot-deconv.cwl
      in:
        cancerType: cancerType
        protAlg: prot-alg
@@ -48,7 +51,7 @@ steps:
        sampleType: tissueType
      out: [deconvoluted]
   patient-cor:
-     run: ./correlations/deconv-corr-cwl-tool.cwl
+     run: ../correlations/deconv-corr-cwl-tool.cwl
      in:
        cancerType: cancerType
        mrnaAlg: mrna-alg
@@ -61,7 +64,7 @@ steps:
          source: deconv-mrna/deconvoluted
      out: [corr]
   celltype-cor:
-     run: ./correlations/deconv-corrXcelltypes-cwl-tool.cwl
+     run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
        cancerType: cancerType
        mrnaAlg: mrna-alg
@@ -73,3 +76,15 @@ steps:
        transcriptomics:
          source: deconv-mrna/deconvoluted
      out: [corr]
+  matrix-distance:
+     run: ../comparison/deconv-comparison-tool.cwl
+     in:
+       matrixA: deconv-mrna/deconvoluted
+       matrixB: deconv-prot/deconvoluted
+       cancerType: cancerType
+       aAlg: mrna-alg
+       bAlg: prot-alg
+       signature: signature
+       sampleType: tissueType
+     out:
+       [dist]

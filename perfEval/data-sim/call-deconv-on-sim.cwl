@@ -37,16 +37,19 @@ outputs:
   cellPred:
      type: File
      outputSource: get-sim-data/cellType
+  mat-dist-file:
+     type: File
+     outputSource: matrix-distance/dist     
 
 steps:
   get-sim-data:
-     run: ../simulatedData/sim-data-tool.cwl
+     run: ../../simulatedData/sim-data-tool.cwl
      in:
        repNumber: permutation
      out:
        [matrix,cellType]
   deconv-prot:
-     run: run-deconv.cwl
+     run: ../run-deconv.cwl
      in:
        alg: prot-alg
        signature: signature
@@ -56,7 +59,7 @@ steps:
        matrix: get-sim-data/matrix
      out: [deconvoluted]
   patient-cor:
-     run: ./correlations/deconv-corr-cwl-tool.cwl
+     run: ../correlations/deconv-corr-cwl-tool.cwl
      in:
        cancerType: permutation
        mrnaAlg:
@@ -70,7 +73,7 @@ steps:
          source: get-sim-data/cellType
      out: [corr]
   celltype-cor:
-     run: ./correlations/deconv-corrXcelltypes-cwl-tool.cwl
+     run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
        cancerType: permutation
        mrnaAlg:
@@ -83,3 +86,16 @@ steps:
        transcriptomics:
          source: get-sim-data/cellType
      out: [corr]
+  matrix-distance:
+     run: ../comparison/deconv-comparison-tool.cwl
+     in:
+       matrixA: deconv-prot/deconvoluted
+       matrixB: get-sim-data/cellType
+       cancerType: permutation
+       aAlg: prot-alg
+       bAlg:
+         valueFrom: "cellFraction"
+       signature: signature
+       sampleType: sampleType
+     out:
+       [dist]
