@@ -11,4 +11,4 @@ reps:
   - "5"
 signature:
   class: File
-  path: ../signature_matrices/LM9.txt
+  path: ../../signature_matrices/LM9.txt
