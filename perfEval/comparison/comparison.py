@@ -8,7 +8,7 @@ import pandas as pd
 # import seaborn as sns
 import argparse
 
-
+# Euclidean distances
 def ed(a, b):
     if len(a) != len(b):
         print("The two arrays are not same size!")
