@@ -28,7 +28,7 @@ inputs:
     type: string
     inputBinding:
       prefix: --method
-    default: "ks"
+    default: "js"
   cancerType:
     type: string
   aAlg:

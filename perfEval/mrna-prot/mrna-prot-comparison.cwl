@@ -63,7 +63,7 @@ steps:
    get-patient-cors:
       run: ../figures/plot-figs.cwl
       in:
-        sampOrCell:
+        metricType:
            valueFrom: "sample"
         files: run-all-algs-by-sig/pat-cor-file
       out:
@@ -71,7 +71,7 @@ steps:
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
-        sampOrCell:
+        metricType:
             valueFrom: "cellType"
         files:
             source: run-all-algs-by-sig/cell-cor-file
