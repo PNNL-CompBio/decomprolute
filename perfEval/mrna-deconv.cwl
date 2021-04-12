@@ -29,13 +29,9 @@ steps:
   run-deconv:
     run: run-deconv.cwl
     in:
+      matrix: download-mrna/matrix
       signature: signature
       alg: mrnaAlg
-      cancerType: cancerType
-      dataType:
-        valueFrom: 'mrna'
-      sampleType: sampleType
-      matrix: download-mrna/matrix
     out:
       [deconvoluted]
   

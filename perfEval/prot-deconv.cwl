@@ -8,7 +8,6 @@ requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
 
-
 inputs:
    signature:
      type: File
@@ -30,13 +29,9 @@ steps:
   run-deconv:
     run: run-deconv.cwl
     in:
+      matrix: download-prot/matrix
       signature: signature
       alg: protAlg
-      cancerType: cancerType
-      dataType:
-        valueFrom: 'prot'
-      sampleType: sampleType
-      matrix: download-prot/matrix
     out:
       [deconvoluted]
   
