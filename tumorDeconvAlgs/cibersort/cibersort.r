@@ -142,9 +142,9 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
 
   #read in data
   #X <- read.table(sig_matrix,header=T,sep="\t",row.names=1,check.names=F)
-  X <- read.csv(sig_matrix, sep = "\t", row.names = 1) 
+  X <- read.csv(sig_matrix, sep = "\t", row.names = 1,check.names=F)
   #Y <- read.table(mixture_file, header=T, sep="\t",check.names=F)
-  Y <- read.csv(mixture_file, sep = "\t")
+  Y <- read.csv(mixture_file, sep = "\t",check.names=F)
   #to prevent crashing on duplicated gene symbols, add unique numbers to identical names
   dups <- dim(Y)[1] - length(unique(Y[,1]))
   if(dups > 0) {
@@ -260,7 +260,7 @@ tryCatch(
       # (Optional)
       # Do this if an error is caught...
       print(e)
-      X <- read.csv(args[2], sep = "\t", row.names = 1) 
+      X <- read.csv(args[2], sep = "\t", row.names = 1)
       Y <- read.csv(args[1], sep = "\t")
       cs <- matrix(0, nrow = length(colnames(Y)) - 1, ncol = length(colnames(X)), dimnames = list(colnames(Y)[2:length(colnames(Y))], colnames(X)))
       write.table(t(cs), file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")

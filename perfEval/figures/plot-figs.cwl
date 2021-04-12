@@ -19,10 +19,15 @@ inputs:
      type: string
      inputBinding:
        position: 1
+   metric:
+     type: string
+     default: "correlation"
+     inputBinding:
+       position: 2
    files:
      type:  File[]
      inputBinding:
-        position: 2
+        position: 3
 
 outputs:
    table:
