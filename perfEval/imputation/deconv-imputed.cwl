@@ -13,10 +13,10 @@ requirements:
 inputs:
   signature:
     type: File
-  alg:
-    type: string
   expression:
     type: File
+  alg:
+    type: string
   
 steps:
   run-cibersort:

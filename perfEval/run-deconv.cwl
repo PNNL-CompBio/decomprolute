@@ -14,12 +14,6 @@ inputs:
      type: File
    alg:
      type: string
-   cancerType:
-     type: string
-   sampleType:
-     type: string
-   dataType:
-     type: string
    matrix:
      type: File
 steps:
@@ -29,20 +23,14 @@ steps:
     in:
       expression: matrix
       signature: signature
-      alg: alg
-      type: dataType
-      cancerType: cancerType          
     out:
       [deconvoluted]
   run-xcell:
      run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
      when: $(inputs.alg == 'xcell')
      in:
-       signature: signature
-       alg: alg
        expression: matrix
-       type: dataType
-       cancerType: cancerType      
+       signature: signature
      out: [deconvoluted]
   run-epic:
      run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
@@ -50,19 +38,13 @@ steps:
      in:
        expression: matrix
        signature: signature
-       alg: alg
-       type: dataType
-       cancerType: cancerType             
      out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
 #     when: $(inputs.alg == 'cibersortx')
 #     in:
+#       expression: matrix
 #       signature: signature
-#       alg: alg
-#       type: dataType
-#       cancerType: cancerType      
- #      expression: matrix
 #     out: [deconvoluted]
   run-mcpcounter:
      run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
@@ -70,9 +52,6 @@ steps:
      in:
        expression: matrix
        signature: signature
-       alg: alg
-       type: dataType
-       cancerType: cancerType       
      out: [deconvoluted]
   run-repbulk:
     run: ../tumorDeconvAlgs/BayesDeBulk/bayes-de-bulk.cwl
@@ -80,9 +59,6 @@ steps:
     in:
       expressionFile: matrix
       signatureMatrix: signature
-      alg: alg
-      dataType: dataType
-      cancerType: cancerType
     out:
       [deconvoluted]
   
