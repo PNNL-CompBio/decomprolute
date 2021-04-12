@@ -53,7 +53,6 @@ def main():
         else:
             exit("The sample type, tumor vs normal vs all (default),\
             is not correctly set!")
-
     df.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
 
 

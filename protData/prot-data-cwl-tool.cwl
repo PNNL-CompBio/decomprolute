@@ -32,4 +32,4 @@ outputs:
     matrix:
         type: File
         outputBinding:
-            glob: "file.tsv"
+            glob: "*.tsv"
