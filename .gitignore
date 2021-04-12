@@ -267,4 +267,7 @@ dmypy.json
 .pyre/
 
 # Ignore repBulk outputs
-tumorDeconvAlgs/repBulk/output*
+tumorDeconvAlgs/BayesDeBulk/*.tsv
+
+# Ignore protData outputs
+protData/file.tsv

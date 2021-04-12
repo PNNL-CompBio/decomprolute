@@ -24,10 +24,6 @@ inputs:
     type: File
     inputBinding:
       position: 2
-  # dataType:
-  #   type: string
-  # cancerType:
-  #   type: string
 
 outputs:
   deconvoluted:

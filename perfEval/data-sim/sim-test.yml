@@ -1,0 +1,14 @@
+prot-algorithms:
+  - mcpcounter
+  - epic
+  - xcell
+  - cibersort
+reps:
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  - "5"
+signature:
+  class: File
+  path: ../../signature_matrices/LM9.txt

@@ -25,7 +25,6 @@ steps:
     in:
       expression: expression
       signature: signature
-      alg: alg
     out:
       [deconvoluted]
   run-xcell:
@@ -33,7 +32,6 @@ steps:
      when: $(inputs.alg == 'xcell')
      in:
        signature: signature
-       alg: alg
        expression: expression
      out: [deconvoluted]
   run-epic:
@@ -42,14 +40,12 @@ steps:
      in:
        expression: expression
        signature: signature
-       alg: alg
      out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
 #     when: $(inputs.alg == 'cibersortx')
 #     in:
 #       signature: signature
-#       progAlg: alg
 #       expression: expression
 #     out: [deconvoluted]
   run-mcpcounter:
@@ -58,15 +54,13 @@ steps:
      in:
        expression: expression
        signature: signature
-       alg: alg
      out: [deconvoluted]
   run-repbulk:
-    run: ../tumorDeconvAlgs/repBulk/rep-bulk.cwl
+    run: ../tumorDeconvAlgs/BayesDeBulk/bayes-de-bulk.cwl
     when: $(inputs.alg == 'repbulk')
     in:
       expressionFile: expression
       signatureMatrix: signature
-      alg: alg
     out:
       [deconvoluted]
   
@@ -79,4 +73,5 @@ outputs:
  #     - run-cibersortx/deconvoluted
       - run-epic/deconvoluted
       - run-mcpcounter/deconvoluted
+      - run-repbulk/deconvoluted
     pickValue: first_non_null

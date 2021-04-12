@@ -1,0 +1,7 @@
+expressionFile:
+  class: File
+  path: ../../toy_data/TOY_rna_expression_withNA.tsv
+signatureMatrix:
+  class: File
+  path: ../../toy_data/TOY_signature_matrix.tsv
+rowMeansImputation: 'TRUE'
