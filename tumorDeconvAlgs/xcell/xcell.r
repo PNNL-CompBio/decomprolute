@@ -15,7 +15,7 @@ library(xCell)
 BiocParallel::register(BiocParallel::SerialParam())
 
 if (length(args) > 1) {
-    ref <- read.csv(args[2], sep = "\t", row.names = 1) ### Need to change later
+    ref <- read.csv(args[2], sep = "\t", row.names = 1,check.names=F) ### Need to change later
     ref <- as.data.frame(ref[intersect(rownames(ref), rownames(df)),])
     cellTypeNames <- colnames(ref)
     marker <- list()
@@ -42,9 +42,9 @@ if (length(args) > 1) {
         marker[[i]] <- markers
         taggedNames <- c(taggedNames, paste0(colnames(ref)[i], "%", cellTypeNames[i], toString(i), "%", cellTypeNames[i], toString(i), ".txt"))
     }
-    
+
     names(marker) <- taggedNames#paste0(colnames(ref), "%tag0%tag1")
-    
+
     spill <- list()
     spill[["K"]] <- matrix(1/length(cellTypeNames), nrow = length(cellTypeNames), ncol = length(cellTypeNames), dimnames = list(cellTypeNames, cellTypeNames))
     spill[["fv"]] <- as.data.frame(matrix(1, nrow = length(cellTypeNames), ncol = 3, dimnames = list(cellTypeNames, c("V1", "V2", "V3"))))
@@ -52,16 +52,16 @@ if (length(args) > 1) {
         expr = {
             xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
         },
-        error = function(e){ 
+        error = function(e){
             # (Optional)
             # Do this if an error is caught...
             print(e)
-            X <- read.csv(args[2], sep = "\t", row.names = 1) 
-            Y <- read.csv(args[1], sep = "\t")
+            X <- read.csv(args[2], sep = "\t", row.names = 1,check.names=F)
+            Y <- read.csv(args[1], sep = "\t",check.names=F)
             mcp <- matrix(0, ncol = length(colnames(Y)) - 1, nrow = length(colnames(X)), dimnames = list(colnames(X), colnames(Y)[2:length(colnames(Y))]))
             write.table(mcp, file="deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
         }
-    )    
+    )
 } else {
     xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv")
 }
