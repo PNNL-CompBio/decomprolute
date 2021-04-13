@@ -25,7 +25,12 @@ combinePatientCors<-function(file.list,metric='correlation'){
       prot.algorithm=vars[5]
       matrix=vars[6]
       tab<-read.table(file,fill=TRUE,check.names=FALSE)
-      colnames(tab)<-(c('patient',metric))
+      if (ncol(tab) > 1) {
+        colnames(tab)<-(c('patient',metric))
+      } else {
+        tab$values <- NaN
+        colnames(tab)<-(c('patient',metric))
+      }
       return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
    }))
    full.tab<-full.tab%>%
@@ -76,7 +81,12 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
       prot.algorithm=vars[5]
       matrix=vars[6]
       tab<-read.table(file,fill=TRUE,sep='\t',check.names=FALSE)
-      colnames(tab)<-(c('cellType',metric))
+      if (ncol(tab) > 1) {
+        colnames(tab)<-(c('cellType',metric))
+      } else {
+        tab$values <- NaN
+        colnames(tab)<-(c('cellType',metric))
+      }
       return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
 
   }))
@@ -116,7 +126,7 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
 
 
 #' combine list of files of patient correlations
-combinePatientDists<-function(file.list,metric='distance'){
+combineDists<-function(file.list,metric='distance', metricType='js'){
    message(paste0('Combining ',length(file.list),' files'))
 
    full.tab<-do.call(rbind,lapply(file.list,function(file){
@@ -127,39 +137,43 @@ combinePatientDists<-function(file.list,metric='distance'){
       prot.algorithm=vars[5]
       matrix=vars[6]
       tab<-read.table(file,fill=TRUE,check.names=FALSE)
-      colnames(tab)<-(c('patient',metric))
-      return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
+      if (ncol(tab) > 1) {
+        colnames(tab)<-(c('patient',metric))
+        distance <- sqrt(sum(tab[[metric]]^2))
+      } else {
+        distance <- NaN
+      }
+      return(data.frame(distance,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
    }))
    full.tab<-full.tab%>%
        mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
 
-   mats<-unique(full.tab$matrix)
-   lapply(mats,function(mat){
-       p<-full.tab%>%
-          rename(value=metric)%>%
-           subset(matrix==mat)%>%
-           ggplot()+
-           geom_violin(aes(x=tissue,y=value,fill=disease))+
-          facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+
-          scale_fill_viridis_d()+
-           theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-       ggsave(paste0(mat,'patient',metric,'s.pdf'),p,width=12,height=12)
-   })
+   # mats<-unique(full.tab$matrix)
+   # lapply(mats,function(mat){
+   #   p<-full.tab%>%
+   #     rename(value=metric)%>%
+   #     subset(matrix==mat)%>%
+   #     ggplot()+
+   #     geom_violin(aes(x=tissue,y=value,fill=disease))+
+   #     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+
+   #     scale_fill_viridis_d()+
+   #     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+   #   ggsave(paste0(mat,'patient',metric,'s.pdf'),p,width=12,height=12)
+   # })
 
    p2<-full.tab%>%
      rename(value=metric)%>%
-     ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
-     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_viridis_d()
-   ggsave(paste0('allSigsPatient',metric,'.pdf'),p2,width=12,height=12)
+     ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = value)) + geom_tile() +
+     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+     # ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
+     facet_grid(rows=vars(matrix),cols=vars(disease))#+scale_fill_viridis_d()
+   ggsave(paste0('heatmaps-', metricType, '-', metric,'.pdf'),p2,width=14,height=8)
 
-   mean.tab<-full.tab%>%
+   p3<-full.tab%>%
      rename(value=metric)%>%
-     group_by(tissue,disease,mrna.algorithm,prot.algorithm,matrix)%>%
-          summarize(meanVal=mean(value,na.rm=T))
-
-   p3<-ggplot(mean.tab,aes(x=matrix,shape=tissue,y=meanVal,col=disease))+geom_jitter()+
-     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d()
-   ggsave(paste0('patient',metric,'averages.pdf'),p2,width=12,height=12)
+     ggplot(aes(x=matrix,shape=tissue,y=value,col=disease))+geom_jitter()+
+     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d() + ylab(metric)
+   ggsave(paste0('scatters-', metricType, '-', metric,'.pdf'),p3,width=10,height=8)
 
   return(full.tab)
 }
@@ -173,16 +187,21 @@ combinePatientDists<-function(file.list,metric='distance'){
   argv <- commandArgs(trailingOnly = TRUE)
   file.list<-argv[3:length(argv)]
   metric=argv[2]
-  if(argv[1]=='sample'){
+  metricType = argv[1]
+  if(metric=='correlation' && metricType=='sample'){
     tab<-combinePatientCors(file.list,metric)
     print(dim(tab))
-    write.table(tab,paste0('combinedSampleTab',metric,'.tsv'),row.names=F,col.names=T)
-  }else if(argv[1]=='cellType'){
+    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+  }else if(metric=='correlation' && metricType=='cellType'){
     tab<-combineCellTypeCors(file.list,metric)
     print(dim(tab))
-    write.table(tab,paste0('combinedCellTypeCorrelation',metric,'.tsv'),row.names=F,col.names=T)
+    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+  }else if(metric=='distance'){
+    tab<-combineDists(file.list,metric,metricType)
+    print(dim(tab))
+    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
   }else{
-    print("First argument must be `cellType` or `sample`")
+    print("First argument must be metricType and second must be metric name")
 
   }
 
