@@ -21,10 +21,13 @@ main<-function(){
   files = c('data_rep_1.rda','data_rep_2.rda','data_rep_3.rda','data_rep_4.rda','data_rep_5.rda')
   #if(argv[1]=='getData'){
   datarep=argv[1]
-  if(!datarep%in%c('1','2','3','4','5')){
-    print(paste0('No data file for',datarep))
-  }else{
+  if(datarep%in%c('1','2','3','4','5')){
       dataToTxt(paste0('/bin/data_rep_',datarep,'.rda'))
+  }else if(datarep=='pbmc'){
+      pi <- read.table('PBMCs-Fig3a-Flow-Cytometry.txt', row.names=1,header=TRUE,sep='\t',check.names=FALSE)
+      data.mix<-read.table('PBMCs-Fig3a-HumanHT-12-V4.txt',row.names=1,header=TRUE,sep='\t',check.names=FALSE)
+  }
+      print(paste0('No data file for',datarep))
   }
 }
 

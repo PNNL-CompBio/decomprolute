@@ -55,6 +55,13 @@ steps:
        dataType: dataType
        matrix: get-sim-data/matrix
      out: [deconvoluted]
+  map-to-gold-standard:
+     run: ../../simulatedData/sim-data-map.cwl
+     in:
+       signature: signature
+       matrix: deconv-prot/deconvoluted
+     out:
+       [deconvoluted]
   patient-cor:
      run: ./correlations/deconv-corr-cwl-tool.cwl
      in:
@@ -65,7 +72,7 @@ steps:
        signature: signature
        sampleType: sampleType
        proteomics:
-         source: deconv-prot/deconvoluted
+         source: map-to-gold-standard/deconvoluted
        transcriptomics:
          source: get-sim-data/cellType
      out: [corr]
