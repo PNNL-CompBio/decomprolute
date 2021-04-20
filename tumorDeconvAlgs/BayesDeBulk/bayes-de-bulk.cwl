@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 
-# command: Rscript main.R --expressionFile=${expressionFile} --signatureMatrix=${signature_matrix}
+# command: Rscript main_docker.R --expressionFile=${expressionFile} --signatureMatrix=${signature_matrix}
 
 label: rep-bulk
 id:  rep-bulk
@@ -13,7 +13,7 @@ arguments:
 
 requirements:
   - class: DockerRequirement
-    dockerPull: tumordeconv/rep-bulk
+    dockerPull: tumordeconv/in-progress
   - class: InlineJavascriptRequirement
   
 inputs:
