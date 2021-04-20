@@ -15,10 +15,14 @@ requirements:
       dockerPull: tumordeconv/sim-data
 
 inputs:
-    repNumber:
+    simType:
         type: string
         inputBinding:
             position: 1
+    repNumber:
+        type: string?
+        inputBinding:
+            position: 2
        
 outputs:
     matrix:
