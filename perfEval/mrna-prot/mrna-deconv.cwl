@@ -20,14 +20,14 @@ inputs:
 
 steps:
   download-mrna:
-    run: ../mRNAData/mrna-data-cwl-tool.cwl
+    run: ../../mRNAData/mrna-data-cwl-tool.cwl
     in:
       cancerType: cancerType
       sampleType: sampleType
     out:
       [matrix]
   run-deconv:
-    run: run-deconv.cwl
+    run: ../run-deconv.cwl
     in:
       matrix: download-mrna/matrix
       signature: signature

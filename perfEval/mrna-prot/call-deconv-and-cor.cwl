@@ -35,7 +35,7 @@ outputs:
 
 steps:
   deconv-mrna:
-     run: ../mrna-deconv.cwl
+     run: mrna-deconv.cwl
      in:
        cancerType: cancerType
        mrnaAlg: mrna-alg

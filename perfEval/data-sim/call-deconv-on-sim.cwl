@@ -58,6 +58,13 @@ steps:
        dataType: dataType
        matrix: get-sim-data/matrix
      out: [deconvoluted]
+  match-prot-to-sig:
+     run: ../../simulatedData/map-sig-tool.cwl
+     in:
+       deconv-matrix: deconv-prot/deconvoluted
+       sig-matrix: signature
+       cell-matrix: get-sim-data/cellType
+     out: [updated-deconv]
   patient-cor:
      run: ../correlations/deconv-corr-cwl-tool.cwl
      in:
@@ -68,7 +75,7 @@ steps:
        signature: signature
        sampleType: sampleType
        proteomics:
-         source: deconv-prot/deconvoluted
+         source: match-prot-to-sig/updated-deconv
        transcriptomics:
          source: get-sim-data/cellType
      out: [corr]
@@ -82,14 +89,14 @@ steps:
        signature: signature
        sampleType: sampleType
        proteomics:
-         source: deconv-prot/deconvoluted
+         source: match-prot-to-sig/updated-deconv
        transcriptomics:
          source: get-sim-data/cellType
      out: [corr]
   matrix-distance:
      run: ../comparison/deconv-comparison-tool.cwl
      in:
-       matrixA: deconv-prot/deconvoluted
+       matrixA: match-prot-to-sig/updated-deconv
        matrixB: get-sim-data/cellType
        cancerType: permutation
        aAlg: prot-alg
