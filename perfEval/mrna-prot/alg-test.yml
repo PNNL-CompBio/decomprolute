@@ -1,16 +1,14 @@
 cancerTypes:
-  - endometrial
+  - luad
   - ccrcc
 prot-algorithms:
   - mcpcounter
   - epic
-  - xcell
   - cibersort
   - repbulk
 mrna-algorithms:
   - mcpcounter
   - epic
-  - xcell
   - cibersort
   - repbulk
 tissueTypes:
@@ -18,5 +16,3 @@ tissueTypes:
 signatures:
   - class: File
     path: ../../signature_matrices/LM7c.txt
-  - class: File
-    path: ../../signature_matrices/LM22.txt
