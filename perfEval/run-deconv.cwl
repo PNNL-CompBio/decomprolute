@@ -16,6 +16,16 @@ inputs:
      type: string
    matrix:
      type: File
+   cancerType:
+     type: string
+     default: "cancer"
+   sampleType:
+     type: string
+     default: "tumor"
+   dataType:
+     type: string
+     default: "prot"
+
 steps:
   run-cibersort:
     run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
