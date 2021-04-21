@@ -9,7 +9,7 @@ arguments:
 
 requirements:
    - class: DockerRequirement
-     dockerPull: tumodeconv/sim-data
+     dockerPull: tumordeconv/sim-data
 
 
 inputs:
@@ -25,3 +25,9 @@ inputs:
      type: File
      inputBinding:
         position: 3
+
+outputs:
+  updated-deconv:
+     type: File
+     outputBinding:
+        glob: "*.tsv"

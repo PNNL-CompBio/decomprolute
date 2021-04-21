@@ -15,12 +15,16 @@ inputs:
      type: File
    permutation:
      type: string
+     default: '1'
    prot-alg:
      type: string
    sampleType:
      type: string
      default: 'normal'
    dataType:
+     type: string
+     default: 'prot'
+   simType:
      type: string
      default: 'prot'
 
@@ -46,6 +50,7 @@ steps:
      run: ../../simulatedData/sim-data-tool.cwl
      in:
        repNumber: permutation
+       simType: simType
      out:
        [matrix,cellType]
   deconv-prot:

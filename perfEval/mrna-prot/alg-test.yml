@@ -1,5 +1,5 @@
 cancerTypes:
-  - endometrial
+  - luad
   - ccrcc
 prot-algorithms:
   - mcpcounter
