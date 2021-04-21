@@ -3,6 +3,7 @@ prot-algorithms:
   - epic
   - xcell
   - cibersort
+  - bayesdebulk
 reps:
   - "1"
   - "2"
