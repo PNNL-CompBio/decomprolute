@@ -13,11 +13,11 @@ requirements:
 inputs:
    signature:
      type: File
+   protAlg:
+     type: string
    permutation:
      type: string
      default: '1'
-   prot-alg:
-     type: string
    sampleType:
      type: string
      default: 'normal'
@@ -37,7 +37,7 @@ outputs:
      outputSource: celltype-cor/corr
   deconv:
      type: File
-     outputSource: deconv-prot/deconvoluted
+     outputSource: match-prot-to-sig/updated-deconv
   cellPred:
      type: File
      outputSource: get-sim-data/cellType
@@ -56,11 +56,8 @@ steps:
   deconv-prot:
      run: ../run-deconv.cwl
      in:
-       alg: prot-alg
+       alg: protAlg
        signature: signature
-       cancerType: permutation
-       sampleType: sampleType          
-       dataType: dataType
        matrix: get-sim-data/matrix
      out: [deconvoluted]
   match-prot-to-sig:
@@ -76,7 +73,7 @@ steps:
        cancerType: permutation
        mrnaAlg:
          valueFrom: 'cellFraction'
-       protAlg: prot-alg
+       protAlg: protAlg
        signature: signature
        sampleType: sampleType
        proteomics:
@@ -90,7 +87,7 @@ steps:
        cancerType: permutation
        mrnaAlg:
           valueFrom: "cellFraction"
-       protAlg: prot-alg
+       protAlg: protAlg
        signature: signature
        sampleType: sampleType
        proteomics:
@@ -104,7 +101,7 @@ steps:
        matrixA: match-prot-to-sig/updated-deconv
        matrixB: get-sim-data/cellType
        cancerType: permutation
-       aAlg: prot-alg
+       aAlg: protAlg
        bAlg:
          valueFrom: "cellFraction"
        signature: signature

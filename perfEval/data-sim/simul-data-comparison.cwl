@@ -9,6 +9,7 @@ requirements:
    - class: MultipleInputFeatureRequirement
    - class: ScatterFeatureRequirement
    - class: StepInputExpressionRequirement
+   - class: InlineJavascriptRequirement
 
 inputs: 
    reps:
@@ -41,12 +42,16 @@ outputs:
 steps:
    run-all-algs-by-sig:
      run: call-deconv-on-sim.cwl
-     scatter: [prot-alg,permutation]
+     scatter: [protAlg,permutation]
      scatterMethod: flat_crossproduct
      in:
-        prot-alg: prot-algorithms
+        protAlg: prot-algorithms
         permutation: reps
         signature: signature
+        sampleType:
+          valueFrom: 'normal'
+        dataType:
+          valueFrom: 'prot'
      out:
         [pat-cor-file,cell-cor-file,mat-dist-file]
    get-patient-cors:

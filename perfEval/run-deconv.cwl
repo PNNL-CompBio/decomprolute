@@ -8,6 +8,7 @@ requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
   - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
    signature:
@@ -16,59 +17,55 @@ inputs:
      type: string
    matrix:
      type: File
-   cancerType:
-     type: string
-     default: "cancer"
-   sampleType:
-     type: string
-     default: "tumor"
-   dataType:
-     type: string
-     default: "prot"
-
+     
 steps:
   run-cibersort:
-    run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
-    when: $(inputs.alg == 'cibersort')
-    in:
+     run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
+     when: $(inputs.alg == "cibersort")
+     in:
       expression: matrix
       signature: signature
-    out:
-      [deconvoluted]
+      alg: alg
+     out: [deconvoluted]
   run-xcell:
      run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
-     when: $(inputs.alg == 'xcell')
+     when: $(inputs.alg == "xcell")
      in:
        expression: matrix
        signature: signature
+       alg: alg
      out: [deconvoluted]
   run-epic:
      run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
-     when: $(inputs.alg == 'epic')
+     when: $(inputs.alg == "epic")
      in:
        expression: matrix
        signature: signature
+       alg: alg
      out: [deconvoluted]
 #  run-cibersortx:
 #     run: ../tumorDeconvAlgs/cibersortx/run-cibersortx-tool.cwl
-#     when: $(inputs.alg == 'cibersortx')
+#     when: $(inputs.alg == "cibersortx")
 #     in:
 #       expression: matrix
 #       signature: signature
+#       alg: alg
 #     out: [deconvoluted]
   run-mcpcounter:
      run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
-     when: $(inputs.alg == 'mcpcounter')
+     when: $(inputs.alg == "mcpcounter")
      in:
        expression: matrix
        signature: signature
+       alg: alg
      out: [deconvoluted]
   run-repbulk:
     run: ../tumorDeconvAlgs/BayesDeBulk/bayes-de-bulk.cwl
-    when: $(inputs.alg == 'bayesdebulk')
+    when: $(inputs.alg == "bayesdebulk")
     in:
       expressionFile: matrix
       signatureMatrix: signature
+      alg: alg
     out:
       [deconvoluted]
   
