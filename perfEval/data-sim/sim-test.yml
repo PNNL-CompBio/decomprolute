@@ -1,9 +1,8 @@
 prot-algorithms:
-  - mcpcounter
-  - epic
-  - xcell
-  - cibersort
-  - bayesdebulk
+  - "mcpcounter"
+  - "epic"
+  - "xcell"
+  - "cibersort"
 reps:
   - "1"
   - "2"
