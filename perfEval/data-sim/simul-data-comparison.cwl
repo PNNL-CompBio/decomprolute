@@ -16,8 +16,10 @@ inputs:
       type: string[]
    prot-algorithms:
       type: string[]
-   signature:
-      type: File
+   signatures:
+      type: File[]
+   simTypes: 
+      type: string[]
       
 outputs:
    pat-cor-tab:
@@ -42,16 +44,17 @@ outputs:
 steps:
    run-all-algs-by-sig:
      run: call-deconv-on-sim.cwl
-     scatter: [protAlg,permutation]
+     scatter: [protAlg,permutation,simType,signature]
      scatterMethod: flat_crossproduct
      in:
         protAlg: prot-algorithms
         permutation: reps
-        signature: signature
+        signature: signatures
         sampleType:
           valueFrom: 'normal'
         dataType:
           valueFrom: 'prot'
+        simType: simTypes
      out:
         [pat-cor-file,cell-cor-file,mat-dist-file]
    get-patient-cors:

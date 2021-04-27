@@ -21,13 +21,21 @@ inputs:
      type: File
      inputBinding:
         position: 2
+  deconv-type:
+     type: string
+     inputBinding:
+        position: 3
   cell-matrix:
      type: File
      inputBinding:
-        position: 3
+        position: 4
 
 outputs:
   updated-deconv:
      type: File
      outputBinding:
-        glob: "*.tsv"
+        glob: "*Deconv.tsv"
+  updated-cell-matrix:
+     type: File
+     outputBinding:
+        glob: "*Cells.tsv"
