@@ -11,7 +11,7 @@ to run an algorithm included in our suite:
 | --- | --- | --- |
 | signature | yes | Signature matrix file used to run the deconvolution, such as those located in [the signature matrix directory](../signature_matrices)|
 | alg | yes | Name of algorithm. Currently implemented are: `cibersort`, `xcell`, `epic`, `mcpcounter`, and `bayesdebulk`|
-|matrix | yes | Matrix of gene expressio values to be deconvoluted. Row names are genes, column names are sample names. |
+|matrix | yes | Matrix of gene expression values to be deconvoluted. Row names are genes, column names are sample names. |
 
 ## Implemented algorithm metrics
 Below are the three different tests we perform. For each test, there are numerous
