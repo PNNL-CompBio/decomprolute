@@ -18,9 +18,6 @@ inputs:
    permutation:
      type: string
      default: '1'
-   sampleType:
-     type: string
-     default: 'normal'
    dataType:
      type: string
      default: 'prot'
@@ -65,8 +62,9 @@ steps:
      in:
        deconv-matrix: deconv-prot/deconvoluted
        sig-matrix: signature
+       deconv-type: simType
        cell-matrix: get-sim-data/cellType
-     out: [updated-deconv]
+     out: [updated-deconv,updated-cell-matrix]
   patient-cor:
      run: ../correlations/deconv-corr-cwl-tool.cwl
      in:
@@ -75,7 +73,7 @@ steps:
          valueFrom: 'cellFraction'
        protAlg: protAlg
        signature: signature
-       sampleType: sampleType
+       sampleType: simType
        proteomics:
          source: match-prot-to-sig/updated-deconv
        transcriptomics:
@@ -89,7 +87,7 @@ steps:
           valueFrom: "cellFraction"
        protAlg: protAlg
        signature: signature
-       sampleType: sampleType
+       sampleType: simType
        proteomics:
          source: match-prot-to-sig/updated-deconv
        transcriptomics:
@@ -105,6 +103,6 @@ steps:
        bAlg:
          valueFrom: "cellFraction"
        signature: signature
-       sampleType: sampleType
+       sampleType: simType
      out:
        [dist]
