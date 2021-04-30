@@ -1,16 +1,23 @@
 prot-algorithms:
   - "mcpcounter"
-  - "epic"
   - "xcell"
-  - "cibersort"
+  - 'epic'
+  - 'cibersort'
 reps:
   - "1"
   - "2"
   - "3"
   - "4"
   - "5"
-signature:
-  class: File
-  path: ../../signature_matrices/LM9.txt
-  class: File
-  path: ../../signature_matrices/LM22.txt
+signatures:
+  - class: File
+    path: ../../signature_matrices/LM9.txt
+  - class: File
+    path: ../../signature_matrices/LM22.txt
+  - class: File
+    path: ../../signature_matrices/LM7c.txt
+  - class: File
+    path: ../../signature_matrices/pbmc.txt
+simTypes:
+  - mrna
+  - prot

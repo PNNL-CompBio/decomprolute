@@ -9,7 +9,6 @@ baseCommand: Rscript
 arguments:
      - /bin/getSimDataMatrices.R
 
-
 requirements:
     - class: DockerRequirement
       dockerPull: tumordeconv/sim-data
