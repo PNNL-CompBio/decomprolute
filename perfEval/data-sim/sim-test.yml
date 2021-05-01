@@ -21,3 +21,4 @@ signatures:
 simTypes:
   - mrna
   - prot
+  - pbmc
