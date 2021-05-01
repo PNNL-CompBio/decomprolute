@@ -22,12 +22,6 @@ inputs:
       type: string[]
       
 outputs:
-   pat-cor-tab:
-      type: File
-      outputSource: get-patient-cors/table
-   pat-fig:
-      type: File[]
-      outputSource: get-patient-cors/fig
    cell-cor-tab:
       type: File
       outputSource: get-celltype-cors/table
@@ -56,15 +50,15 @@ steps:
           valueFrom: 'prot'
         simType: simTypes
      out:
-        [pat-cor-file,cell-cor-file,mat-dist-file]
-   get-patient-cors:
-      run: ../figures/plot-figs.cwl
-      in:
-        metricType:
-           valueFrom: "sample"
-        files: run-all-algs-by-sig/pat-cor-file
-      out:
-        [table,fig]
+        [cell-cor-file,mat-dist-file]
+#   get-patient-cors:
+#      run: ../figures/plot-figs.cwl
+#      in:
+#        metricType:
+#           valueFrom: "sample"
+#        files: run-all-algs-by-sig/pat-cor-file
+#      out:
+#        [table,fig]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
