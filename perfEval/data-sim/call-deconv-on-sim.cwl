@@ -26,12 +26,6 @@ inputs:
      default: 'prot'
 
 outputs:
-  pat-cor-file:
-     type: File
-     outputSource: patient-cor/corr
-  cell-cor-file:
-     type: File
-     outputSource: celltype-cor/corr
   deconv:
      type: File
      outputSource: match-prot-to-sig/updated-deconv
@@ -41,6 +35,9 @@ outputs:
   mat-dist-file:
      type: File
      outputSource: matrix-distance/dist     
+  cell-cor-file:
+     type: File
+     outputSource: celltype-cor/corr
 
 steps:
   get-sim-data:
@@ -65,20 +62,6 @@ steps:
        deconv-type: simType
        cell-matrix: get-sim-data/cellType
      out: [updated-deconv,updated-cell-matrix]
-  patient-cor:
-     run: ../correlations/deconv-corr-cwl-tool.cwl
-     in:
-       cancerType: permutation
-       mrnaAlg:
-         valueFrom: 'cellFraction'
-       protAlg: protAlg
-       signature: signature
-       sampleType: simType
-       proteomics:
-         source: match-prot-to-sig/updated-deconv
-       transcriptomics:
-         source: get-sim-data/cellType
-     out: [corr]
   celltype-cor:
      run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
@@ -91,13 +74,13 @@ steps:
        proteomics:
          source: match-prot-to-sig/updated-deconv
        transcriptomics:
-         source: get-sim-data/cellType
+         source: match-prot-to-sig/updated-cell-matrix
      out: [corr]
   matrix-distance:
      run: ../comparison/deconv-comparison-tool.cwl
      in:
        matrixA: match-prot-to-sig/updated-deconv
-       matrixB: get-sim-data/cellType
+       matrixB: match-prot-to-sig/updated-cell-matrix 
        cancerType: permutation
        aAlg: protAlg
        bAlg:

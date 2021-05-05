@@ -28,12 +28,12 @@ outputs:
    cell-fig:
       type: File[]
       outputSource: get-celltype-cors/fig
-   cell-cors:
+   dist-fig:
       type: File[]
-      outputSource: run-all-algs-by-sig/cell-cor-file
-   dist-files:
-      type: File[]
-      outputSource: run-all-algs-by-sig/mat-dist-file
+      outputSource: get-distances/fig
+   dist-tab:
+      type: File
+      outputSource: get-distances/table
 
 steps:
    run-all-algs-by-sig:
@@ -51,14 +51,6 @@ steps:
         simType: simTypes
      out:
         [cell-cor-file,mat-dist-file]
-#   get-patient-cors:
-#      run: ../figures/plot-figs.cwl
-#      in:
-#        metricType:
-#           valueFrom: "sample"
-#        files: run-all-algs-by-sig/pat-cor-file
-#      out:
-#        [table,fig]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
@@ -66,5 +58,16 @@ steps:
             valueFrom: "cellType"
         files:
             source: run-all-algs-by-sig/cell-cor-file
+      out:
+         [table,fig]
+   get-distances:
+      run: ../figures/plot-figs.cwl
+      in:
+         metric:
+            valueFrom: "distance"
+         metricType:
+            valueFrom: "cellType"
+         files:
+            source: run-all-algs-by-sig/mat-dist-file
       out:
          [table,fig]

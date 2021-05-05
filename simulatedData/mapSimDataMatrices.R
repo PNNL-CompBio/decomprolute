@@ -28,7 +28,7 @@ main <- function(){
         stringr::str_replace('^T4 cells$','CD4 T cells')%>%
         stringr::str_replace(fixed('B-cells'),'B cells')%>%
         stringr::str_replace(fixed('B cells naive'),'Naive B cells')%>%
-        stringr::str_replace(fixed('B cells Memory'),'Memory B cells')%>%
+        stringr::str_replace(fixed('B cells memory'),'Memory B cells')%>%
         stringr::str_replace(fixed('T cells CD8'),'CD8 T cells')%>%
         stringr::str_replace('^NK$','NK cells')%>%
         stringr::str_replace('DC$','Dendritic cells')%>%
@@ -53,7 +53,7 @@ main <- function(){
         stringr::str_replace(fixed('CD8 T-cells'),'CD8 T cells')%>%
         stringr::str_replace('^NK$','NK cells')%>%
         stringr::str_replace(fixed('B cells naive'),'Naive B cells')%>%
-        stringr::str_replace(fixed('B cells Memory'),'Memory B cells')%>%
+        stringr::str_replace(fixed('B cells memory'),'Memory B cells')%>%
         stringr::str_replace(fixed('T cells CD4 naive'),'CD4 naive T-cells')%>%
         stringr::str_replace(fixed('T cells CD4 memory activated'),'CD4 memory T-cells activated')
 
