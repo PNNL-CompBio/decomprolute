@@ -15,5 +15,5 @@ signatures:
   - class: File
     path: ../../signature_matrices/pbmc.txt
 simTypes:
-  - rna
+  - mrna
   - pbmc
