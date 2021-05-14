@@ -4,10 +4,9 @@
 
 label: imputation-tool
 id:  imputation-tool
-cwlVersion: v1.0
+cwlVersion: v1.2
 class: CommandLineTool
 baseCommand: Rscript
-
 
 arguments:
   - /bin/DreamAI.R
@@ -16,6 +15,7 @@ arguments:
 requirements:
   - class: DockerRequirement
     dockerPull: cptacdream/sub1
+  - class: InlineJavascriptRequirement
 
 
 inputs:
@@ -24,7 +24,7 @@ inputs:
     inputBinding:
       position: 1
   use_missForest:
-    type: string
+    type: string?
     inputBinding:
       position: 2
 
@@ -33,3 +33,10 @@ outputs:
         type: File
         outputBinding:
             glob: "imputed_file.tsv"
+            outputEval: |
+                ${
+                  var cancer = inputs.input_f.nameroot
+                  var name = cancer.replace('-raw', '') + '-imputed.tsv'
+                  self[0].basename = name;
+                  return self[0]
+                }

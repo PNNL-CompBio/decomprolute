@@ -41,3 +41,18 @@ you can install then run with `cwltool`:
 pip install cwltool
 cwltool prot-data-cwl-tool.cwl --cancerType brca
 ```
+
+## Cancer types
+
+Dataset name | Description | Data reuse status | Publication link
+-- | -- | -- | --
+Brca | breast cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33212010/
+Ccrcc | clear cell renal cell carcinoma (kidney) | no restrictions | https://pubmed.ncbi.nlm.nih.gov/31675502/
+Colon | colorectal cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/31031003/
+Endometrial | endometrial carcinoma (uterine) | no restrictions | https://pubmed.ncbi.nlm.nih.gov/32059776/
+Gbm | glioblastoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33577785/
+Hnscc | head and neck squamous cell carcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33417831/
+**Lscc | lung squamous cell carcinoma | password access only | unpublished**
+Luad | lung adenocarcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/32649874/
+Ovarian | high grade serous ovarian cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/27372738/
+**Pdac | pancreatic ductal adenocarcinoma | password access only | unpublished**

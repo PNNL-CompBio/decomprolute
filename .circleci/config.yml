@@ -5,12 +5,16 @@ filter: &filter
   filters:
     branches:
       only:
-        - anna
+        - anna*
 
 
 workflows:
-  test:
+  test-with-cwl:
     jobs:
+      - rep-bulk:
+          <<: *filter
+      - rep-bulk-with-imputation:
+          <<: *filter
       - test-dl-brca:
           <<: *filter
       - test-dl-ccrcc:
@@ -21,9 +25,15 @@ workflows:
           <<: *filter
       - test-dl-ovarian:
           <<: *filter
+      - test-dl-hnscc:
+          <<: *filter
       - test-dl-endometrial:
           <<: *filter
-
+      - test-dl-gbm:
+          <<: *filter
+      - imputation:
+          requires:
+            - test-dl-endometrial
 
 executors:
   ubuntu:
@@ -54,7 +64,10 @@ commands:
                 echo "Test cases failed !!!"
                 exit 1
             fi
-
+      - persist_to_workspace:
+          root: protData
+          paths:
+            - file.tsv
 
 jobs:
   test-dl-brca:
@@ -87,5 +100,92 @@ jobs:
     steps:
       - download-data:
           cancerType: 'endometrial'
-
-
+  test-dl-hnscc:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'hnscc'
+  test-dl-gbm:
+    executor: ubuntu
+    steps:
+      - download-data:
+          cancerType: 'gbm'
+  imputation:
+    executor: ubuntu
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ls /tmp/workspace
+      - run:
+          name: Slim down test file
+          command: head -n 1000 /tmp/workspace/file.tsv > /tmp/workspace/slim_file.tsv
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run imputation
+          command: cd ~/project/imputation && cwltool imputation-tool.cwl --input_f /tmp/workspace/slim_file.tsv --use_missForest false
+          no_output_timeout: 1h
+      - run:
+          name: Test that file was imputed
+          command: |
+            if [ -f ~/project/imputation/imputed_file.tsv ]; then
+                echo "~/project/imputation/imputed_file.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
+      - persist_to_workspace:
+          root: imputation
+          paths:
+            - imputed_file.tsv
+  rep-bulk:
+    executor: ubuntu
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run rep-bulk
+          command: |
+            cd ~/project/tumorDeconvAlgs/BayesDeBulk
+            cwltool bayes-de-bulk.cwl \
+              --expressionFile=../../toy_data/TOY_rna_expression_imputed.tsv \
+              --signatureMatrix=../../toy_data/TOY_signature_matrix.tsv
+          no_output_timeout: 1h
+      - run:
+          name: Test that TSV output was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv ]; then
+                echo "~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi
+  rep-bulk-with-imputation:
+    executor: ubuntu
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies to VM
+          command: pip3 install cwltool
+      - run:
+          name: Run rep-bulk
+          command: |
+              cd ~/project/tumorDeconvAlgs/BayesDeBulk
+              cwltool bayes-de-bulk.cwl \
+                --expressionFile=../../toy_data/TOY_rna_expression_withNA.tsv \
+                --signatureMatrix=../../toy_data/TOY_signature_matrix.tsv \
+                --rowMeansImputation=TRUE
+          no_output_timeout: 1h
+      - run:
+          name: Test that TSV output was created
+          command: |
+            if [ -f ~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv ]; then
+                echo "~/project/tumorDeconvAlgs/BayesDeBulk/*-deconv.tsv successfully created!"
+            else
+                echo "Test cases failed !!!"
+                exit 1
+            fi

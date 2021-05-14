@@ -265,3 +265,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore repBulk outputs
+tumorDeconvAlgs/BayesDeBulk/*.tsv
+
+# Ignore protData outputs
+protData/file.tsv
