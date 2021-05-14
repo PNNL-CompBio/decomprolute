@@ -37,9 +37,9 @@ In general, assume that all commands in this setup are case-sensitive.
 
 ```sh
 # GitHub username or organization name (change from manubot)
-OWNER=manubot
+OWNER=PNNL-compBio
 # Repository name (change from rootstock)
-REPO=rootstock
+REPO=proteomicsTumorDeconv
 ```
 
 ## Create repository
