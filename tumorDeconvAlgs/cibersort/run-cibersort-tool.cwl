@@ -2,7 +2,7 @@
 
 label: run-cibersort-tool
 id: run-cibersort-tool
-cwlVersion: v1.0
+cwlVersion: v1.2
 class: CommandLineTool
 baseCommand: Rscript
 
@@ -24,10 +24,6 @@ inputs:
     type: File
     inputBinding:
       position: 2
-  type:
-    type: string
-  cancerType:
-    type: string
 
 outputs:
   deconvoluted:
@@ -37,7 +33,8 @@ outputs:
        outputEval: |
          ${
            var mat = inputs.signature.nameroot
-           var name = inputs.cancerType + '-cibersort-'+ mat + '-'+inputs.type+'-deconv.tsv'
+           var cancer = inputs.expression.nameroot
+           var name = cancer + '-cibersort-'+ mat + '.tsv'
            self[0].basename = name;
            return self[0]
            }

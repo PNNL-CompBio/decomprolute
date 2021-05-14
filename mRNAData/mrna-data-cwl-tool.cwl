@@ -1,4 +1,4 @@
-#!/usr/bin/env cwltool
+#!/usr/bin/env cwl-runner
 
 label: mrna-data-cwl-tool
 id:  mrna-data-cwl-tool
@@ -12,6 +12,7 @@ arguments:
 requirements:
     - class: DockerRequirement
       dockerPull: tumordeconv/mrna-data
+    - class: InlineJavascriptRequirement
 
 inputs:
     cancerType:
@@ -20,8 +21,21 @@ inputs:
             position: 1
             prefix: --cancerType
 
+    sampleType:
+        type: string?
+        default: "all"
+        inputBinding:
+            position: 2
+            prefix: --sampleType
+
 outputs:
     matrix:
         type: File
         outputBinding:
             glob: "file.tsv"
+            outputEval: |
+                ${
+                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' + 'mrna-raw.tsv'
+                  self[0].basename = name;
+                  return self[0]
+                  }

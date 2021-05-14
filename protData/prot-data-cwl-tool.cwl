@@ -9,10 +9,10 @@ baseCommand: python
 arguments:
      - /bin/protDataSetsCLI.py
 
-
 requirements:
     - class: DockerRequirement
       dockerPull: tumordeconv/prot-data
+    - class: InlineJavascriptRequirement
 
 inputs:
     cancerType:
@@ -21,8 +21,22 @@ inputs:
             position: 1
             prefix: --cancerType
 
+    sampleType:
+        type: string?
+        default: "all"
+        inputBinding:
+            position: 2
+            prefix: --sampleType
+
 outputs:
     matrix:
         type: File
         outputBinding:
             glob: "file.tsv"
+            outputEval: |
+                ${
+                  var name = inputs.cancerType + '-' + inputs.sampleType + '-' + 'prot-raw.tsv'
+                  self[0].basename = name;
+                  return self[0]
+                  }
+
