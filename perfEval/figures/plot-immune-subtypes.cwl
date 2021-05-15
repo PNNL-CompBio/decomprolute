@@ -7,37 +7,28 @@ cwlVersion: v1.2
 baseCommand: Rscript
 
 arguments:
-   - /bin/combine_results.R
+  - /bin/immune_subtypes.R
 
 requirements:
-   - class: DockerRequirement
-     dockerPull: tumordeconv/figures
-   - class: MultipleInputFeatureRequirement
+  - class: DockerRequirement
+    dockerPull: tumordeconv/figures
+  - class: MultipleInputFeatureRequirement
 
 inputs:
-   metricType:
-     type: string
-     inputBinding:
-       position: 1
-   metric:
-     type: string
-     default: "correlation"
-     inputBinding:
-       position: 2
-   files:
-     type:  File[]
-     inputBinding:
-        position: 3
+  files:
+    type:  File[]
+    inputBinding:
+      position: 1
 
 outputs:
-   table:
-     type: File
-     outputBinding:
-        glob: "*.tsv"
-   fig:
-     type:
-       type: array
-       items: File
-     outputBinding:
-        glob: "*.pdf"
+  table:
+    type: File
+    outputBinding:
+      glob: "*.tsv"
+  fig:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: "*.pdf"
     
