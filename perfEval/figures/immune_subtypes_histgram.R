@@ -1,10 +1,18 @@
-setwd('perfEval/mrna-prot/')
+
 library(plyr)
 library(ggplot2)
+library(argparser)
 library(grid)
 
+# immuneSubtypeHist <- function(file.list, label = "test") {
+#   sig <- unique(sapply(strsplit(tmp,'-'), function(x) x[6]))
+# }
+
+argv <- commandArgs(trailingOnly = TRUE)
+file.list<-argv[3:length(argv)]
+
 #rna
-tmp <- list.files()[grep('tumor-mrna',list.files())]
+tmp <- file.list[grep('-mrna-',file.list)]
 tmp <- tmp[grep('tsv$',tmp)]
 sig <- unique(sapply(strsplit(tmp,'-'), function(x) x[6]))
 sig <- sapply(strsplit(sig,'\\.'), function(x) x[1])
@@ -51,7 +59,7 @@ ob <- ob[grep('^Pan_',ob)]
 for (o in ob) {
   
   m <- get(o)
-  thor <- read.delim('../figures/pancan_immune_subtypes.csv',sep = ',')
+  thor <- read.delim('pancan_immune_subtypes.csv',sep = ',')
   thor$Sample.ID <- gsub('.A','.N',thor$Sample.ID)
   thor$Sample.ID <- gsub('.T','',thor$Sample.ID)
   rownames(thor) <- thor$Sample.ID
@@ -111,7 +119,7 @@ for (o in ob) {
 }
 
 #prot
-tmp <- list.files()[grep('tumor-prot',list.files())]
+tmp <- file.list[grep('-mrna-',file.list)]
 tmp <- tmp[grep('tsv$',tmp)]
 sig <- unique(sapply(strsplit(tmp,'-'), function(x) x[6]))
 sig <- sapply(strsplit(sig,'\\.'), function(x) x[1])
@@ -158,7 +166,7 @@ ob <- ob[grep('^Pan_',ob)]
 for (o in ob) {
   
   m <- get(o)
-  thor <- read.delim('../figures/pancan_immune_subtypes.csv',sep = ',')
+  thor <- read.delim('pancan_immune_subtypes.csv',sep = ',')
   thor$Sample.ID <- gsub('.A','.N',thor$Sample.ID)
   thor$Sample.ID <- gsub('.T','',thor$Sample.ID)
   rownames(thor) <- thor$Sample.ID
@@ -192,7 +200,6 @@ for (o in ob) {
     tmp2$cluster[tmp2$variable %in% sam_cl[[k]]] <- paste0(k,' (',length(sam_cl[[k]]),')')
   }
   
-  library(plyr)
   mu <- ddply(tmp2, c("type","Method",'cluster'), summarise, median=median(value))
   
   p <- ggplot(tmp2,aes(x=value,fill=Method,color=Method))+geom_histogram(alpha=0.2,position = 'identity')+facet_grid(type~ cluster,scales = 'free')+

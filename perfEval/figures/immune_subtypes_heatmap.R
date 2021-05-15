@@ -1,8 +1,13 @@
+
+library(dplyr)
+library(argparser)
+library(ggplot2)
+
 #rna
-tmp <- list.files()[grep('mrna-deconv.tsv',list.files())]
+tmp <- list.files()[grep('tumor-mrna',list.files())]
 tmp <- tmp[grep('xcell',tmp)]
 tmp2 <- strsplit(tmp,'\\.')[[1]][1]
-tmp <- read.delim(tmp,row.names = 1)
+tmp <- read.delim(tmp[1],row.names = 1)
 
 thor <- read.delim('pancan_immune_subtypes.csv',sep = ',')
 thor$Sample.ID <- gsub('.A','.N',thor$Sample.ID)
