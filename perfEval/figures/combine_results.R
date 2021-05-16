@@ -229,3 +229,4 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
 }
 
 main()
+
