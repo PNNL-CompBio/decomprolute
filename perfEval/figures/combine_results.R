@@ -148,7 +148,7 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
       tab<-read.table(file,fill=TRUE,check.names=FALSE)
       if (ncol(tab) > 1) {
         colnames(tab)<-(c('patient',metric))
-        distance <- sqrt(sum(tab[[metric]]^2))
+        distance <- mean(tab[[metric]])
       } else {
         distance <- NaN
       }
@@ -229,3 +229,4 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
 }
 
 main()
+
