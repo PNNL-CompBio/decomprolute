@@ -7,8 +7,8 @@
 #' to run:
 #' Rscript  combine_results.R --metricType sample --metric correlation */*corr.tsv
 #' Rscript  combine_results.R --metricType cellType --metric correlation  */*corrXcelltypes.tsv
-#' Rscript  combine_results.R --metricType sample --metric meanCorrelation */*corr.tsv
-#' Rscript  combine_results.R --metricType cellType --metric meanCorrelation  */*corrXcelltypes.tsv
+#' Rscript  combine_results.R --metricType sample --metric mean-correlation */*corr.tsv
+#' Rscript  combine_results.R --metricType cellType --metric mean-correlation  */*corrXcelltypes.tsv
 #' Rscript  combine_results.R --metricType js --metric distance */*dist.tsv
 
 library(dplyr)
