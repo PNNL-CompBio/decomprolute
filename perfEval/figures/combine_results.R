@@ -7,6 +7,8 @@
 #' to run:
 #' Rscript  combine_results.R --metricType sample --metric correlation */*corr.tsv
 #' Rscript  combine_results.R --metricType cellType --metric correlation  */*corrXcelltypes.tsv
+#' Rscript  combine_results.R --metricType sample --metric meanCorrelation */*corr.tsv
+#' Rscript  combine_results.R --metricType cellType --metric meanCorrelation  */*corrXcelltypes.tsv
 #' Rscript  combine_results.R --metricType js --metric distance */*dist.tsv
 
 library(dplyr)
@@ -133,6 +135,70 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
    return(full.tab)
 }
 
+#' combine list of files of patient mean correlations
+combineCorsMean<-function(file.list,metric='mean-correlation', metricType='patient'){
+  message(paste0('Combining ',length(file.list),' files'))
+  
+  full.tab<-do.call(rbind,lapply(file.list,function(file){
+    vars <- unlist(strsplit(basename(file),split='-')) #split into pieces
+    tissue=vars[1]
+    disease=vars[2]
+    mrna.algorithm=vars[3]
+    prot.algorithm=vars[5]
+    matrix=vars[6]
+    tab<-read.table(file,fill=TRUE,check.names=FALSE)
+    if (ncol(tab) > 1) {
+      colnames(tab)<-(c(metricType,metric))
+      distance <- mean(tab[[metric]])
+    } else {
+      distance <- NaN
+    }
+    return(data.frame(distance,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
+  }))
+  full.tab<-full.tab%>%
+    mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
+  
+  # mats<-unique(full.tab$matrix)
+  # lapply(mats,function(mat){
+  #   p<-full.tab%>%
+  #     rename(value=metric)%>%
+  #     subset(matrix==mat)%>%
+  #     ggplot()+
+  #     geom_violin(aes(x=tissue,y=value,fill=disease))+
+  #     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+
+  #     scale_fill_viridis_d()+
+  #     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  #   ggsave(paste0(mat,'patient',metric,'s.pdf'),p,width=12,height=12)
+  # })
+  
+  p2<-full.tab%>%
+    rename(value=metric)%>%
+    ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = value)) + geom_tile() +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    # ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
+    facet_grid(rows=vars(matrix),cols=vars(disease))#+scale_fill_viridis_d()
+  ggsave(paste0('heatmaps-', metricType, '-', metric,'.pdf'),p2)
+  
+  p3<-full.tab%>%
+    rename(value=metric)%>%
+    ggplot(aes(x=matrix,shape=tissue,y=value,col=disease))+geom_jitter()+
+    facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d() + ylab(metric)
+  ggsave(paste0('scatters-', metricType, '-', metric,'.pdf'),p3)
+  
+  p4<-full.tab%>%
+    rename(value=metric)%>%
+    ggplot(aes(x=disease,y=value,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
+    facet_grid(cols=vars(prot.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
+  ggsave(paste0('barplot-mrna-', metricType, '-', metric,'.pdf'),p4)
+  
+  p4<-full.tab%>%
+    rename(value=metric)%>%
+    ggplot(aes(x=disease,y=value,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
+    facet_grid(cols=vars(mrna.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
+  ggsave(paste0('barplot-prot-', metricType, '-', metric,'.pdf'),p4)
+  
+  return(full.tab)
+}
 
 #' combine list of files of patient distances
 combineDists<-function(file.list,metric='distance', metricType='js'){
@@ -215,6 +281,10 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
     write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
   }else if(metric=='correlation' && metricType=='cellType'){
     tab<-combineCellTypeCors(file.list,metric)
+    print(dim(tab))
+    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+  } else if (metric=='mean-correlation'){
+    tab<-combineCorsMean(file.list,metric, metricType)
     print(dim(tab))
     write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
   }else if(metric=='distance'){
