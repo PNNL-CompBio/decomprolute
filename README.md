@@ -1,4 +1,4 @@
-# Proteomics Tumor Deconvolution Metrics
+# Decomprolute: Benchmarking study of proteomic based tumor deconvolution 
 A suite of scientific workflows to assess metrics to compare efficacy of protein-based tumor deconvolution algorithms. The goal of this project is to standardize the analysis and comparison of various tumor deconvolution datasets to compare their efficacy with different parameters.
 
 ## To Run
