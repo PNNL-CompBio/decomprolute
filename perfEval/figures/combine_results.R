@@ -136,7 +136,7 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
 }
 
 #' combine list of files of patient mean correlations
-combineCorsMean<-function(file.list,metric='mean-correlation', metricType='patient'){
+combineCorsMean<-function(file.list,metric='meanCorrelation', metricType='patient'){
   message(paste0('Combining ',length(file.list),' files'))
   
   full.tab<-do.call(rbind,lapply(file.list,function(file){
@@ -149,11 +149,11 @@ combineCorsMean<-function(file.list,metric='mean-correlation', metricType='patie
     tab<-read.table(file,fill=TRUE,check.names=FALSE)
     if (ncol(tab) > 1) {
       colnames(tab)<-(c(metricType,metric))
-      distance <- mean(tab[[metric]])
+      meanCorrelation <- mean(tab[[metric]])
     } else {
-      distance <- NaN
+      meanCorrelation <- NaN
     }
-    return(data.frame(distance,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
+    return(data.frame(meanCorrelation,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
   }))
   full.tab<-full.tab%>%
     mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
