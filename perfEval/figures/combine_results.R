@@ -172,28 +172,24 @@ combineCorsMean<-function(file.list,metric='mean-correlation', metricType='patie
   # })
   
   p2<-full.tab%>%
-    rename(value=meanCorr)%>%
-    ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = value)) + geom_tile() +
+    ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = meanCorr)) + geom_tile() +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     # ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
     facet_grid(rows=vars(matrix),cols=vars(disease))#+scale_fill_viridis_d()
   ggsave(paste0('heatmaps-', metricType, '-', metric,'.pdf'),p2)
   
   p3<-full.tab%>%
-    rename(value=meanCorr)%>%
-    ggplot(aes(x=matrix,shape=tissue,y=value,col=disease))+geom_jitter()+
+    ggplot(aes(x=matrix,shape=tissue,y=meanCorr,col=disease))+geom_jitter()+
     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d() + ylab(metric)
   ggsave(paste0('scatters-', metricType, '-', metric,'.pdf'),p3)
   
   p4<-full.tab%>%
-    rename(value=meanCorr)%>%
-    ggplot(aes(x=disease,y=value,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
+    ggplot(aes(x=disease,y=meanCorr,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
     facet_grid(cols=vars(prot.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
   ggsave(paste0('barplot-mrna-', metricType, '-', metric,'.pdf'),p4)
   
   p4<-full.tab%>%
-    rename(value=meanCorr)%>%
-    ggplot(aes(x=disease,y=value,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
+    ggplot(aes(x=disease,y=meanCorr,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
     facet_grid(cols=vars(mrna.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
   ggsave(paste0('barplot-prot-', metricType, '-', metric,'.pdf'),p4)
   
@@ -237,28 +233,24 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
    # })
 
    p2<-full.tab%>%
-     rename(value=distance)%>%
-     ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = value)) + geom_tile() +
+     ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = distance)) + geom_tile() +
      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
      # ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
      facet_grid(rows=vars(matrix),cols=vars(disease))#+scale_fill_viridis_d()
    ggsave(paste0('heatmaps-', metricType, '-', metric,'.pdf'),p2)
 
    p3<-full.tab%>%
-     rename(value=distance)%>%
-     ggplot(aes(x=matrix,shape=tissue,y=value,col=disease))+geom_jitter()+
+     ggplot(aes(x=matrix,shape=tissue,y=distance,col=disease))+geom_jitter()+
      facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d() + ylab(metric)
    ggsave(paste0('scatters-', metricType, '-', metric,'.pdf'),p3)
    
    p4<-full.tab%>%
-     rename(value=distance)%>%
-     ggplot(aes(x=disease,y=value,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
+     ggplot(aes(x=disease,y=distance,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
      facet_grid(cols=vars(prot.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
    ggsave(paste0('barplot-mrna-', metricType, '-', metric,'.pdf'),p4)
    
    p4<-full.tab%>%
-     rename(value=distance)%>%
-     ggplot(aes(x=disease,y=value,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
+     ggplot(aes(x=disease,y=distance,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
      facet_grid(cols=vars(mrna.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
    ggsave(paste0('barplot-prot-', metricType, '-', metric,'.pdf'),p4)
    
