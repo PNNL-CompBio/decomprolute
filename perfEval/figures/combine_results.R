@@ -136,7 +136,7 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
 }
 
 #' combine list of files of patient mean correlations
-combineCorsMean<-function(file.list,metric='meanCorrelation', metricType='patient'){
+combineCorsMean<-function(file.list,metric='mean-correlation', metricType='patient'){
   message(paste0('Combining ',length(file.list),' files'))
   
   full.tab<-do.call(rbind,lapply(file.list,function(file){
@@ -149,11 +149,11 @@ combineCorsMean<-function(file.list,metric='meanCorrelation', metricType='patien
     tab<-read.table(file,fill=TRUE,check.names=FALSE)
     if (ncol(tab) > 1) {
       colnames(tab)<-(c(metricType,metric))
-      meanCorrelation <- mean(tab[[metric]])
+      meanCorr <- mean(tab[[metric]])
     } else {
-      meanCorrelation <- NaN
+      meanCorr <- NaN
     }
-    return(data.frame(meanCorrelation,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
+    return(data.frame(meanCorr,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
   }))
   full.tab<-full.tab%>%
     mutate(algorithm=paste(mrna.algorithm,prot.algorithm,sep='-'))
@@ -172,7 +172,7 @@ combineCorsMean<-function(file.list,metric='meanCorrelation', metricType='patien
   # })
   
   p2<-full.tab%>%
-    rename(value=metric)%>%
+    rename(value=meanCorr)%>%
     ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = value)) + geom_tile() +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     # ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
@@ -180,19 +180,19 @@ combineCorsMean<-function(file.list,metric='meanCorrelation', metricType='patien
   ggsave(paste0('heatmaps-', metricType, '-', metric,'.pdf'),p2)
   
   p3<-full.tab%>%
-    rename(value=metric)%>%
+    rename(value=meanCorr)%>%
     ggplot(aes(x=matrix,shape=tissue,y=value,col=disease))+geom_jitter()+
     facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d() + ylab(metric)
   ggsave(paste0('scatters-', metricType, '-', metric,'.pdf'),p3)
   
   p4<-full.tab%>%
-    rename(value=metric)%>%
+    rename(value=meanCorr)%>%
     ggplot(aes(x=disease,y=value,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
     facet_grid(cols=vars(prot.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
   ggsave(paste0('barplot-mrna-', metricType, '-', metric,'.pdf'),p4)
   
   p4<-full.tab%>%
-    rename(value=metric)%>%
+    rename(value=meanCorr)%>%
     ggplot(aes(x=disease,y=value,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
     facet_grid(cols=vars(mrna.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
   ggsave(paste0('barplot-prot-', metricType, '-', metric,'.pdf'),p4)
@@ -237,7 +237,7 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
    # })
 
    p2<-full.tab%>%
-     rename(value=metric)%>%
+     rename(value=distance)%>%
      ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = value)) + geom_tile() +
      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
      # ggplot(aes(x=matrix,y=value,fill=disease))+geom_violin()+
@@ -245,19 +245,19 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
    ggsave(paste0('heatmaps-', metricType, '-', metric,'.pdf'),p2)
 
    p3<-full.tab%>%
-     rename(value=metric)%>%
+     rename(value=distance)%>%
      ggplot(aes(x=matrix,shape=tissue,y=value,col=disease))+geom_jitter()+
      facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_color_viridis_d() + ylab(metric)
    ggsave(paste0('scatters-', metricType, '-', metric,'.pdf'),p3)
    
    p4<-full.tab%>%
-     rename(value=metric)%>%
+     rename(value=distance)%>%
      ggplot(aes(x=disease,y=value,fill=mrna.algorithm))+geom_bar(stat='identity',position='dodge')+
      facet_grid(cols=vars(prot.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
    ggsave(paste0('barplot-mrna-', metricType, '-', metric,'.pdf'),p4)
    
    p4<-full.tab%>%
-     rename(value=metric)%>%
+     rename(value=distance)%>%
      ggplot(aes(x=disease,y=value,fill=prot.algorithm))+geom_bar(stat='identity',position='dodge')+
      facet_grid(cols=vars(mrna.algorithm),rows=vars(matrix))+scale_fill_viridis_d()
    ggsave(paste0('barplot-prot-', metricType, '-', metric,'.pdf'),p4)
