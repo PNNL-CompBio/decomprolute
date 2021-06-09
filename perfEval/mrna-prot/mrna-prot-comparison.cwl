@@ -25,12 +25,6 @@ inputs:
       type: File[]
       
 outputs:
-   pat-cor-tab:
-      type: File
-      outputSource: get-patient-cors/table
-   pat-fig:
-      type: File[]
-      outputSource: get-patient-cors/fig
    cell-cor-tab:
       type: File
       outputSource: get-celltype-cors/table
@@ -46,6 +40,19 @@ outputs:
    dist-files:
       type: File[]
       outputSource: run-all-algs-by-sig/mat-dist-file
+   dist-fig:
+      type: File
+      outputSource: get-distances/fig
+   dist-tab:
+      type: File
+      outputSource: get-distances/table
+   cordist-fig:
+      type: File
+      outputSource: get-celltype-cordists/fig
+   cordist-tab:
+      type: File
+      outputSource: get-celltype-cordists/table
+    
 
 steps:
    run-all-algs-by-sig:
@@ -60,14 +67,6 @@ steps:
         tissueType: tissueTypes
       out:
         [pat-cor-file,cell-cor-file,prot-file,mrna-file,mat-dist-file]
-   get-patient-cors:
-      run: ../figures/plot-figs.cwl
-      in:
-        metricType:
-           valueFrom: "sample"
-        files: run-all-algs-by-sig/pat-cor-file
-      out:
-        [table,fig]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
@@ -77,3 +76,25 @@ steps:
             source: run-all-algs-by-sig/cell-cor-file
       out:
         [table,fig]
+  get-distances:
+      run: ../figures/plot-figs.cwl
+      in:
+         metric:
+            valueFrom: "distance"
+         metricType:
+            valueFrom: "cellType"
+         files:
+            source: run-all-algs-by-sig/mat-dist-file
+      out:
+         [table,fig]
+   get-celltype-cordists:
+      run: ../figures/plot-figs.cwl
+      in:
+        metric:
+            valueFrom: "meanCorrelation"
+        metricType:
+            valueFrom: "cellType"
+        files:
+            source: run-all-algs-by-sig/cell-cor-file
+      out:
+         [table,fig]

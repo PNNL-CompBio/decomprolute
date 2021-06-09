@@ -60,6 +60,17 @@ steps:
             source: run-all-algs-by-sig/cell-cor-file
       out:
          [table,fig]
+   get-celltype-cordists:
+      run: ../figures/plot-figs.cwl
+      in:
+        metric:
+            valueFrom: "meanCorrelation"
+        metricType:
+            valueFrom: "cellType"
+        files:
+            source: run-all-algs-by-sig/cell-cor-file
+      out:
+         [table,fig]
    get-distances:
       run: ../figures/plot-figs.cwl
       in:
