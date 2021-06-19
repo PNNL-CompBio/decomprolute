@@ -26,12 +26,18 @@ inputs:
      default: 'prot'
 
 outputs:
-  deconv:
+  matrix:
      type: File
-     outputSource: match-prot-to-sig/updated-deconv
+     outputSource: get-sim-data/matrix
   cellPred:
      type: File
      outputSource: get-sim-data/cellType
+  deconvoluted:
+     type: File
+     outputSource: deconv-prot/deconvoluted
+  deconv:
+     type: File
+     outputSource: match-prot-to-sig/updated-deconv
   mat-dist-file:
      type: File
      outputSource: matrix-distance/dist     
