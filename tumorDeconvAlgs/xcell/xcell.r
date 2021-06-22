@@ -1,7 +1,7 @@
 #!/usr/local/bin/env Rscript --vanilla
 args <- commandArgs(TRUE)
 if (!is.null(args[1])) {
-    df <- read.csv(args[1], sep = "\t", row.names = 1)
+    df <- read.csv(args[1], sep = "\t", row.names = 1, check.names=F)
     if (max(df, na.rm = TRUE) < 50) {
         df <- 2^df
     }
@@ -15,7 +15,7 @@ library(xCell)
 BiocParallel::register(BiocParallel::SerialParam())
 
 if (length(args) > 1) {
-    ref <- read.csv(args[2], sep = "\t", row.names = 1,check.names=F) ### Need to change later
+    ref <- read.csv(args[2], sep = "\t", row.names = 1, check.names=F) ### Need to change later
     ref <- as.data.frame(ref[intersect(rownames(ref), rownames(df)),])
     cellTypeNames <- colnames(ref)
     marker <- list()
@@ -51,6 +51,10 @@ if (length(args) > 1) {
     tryCatch(
         expr = {
             xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv", signatures = marker, genes = rownames(df), cell.types.use = cellTypeNames, spill = spill, scale = FALSE, parallel.sz = 1)
+            # dec <- read.csv("deconvoluted.tsv", sep = "\t", row.names = 1, check.names=F)
+            # colnames(dec) <- colnames(df)
+            # rownames(dec) <- colnames(ref) 
+            # write.table(dec, file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
         },
         error = function(e){
             # (Optional)
@@ -64,6 +68,9 @@ if (length(args) > 1) {
     )
 } else {
     xc <- xCellAnalysis(df, file.name = "deconvoluted.tsv")
+    # dec <- read.csv("deconvoluted.tsv", sep = "\t", row.names = 1, check.names=F)
+    # colnames(dec) <- colnames(df)
+    # write.table(dec, file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
 }
 
 #write.table(xc, file = "deconvoluted-pvalue.tsv", quote = FALSE, col.names = NA, sep = "\t")

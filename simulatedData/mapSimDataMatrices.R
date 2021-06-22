@@ -6,10 +6,10 @@ main <- function(){
 
     argv <- commandArgs(trailingOnly = TRUE)
     print(argv)
-    deconv.mat <- read.table(argv[1],header=T,row.names=1,sep='\t') #matrix to be fixed
+    deconv.mat <- read.table(argv[1],header=T,row.names=1,sep='\t', check.names = F) #matrix to be fixed
     sig.mat <- argv[2] #signature used to deconvolve matrix
     sim.type <- tolower(argv[3]) #type of simulation performed
-    cell.type <-read.table(argv[4],header=T,row.names=1,sep='\t')
+    cell.type <-read.table(argv[4],header=T,row.names=1,sep='\t', check.names = F)
 
     sig.mat<-basename(sig.mat)
 
