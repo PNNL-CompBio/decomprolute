@@ -41,13 +41,13 @@ outputs:
       type: File[]
       outputSource: run-all-algs-by-sig/mat-dist-file
    dist-fig:
-      type: File
+      type: File[]
       outputSource: get-distances/fig
    dist-tab:
       type: File
       outputSource: get-distances/table
    cordist-fig:
-      type: File
+      type: File[]
       outputSource: get-celltype-cordists/fig
    cordist-tab:
       type: File
@@ -76,7 +76,7 @@ steps:
             source: run-all-algs-by-sig/cell-cor-file
       out:
         [table,fig]
-  get-distances:
+   get-distances:
       run: ../figures/plot-figs.cwl
       in:
          metric:
@@ -86,7 +86,7 @@ steps:
          files:
             source: run-all-algs-by-sig/mat-dist-file
       out:
-         [table,fig]
+        [table,fig]
    get-celltype-cordists:
       run: ../figures/plot-figs.cwl
       in:
@@ -97,4 +97,4 @@ steps:
         files:
             source: run-all-algs-by-sig/cell-cor-file
       out:
-         [table,fig]
+        [table,fig]

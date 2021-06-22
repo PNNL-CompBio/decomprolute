@@ -32,7 +32,9 @@ export XDG_RUNTIME_DIR=$HOME/temp
 
 
 
-cd /people/gosl241/proteomicsTumorDeconv/perfEval
+cd /pic/scratch/gosl241/proteomicsTumorDeconv/perfEval/mrna-prot
+mkdir temp
 
+cwltool --singularity --cachedir .cache --tmpdir-prefix temp/  scatter-test.cwl fig2-eval.yml
 
-toil-cwl-runner --singularity --workDir ./ --maxCores 10 scatter-test.cwl fig3-eval.yml
+#toil-cwl-runner --singularity --workDir ./ --maxCores 10 mrna-prot-comparison.cwl fig3-eval.yml

@@ -25,5 +25,3 @@ signatures:
     path: ../../signature_matrices/LM22.txt
   - class: File
     path: ../../signature_matrices/PBMC.txt
-  - class: File
-    path: ../../signature_matrices/LM9.txt

@@ -9,6 +9,12 @@ reps:
   - "3"
   - "4"
   - "5"
+  - "6"
+  - "7"
+  - "8"
+  - "9"
+  - "10"
+  - "pbmc"
 signatures:
   - class: File
     path: ../../signature_matrices/LM22.txt
@@ -16,4 +22,3 @@ signatures:
     path: ../../signature_matrices/pbmc.txt
 simTypes:
   - mrna
-  - pbmc
