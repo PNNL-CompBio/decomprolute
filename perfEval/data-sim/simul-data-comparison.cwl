@@ -22,6 +22,18 @@ inputs:
       type: string[]
       
 outputs:
+   # saved-data:
+   #    type: File[]
+   #    outputSource: run-all-algs-by-sig/matrix
+   # deconvluted-results:
+   #    type: File[]
+   #    outputSource: run-all-algs-by-sig/deconvoluted
+   # deconv-results:
+   #    type: File[]
+   #    outputSource: run-all-algs-by-sig/deconv
+   # celltype-results:
+   #    type: File[]
+   #    outputSource: run-all-algs-by-sig/cellPred
    cell-cor-tab:
       type: File
       outputSource: get-celltype-cors/table
@@ -57,7 +69,7 @@ steps:
           valueFrom: 'prot'
         simType: simTypes
      out:
-        [cell-cor-file,mat-dist-file]
+        [cell-cor-file,mat-dist-file, deconv, cellPred, deconvoluted, matrix]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
