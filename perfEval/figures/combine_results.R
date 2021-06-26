@@ -102,21 +102,29 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
   lapply(mats,function(mat){
     ft<-full.tab%>%subset(matrix==mat)
     ft$cellType<-factor(ft$cellType)
-    p<-ggplot(ft)+geom_jitter(aes(x=cellType,y=value,size=5,color=disease,shape=tissue))+
-      scale_color_manual(values=pal)+facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+
+  
+    p<-ggplot(ft)+geom_boxplot(aes(x=cellType,y=value,fill=mrna.algorithm))+
+      scale_fill_manual(values=pal)+facet_grid(cols=vars(prot.algorithm))+
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
       ggtitle(mat)
-    ggsave(paste0(mat,'cellType',metric,'s.pdf'),p,width=10)
+    ggsave(paste0(mat,'cellType',metric,'sProtbp.pdf'),p,width=10)
 
+    p<-ggplot(ft)+geom_boxplot(aes(x=cellType,y=value,fill=prot.algorithm))+
+      scale_fill_manual(values=pal)+facet_grid(cols=vars(mrna.algorithm))+
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+      ggtitle(mat)
+    ggsave(paste0(mat,'cellType',metric,'sMrnabp.pdf'),p,width=10)
+    
     pa<-ggplot(ft)+geom_bar(aes(x=cellType,y=value,fill=disease),stat='identity',position='dodge')+
       facet_grid(cols=vars(prot.algorithm),rows=vars(mrna.algorithm))+scale_fill_manual(values=pal)+
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
       ggtitle(mat)
+    
     ggsave(paste0(mat,'cellType',metric,'sBars.pdf'),pa,width=10)
   })
 
   p2<-ggplot(full.tab,aes(x=matrix,y=value,fill=cellType))+geom_boxplot()+
-    facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_viridis_d()
+    facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_manual(values=pal)
   ggsave(paste0('allSigsCellType',metric,'.pdf'),p2,width=20,height=20)
 
   p2<-ggplot(full.tab,aes(x=cellType,y=value,fill=matrix))+geom_boxplot()+
@@ -129,10 +137,14 @@ combineCellTypeCors<-function(file.list,metric='correlation'){
   mean.tab<-full.tab%>%group_by(tissue,disease,mrna.algorithm,prot.algorithm,matrix)%>%
     summarize(meanVal=mean(value,na.rm=T))
 
-  p3<-ggplot(mean.tab,aes(x=matrix,y=meanVal,fill=as.factor(disease)))+geom_bar(stat='identity',position='dodge')+
-    facet_grid(rows=vars(mrna.algorithm),cols=vars(prot.algorithm))+scale_fill_manual(values=pal)
-  ggsave(paste0('cellType',metric,'averages.pdf'),p3,width=12,height=12)
+  p3<-ggplot(mean.tab,aes(x=matrix,y=meanVal,fill=prot.algorithm))+geom_boxplot()+
+    facet_grid(cols=vars(mrna.algorithm))+scale_fill_manual(values=pal)
+  ggsave(paste0('cellType',metric,'BoxplotMrna-averages.pdf'),p3)
 
+  p3<-ggplot(mean.tab,aes(x=matrix,y=meanVal,fill=mrna.algorithm))+geom_boxplot()+
+    facet_grid(cols=vars(prot.algorithm))+scale_fill_manual(values=pal)
+  ggsave(paste0('cellType',metric,'BoxplotProt-averages.pdf'),p3)
+  
   p2<-mean.tab%>%
       ggplot(aes(x = mrna.algorithm, y = prot.algorithm, fill = meanVal)) + geom_tile(height=1,width=1) +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
@@ -237,11 +249,23 @@ combineDists<-function(file.list,metric='distance', metricType='js'){
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))#+scale_fill_viridis_d()
   ggsave(paste0('barplot-matrix-', metricType, '-', metric,'.pdf'),p4)
 
+  
   p5<-full.tab%>%
     ggplot(aes(x=matrix,y=distance,fill=as.factor(disease)))+geom_bar(stat='identity',position='dodge')+
     facet_grid(cols=vars(prot.algorithm),rows=vars(mrna.algorithm))+scale_fill_manual(values=pal)#+scale_fill_viridis_d()
   ggsave(paste0('barplot-disease-', metricType, '-', metric,'.pdf'),p5)
+  
 
+  p5<-full.tab%>%
+    ggplot(aes(x=matrix,y=distance,fill=mrna.algorithm))+geom_boxplot()+
+    facet_grid(cols=vars(prot.algorithm))+scale_fill_manual(values=pal)#+scale_fill_viridis_d()
+  ggsave(paste0('boxplot-disease-', metricType, '-', metric,'mrna.pdf'),p5)
+  
+  p5<-full.tab%>%
+    ggplot(aes(x=matrix,y=distance,fill=prot.algorithm))+geom_boxplot()+
+    facet_grid(cols=vars(mrna.algorithm))+scale_fill_manual(values=pal)#+scale_fill_viridis_d()
+  ggsave(paste0('boxplot-disease-', metricType, '-', metric,'prot.pdf'),p5)
+  
   return(full.tab)
 }
 
