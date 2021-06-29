@@ -8,4 +8,4 @@ COPY correlationXcelltypes.py /bin
 RUN chmod 777 /bin/correlation.py
 RUN chmod 777 /bin/correlationXcelltypes.py
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']

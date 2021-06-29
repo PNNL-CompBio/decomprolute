@@ -7,4 +7,4 @@ COPY comparison.py /bin
 
 RUN chmod 777 /bin/comparison.py
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']

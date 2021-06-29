@@ -11,4 +11,4 @@ COPY pancan_immune_subtypes.csv /bin
 RUN chmod 777 /bin/combine_results.R
 RUN chmod 777 /bin/immune_subtypes.R
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']

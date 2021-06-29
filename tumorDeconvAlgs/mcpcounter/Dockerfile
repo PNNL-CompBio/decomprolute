@@ -21,4 +21,4 @@ COPY mcpcounter.r /bin
 ENV HOME /bin
 WORKDIR /bin
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']

@@ -22,4 +22,4 @@ ADD data /data
 ENV HOME /bin
 WORKDIR /bin
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']
