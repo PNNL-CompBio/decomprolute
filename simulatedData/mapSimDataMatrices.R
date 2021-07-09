@@ -46,7 +46,8 @@ main <- function(){
         stringr::str_replace('^T8 cells$','CD8 T cells')%>%
         stringr::str_replace('^T4 cells$','CD4 T cells')%>%
     stringr::str_replace(fixed('CD8 T-cells'),'CD8 T cells')%>%
-    stringr::str_replace(fixed('Monos'),'Monocytes')%>%
+        stringr::str_replace(fixed('Monos'),'Monocytes')%>%
+        stringr::str_replace(fixed('MO'),'Monocytes')%>%
     stringr::str_replace('Neutrophil$','Neutrophils')%>%
         stringr::str_replace('Eosinophil$','Eosinophils')%>%
         stringr::str_replace('DC$','Dendritic cells')%>%
@@ -64,19 +65,8 @@ main <- function(){
         if(sim.type=='prot'){
             ##just rename
         }else if(sim.type=='mrna'){
-## rownames(deconv.mat)<-rownames(deconv.mat)%>%
-##                 stringr::str_replace('Neutrophil','Neutrophils')%>%
-##                 stringr::str_replace('MO','Monocytes')%>%
-##                 stringr::str_replace('T8 cells','CD8')%>%
-##                 stringr::str_replace('T4 cells','CD4')%>%
-##                 stringr::str_replace('B cells','B-cells')
-
+            #do nothing
         }else if(sim.type=='pbmc'){
-    #        rownames(deconv.mat)<-rownames(deconv.mat)%>%
-    #            stringr::str_replace('NK','NK cells')%>%
-    #            stringr::str_replace('MO','Monos')%>%
-    #            stringr::str_replace('T8 cells','CD8 T-cells')
-
             cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
                 cell.type['CD4 memory T-cells resting',]+
                 cell.type['CD4 memory T-cells activated',]
@@ -87,11 +77,6 @@ main <- function(){
         #can convert to any other
         if(sim.type=='prot'){
             ##fix  t8 cells
-      #      rownames(deconv.mat)<-rownames(deconv.mat)%>%
-      #          stringr::str_replace('T cells CD8','T8 cells')%>%
-      #          stringr::str_replace('Neutrophils','Neutrophil')%>%
-      #          stringr::str_replace("Eosinophils","Eosinophil")
-
             deconv.mat['B cells',]<-deconv.mat['B cells naive',]+
                 deconv.mat['B cells memory',]
             deconv.mat['CD4 T cells',]<- deconv.mat['T cells CD4 naive',]+
@@ -111,37 +96,20 @@ main <- function(){
             deconv.mat['NK cells',]<-deconv.mat['NK cells activated',]+
                 deconv.mat['NK cells resting',]
         }else if(sim.type=='pbmc'){
-       #     rownames(deconv.mat)<-rownames(deconv.mat)%>%
-               # stringr::str_replace('B cells naive','Naive B cells')%>%
-              #  stringr::str_replace('B cells Memory','Memory B cells')%>%
-             #   stringr::str_replace('T cells CD8','CD8 T-cells')%>%
-            #    stringr::str_replace('Monocytes','Monos')%>%
-           #     stringr::str_replace('T cells CD4 naive','CD4 naive T-cells')%>%
-          #      stringr::str_replace('T cells CD4 memory activated','CD4 memory T-cells activated')%>%
-             #   stringr::str_replace('T cells CD4 memory resting','CD4 memory T-cells resting')
+
             deconv.mat['NK cells',]<-deconv.mat['NK cells resting',]+
                 deconv.mat['NK cells activated',]
         }
     }else if(sig.mat=='LM7c.txt'){
         #can not convert
         if(sim.type=='prot'){
-            #rownames(deconv.mat)<-rownames(deconv.mat)%>%
-            #    stringr::str_replace('NK cells','NK')
-
+            cell.type['Granulocytes',] <-cell.type['Neutrophils',]+
+                cell.type['Eosinophils',]+
+                cell.type['Basophil',]
         }else if(sim.type=='mrna'){
-            #rownames(deconv.mat)<-rownames(deconv.mat)%>%
-            #    stringr::str_replace('MO','Monocytes')%>%
-            #    stringr::str_replace('T8 cells','CD8')%>%
-            #    stringr::str_replace('T4 cells','CD4')%>%
-            #    stringr::str_replace('B cells','B-cells')%>%
-            #    stringr::str_replace('NK cells','NK')
-
+            #do nothing
         }else if(sim.type=='pbmc'){
- #           rownames(deconv.mat)<-rownames(deconv.mat)%>%
-#                stringr::str_replace("MO","Monos")%>%
-            #    stringr::str_replace('T8 cells','CD8 T-cells')
-
-            cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
+             cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
                 cell.type['CD4 memory T-cells resting',]+
                 cell.type['CD4 memory T-cells activated',]
             cell.type['B cells',]<-cell.type['Naive B cells',]+
@@ -151,19 +119,9 @@ main <- function(){
     }else if(sig.mat=='pbmc.txt'){
         #can only covert to LM7c
         if(sim.type=='prot'){
-  #          rownames(deconv.mat)<-rownames(deconv.mat)%>%
-  #              stringr::str_replace('Monocytes','MO')%>%
-  #              stringr::str_replace('T cells CD8','T8 cells')%>%
-       #         stringr::str_replace('T cells CD4','T4 cells')%>%
-       #         stringr::str_replace('NK cells','NK')%>%
-       #         stringr::str_replace("Dendritic cells","DC")
-
+            #do nothing
         }else if(sim.type=='mrna'){
-          #  rownames(deconv.mat)<-rownames(deconv.mat)%>%
-           #     stringr::str_replace('T cells CD8','CD8')%>%
-          #      stringr::str_replace('T cells CD4','CD4')%>%
-         #       stringr::str_replace('B cells','B-cells')%>%
-        #        stringr::str_replace('NK cells','NK')
+                                        #do nothing
         }else if(sim.type=='pbmc'){
             cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
                 cell.type['CD4 memory T-cells resting',]+
@@ -172,9 +130,7 @@ main <- function(){
             cell.type['B cells',]<-cell.type['Naive B cells',]+
                 cell.type['Memory B cells',]
 
-           # rownames(deconv.mat)<-rownames(deconv.mat)%>%
-           #     stringr::str_replace("MO","Monos")%>%
-           #     stringr::str_replace('T cells CD8','CD8 T-cells')
+
 
         }
     }

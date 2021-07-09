@@ -46,12 +46,6 @@ outputs:
    dist-tab:
       type: File
       outputSource: get-distances/table
-   cordist-fig:
-      type: File[]
-      outputSource: get-celltype-cordists/fig
-   cordist-tab:
-      type: File
-      outputSource: get-celltype-cordists/table
     
 
 steps:
@@ -87,14 +81,4 @@ steps:
             source: run-all-algs-by-sig/mat-dist-file
       out:
         [table,fig]
-   get-celltype-cordists:
-      run: ../figures/plot-figs.cwl
-      in:
-        metric:
-            valueFrom: "meanCorrelation"
-        metricType:
-            valueFrom: "cellType"
-        files:
-            source: run-all-algs-by-sig/cell-cor-file
-      out:
-        [table,fig]
+      
