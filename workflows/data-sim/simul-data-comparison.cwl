@@ -20,20 +20,6 @@ inputs:
       type: File[]
    simTypes: 
       type: string[]
-      
-outputs:
-   # saved-data:
-   #    type: File[]
-   #    outputSource: run-all-algs-by-sig/matrix
-   # deconvluted-results:
-   #    type: File[]
-   #    outputSource: run-all-algs-by-sig/deconvoluted
-   # deconv-results:
-   #    type: File[]
-   #    outputSource: run-all-algs-by-sig/deconv
-   # celltype-results:
-   #    type: File[]
-   #    outputSource: run-all-algs-by-sig/cellPred
    cell-cor-tab:
       type: File
       outputSource: get-celltype-cors/table
@@ -46,12 +32,6 @@ outputs:
    dist-tab:
       type: File
       outputSource: get-distances/table
-#   cor-dist-fig:
-#      type: File[]
-#      outputSource: get-celltype-cordists/fig
-#   cor-dist-tab:
-#      type: File
-#      outputSource: get-celltype-cordists/table
    
 
 steps:

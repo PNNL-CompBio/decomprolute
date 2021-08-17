@@ -10,15 +10,41 @@ There are multiple ways to use this package. Given the multiple modules, you can
 
 ### To deconvolve cell types on CPTAC data
 
-To run a single algorithm.
-
-### To assess performance of existing algorithms
-This repository contains all the tools needed to compare tumor deconvolution algorithms. So far we are focusing on comparing proteomic to mRNA measurements and assessing their correlation via the Spearman Rank statistic. To evaluate and see the results, you can:
+The workflow script to run a single algorithm is located in the root of the [workflows](./workflows) directory.
 
 ``` shell
-cd perfEval
-cwltool scatter-test.cwl scatter-test.yml
+cd workflows
+cwltool prot-deconv.cwl --cancer hnscc --protAlg mcpcounter --sampleType tumor --signature ../signature_matrices/LM7c.txt
 ```
+
+This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature.
+
+### To assess _performance_ of existing algorithms
+In the absence of a proteomics gold standard, we have implemented three distinct metrics to determine the performance of each algorithm listed below.
+
+#### Performance on simulated data
+We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_ directory.
+
+We have included two `YAML` files to use as test runs of each simulation.
+
+``` shell
+cd workflows/data-sim/
+cwltool simul-data-comparison.cwl rna-sim-test.yml ##evaluate rna-based deconvolution
+cwltool simul-data-comparison.cwl prot-sim-test.yml ##evaluate protein based deconvolution
+
+```
+
+These will produced the necessary summary statistics and figures.
+
+#### mRNA-Proteomics Comparison
+
+We also wanted to measure how _consistent_ an algorithm was between mRNA and proteomics data. This iterates through all algorithms, data, and matrices to and compares how similar each cell type prediction is across mRNA vs. proteomic samples.
+
+``` shell
+cd workflows/mrna-prot
+cwltool mrna-prot-comparison.cwl alg-test.yml
+```
+
 This will run the evaluation in our test `YAML` file. To update the parameters, create your own `YAML` file. The algorithm currently has five parameters:
 1. mrna-algorithms: List of algorithms to use to deconvolve mRNA data. One of `epic`, `xcell`, `cibersort`, `mcpcounter`.
 2. prot-algorithms: List of algorithms to use to deconvolve protein data. One of `epic`, `xcell`, `cibersort`, `mcpcounter`.
@@ -26,13 +52,16 @@ This will run the evaluation in our test `YAML` file. To update the parameters, 
 4. signatures: List of signature matrices, currently found in the [signature matrix](./signature_matrices) directory
 5. tissueTypes: list of tissue types: `tumor`, `normal`, or `all`
 
-### To add your own algorithm
+#### Pan-Immune clustering annotation
+Lastly we can cross-reference known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well
 
-To test your own algorithm, please ensure that it will work with the signature matrices in this repository as well as the matrices generated in the mRNA and protein modules. Then deposit your `CWL` script and add your algorithm to the `call-deconv-and-cor.cwl` file.
+### To add your own algorithm or data
 
-### To add your own data
+To test your own algorithm, or data, we suggest putting it in its own Docker image. For more details please see the [Contributing Guide](./contribution_guide/).
+
 
 ## Data
+For this module we have collected real and simulated data.
 
 ### CPTAC Data
 
@@ -60,18 +89,21 @@ As such, datasets have been updated to following (added hnscc):
 
 
 ### Simulated data
-We also evaluate the algorithms on simulated data
+We also evaluate the algorithms on simulated data.
 
 
 ## Algorithms
-We have included numerous algorithms in this package.
+We have included numerous algorithms in this package. Docker files and requisite data are included in the [tumorDeconvAlgs](./tumorDeconvAlgs) folder.
 
-### Example results
-Currently the results produce two PDF files: one that plots the correlation across cell types for each tumor type/algorithm/tissue combination, and one that plots the correlation across patient cohorts.
+| Algorithm                           | Source |
+| ---                                 | ---    |
+| [cibersort](./tumorDeconvAlgs/cibersort)|       |
+| [epic](./tumorDeconvAlgs/epic)|  |
+| [xcell](/tumorDeconvAlgs/xcell)| |
+| [mcpcounter](./tumorDeconvAlgos/xcell)| |
 
 
-
-### Deconvolution signatures
+## Cell type signatures
 There are numerous ways to define the individual cell types we are using to run the deconvolution algorithms. We will upload specific lists to compare in our workflow.
 
 | List Name | Description | Source |
