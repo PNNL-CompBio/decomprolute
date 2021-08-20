@@ -7,8 +7,17 @@ filter: &filter
       only:
         - anna*
 
+filter-docker: &filter-docker
+  filters:
+    branches:
+      only:
+        - docker*
+
 
 workflows:
+  build-docker-images:
+    jobs:
+      - build-docker-image-xcell
   test-with-cwl:
     jobs:
       - rep-bulk:
@@ -68,8 +77,27 @@ commands:
           root: protData
           paths:
             - file.tsv
+  build-docker-image:
+    parameters:
+      alg:
+        type: string
+        default: 'xcell'
+    steps:
+      - checkout
+      - run:
+          name: Build << parameters.alg >> Docker image
+          command: |
+            docker pull tumordeconv/<< parameters.alg >>
+            cd ~/project/tumorDeconvAlgs/<< parameters.alg >>
+            docker build --cache-from tumordeconv/<< parameters.alg >> -t tumordeconv/<< parameters.alg >> .
+            docker push tumordeconv/<< parameters.alg >>
+
 
 jobs:
+  build-docker-image-xcell:
+    executor: ubuntu
+    steps:
+      - build-docker-image
   test-dl-brca:
     executor: ubuntu
     steps:
