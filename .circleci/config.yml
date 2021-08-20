@@ -18,6 +18,9 @@ workflows:
   build-docker-images:
     jobs:
       - build-docker-image-xcell
+      - build-docker-image-cibersort
+      - build-docker-image-mcpcounter
+      - build-docker-image-epic
   test-with-cwl:
     jobs:
       - rep-bulk:
