@@ -94,6 +94,21 @@ commands:
 
 
 jobs:
+  build-docker-image-cibersort:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'cibersort'
+  build-docker-image-cibersort:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'epic'
+  build-docker-image-cibersort:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'mcpcounter'
   build-docker-image-xcell:
     executor: ubuntu
     steps:
