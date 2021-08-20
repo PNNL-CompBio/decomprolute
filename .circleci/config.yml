@@ -99,12 +99,12 @@ jobs:
     steps:
       - build-docker-image:
           alg: 'cibersort'
-  build-docker-image-cibersort:
+  build-docker-image-epic:
     executor: ubuntu
     steps:
       - build-docker-image:
           alg: 'epic'
-  build-docker-image-cibersort:
+  build-docker-image-mcpcounter:
     executor: ubuntu
     steps:
       - build-docker-image:
