@@ -20,6 +20,8 @@ inputs:
       type: File[]
    simTypes: 
       type: string[]
+
+outputs:
    cell-cor-tab:
       type: File
       outputSource: get-celltype-cors/table
