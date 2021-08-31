@@ -23,7 +23,7 @@ This will run the MCP-counter algorithm on proteomics data from the CPTAC breast
 In the absence of a proteomics gold standard, we have implemented three distinct metrics to determine the performance of each algorithm listed below.
 
 #### Performance on simulated data
-We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_ directory.
+We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
 
 We have included two `YAML` files to use as test runs of each simulation.
 
