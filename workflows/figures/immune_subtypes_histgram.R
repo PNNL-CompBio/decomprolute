@@ -11,8 +11,7 @@ argv <- commandArgs(trailingOnly = TRUE)
 file.list<-argv[3:length(argv)]
 
 #rna
-tmp <- file.list[grep('-mrna-',file.list)]
-tmp <- tmp[grep('tsv$',tmp)]
+tmp <- file.list[grep('tumor-mrna',file.list)] #search only in tumor samples and not in normal 
 sig <- unique(sapply(strsplit(tmp,'-'), function(x) x[6]))
 sig <- sapply(strsplit(sig,'\\.'), function(x) x[1])
 
@@ -94,9 +93,12 @@ for (o in ob) {
 
   mu <- ddply(tmp2, c("type","Method",'cluster'), summarise, median=median(value))
   
-  p <- ggplot(tmp2,aes(x=value,fill=Method,color=Method))+geom_histogram(alpha=0.2,position = 'identity')+facet_grid(type~ cluster,scales = 'free')+
-    theme_classic()+geom_vline(data=mu, aes(xintercept=median, color=Method),size=.8)+geom_vline(xintercept = 0,size=.8)+
-    theme(strip.text.y = element_text(angle = 0))
+  p <- ggplot(tmp2,aes(x=value,fill=Method))+
+    geom_histogram(alpha=0.4,position = 'identity',bins = 50)+ #choose a useful number of bins
+    facet_grid(type~ cluster,scales = 'free')+
+    theme_classic()+geom_vline(data=mu, aes(xintercept=median, color=Method),size=.8)+
+    geom_vline(xintercept = 0,size=.8,linetype="dashed")+
+    theme(strip.text.y = element_text(angle = 0),panel.background = element_rect(fill = "grey92"))+ coord_cartesian(xlim =c(-1.5, 1.5))#, ylim = c(10, 20))
   
   color = c('C1-WoundHealing'='red','C2-IFNGammaDominant'='yellow','C3-Inflammatory'='green3','C4-LymphocyteDepleted'='cyan','C5-ImmunologicallyQuiet'='blue','C6-TGFBetaDominant'='magenta')
   tmp3 <- sort(unique(sapply(strsplit(tmp2$cluster,' '), function(x) x[1])))
@@ -111,15 +113,14 @@ for (o in ob) {
     g$grobs[[i]]$grobs[[1]]$children[[j]]$gp$fill <- fills[k]
     k <- k+1
   }
-  pdf(paste0(o,'-mrnaHist',".pdf"), width = ifelse(grepl('LM22',o),15,10), height = ifelse(grepl('LM22',o),20,15))
+  pdf(paste0(o,'-mrnaHist',".pdf"), width = ifelse(grepl('LM22',o),15,15), height = ifelse(grepl('LM22',o),20,10))
   grid.draw(g)
   dev.off()
   
 }
 
 #prot
-tmp <- file.list[grep('-mrna-',file.list)]
-tmp <- tmp[grep('tsv$',tmp)]
+tmp <- file.list[grep('tumor-prot',file.list)] #search only in tumor samples and not in normal 
 sig <- unique(sapply(strsplit(tmp,'-'), function(x) x[6]))
 sig <- sapply(strsplit(sig,'\\.'), function(x) x[1])
 
@@ -201,9 +202,12 @@ for (o in ob) {
   
   mu <- ddply(tmp2, c("type","Method",'cluster'), summarise, median=median(value))
   
-  p <- ggplot(tmp2,aes(x=value,fill=Method,color=Method))+geom_histogram(alpha=0.2,position = 'identity')+facet_grid(type~ cluster,scales = 'free')+
-    theme_classic()+geom_vline(data=mu, aes(xintercept=median, color=Method),size=.8)+geom_vline(xintercept = 0,size=.8)+
-    theme(strip.text.y = element_text(angle = 0))
+  p <- ggplot(tmp2,aes(x=value,fill=Method))+
+    geom_histogram(alpha=0.4,position = 'identity',bins = 50)+ #choose a useful number of bins
+    facet_grid(type~ cluster,scales = 'free')+
+    theme_classic()+geom_vline(data=mu, aes(xintercept=median, color=Method),size=.8)+
+    geom_vline(xintercept = 0,size=.8,linetype="dashed")+
+    theme(strip.text.y = element_text(angle = 0),panel.background = element_rect(fill = "grey92"))+ coord_cartesian(xlim =c(-1.5, 1.5))#, ylim = c(10, 20))
   
   color = c('C1-WoundHealing'='red','C2-IFNGammaDominant'='yellow','C3-Inflammatory'='green3','C4-LymphocyteDepleted'='cyan','C5-ImmunologicallyQuiet'='blue','C6-TGFBetaDominant'='magenta')
   tmp3 <- sort(unique(sapply(strsplit(tmp2$cluster,' '), function(x) x[1])))
@@ -218,7 +222,7 @@ for (o in ob) {
     g$grobs[[i]]$grobs[[1]]$children[[j]]$gp$fill <- fills[k]
     k <- k+1
   }
-  pdf(paste0(o,'-protHist',".pdf"), width = ifelse(grepl('LM22',o),15,10), height = ifelse(grepl('LM22',o),20,15))
+  pdf(paste0(o,'-protHist',".pdf"), width = ifelse(grepl('LM22',o),15,15), height = ifelse(grepl('LM22',o),20,10))
   grid.draw(g)
   dev.off()
   
