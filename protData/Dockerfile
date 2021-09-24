@@ -7,6 +7,6 @@ RUN chmod 777 /bin/protDataSetsCLI.py
 COPY getAllDatasets.py /bin/
 RUN python /bin/getAllDatasets.py
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']
 
 WORKDIR ['/tmp']

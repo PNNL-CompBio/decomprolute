@@ -19,4 +19,4 @@ COPY cibersort.r /bin
 ENV HOME /bin
 WORKDIR /bin
 
-VOLUME ['/tmp']
+#VOLUME ['/tmp']
