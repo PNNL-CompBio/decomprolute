@@ -2,7 +2,7 @@
 The goal of this package is to provide various metrics to assess the ability of a deconvolution algorithm to identify specific cell types in bulk proteomics data. The package is fully dockerized and can be run with the installation of Docker and a CWL-compliant tool on your local machine.
 
 We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools.The modules fall into three categories, each with a data collection and analysis module.
-![Architecture](./arch.png)
+![Architecture](./deconvFIgure1.png)
 
 ## How to use
 
