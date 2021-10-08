@@ -17,4 +17,4 @@ signatures:
   - class: File
     path: ../../signature_matrices/LM9.txt
   - class: File
-    path: ../../signature_matrices/LM722.txt
+    path: ../../signature_matrices/LM22.txt
