@@ -1,14 +1,14 @@
 #!/usr/bin/env cwltool
-class: workflow
+class: Workflow
 label: pan-can-immune-pred
 id: pan-can-immune-pred
-cwlVersion: 1.2
+cwlVersion: v1.2
 
 requirements:
-        - class: Subworkflowfeaturerequirement
-        - class: MultipleInputfeaturerequirement
-        - class: Scatterfeaturerequirement
-        - class: stepinputexpressionrequirement
+        - class: SubworkflowFeatureRequirement
+        - class: MultipleInputFeatureRequirement
+        - class: ScatterFeatureRequirement
+        - class: StepInputExpressionRequirement
 
 
 inputs:
@@ -20,19 +20,28 @@ inputs:
      type: string[]
   signatures:
      type: File[]
-
+outputs:
+  fig:
+     type: File[]
+  table:
+     type: File
 
 steps:
   call-deconv:
     run: ../prot-deconv.cwl
-    scatter: [signature,prot-alg,cancerType,tissue]
+    scatter: [signature,protAlg,cancerType,sampleType]
     scatterMethod: flat_crossproduct
     in:
       cancerType: cancerTypes
       signature: signatures
-      prot-alg: prot-algorithms
-      tissue: tissueTypes
+      protAlg: prot-algorithms
+      sampleType: tissueTypes
     out:
       [deconvoluted]
-  
+  plot-imm:
+    run: plot-immune-subtypes.cwl
+    in:
+      files: call-deconv/deconvoluted
+    out:
+      [table,fig]
       
