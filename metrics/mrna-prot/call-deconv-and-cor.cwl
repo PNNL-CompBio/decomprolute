@@ -77,7 +77,7 @@ steps:
          source: deconv-mrna/deconvoluted
      out: [corr]
   matrix-distance:
-     run: ../comparison/deconv-comparison-tool.cwl
+     run: ../distance/deconv-comparison-tool.cwl
      in:
        matrixA: deconv-mrna/deconvoluted
        matrixB: deconv-prot/deconvoluted
