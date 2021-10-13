@@ -10,7 +10,6 @@ requirements:
         - class: ScatterFeatureRequirement
         - class: StepInputExpressionRequirement
 
-
 inputs:
   tissueTypes:
      type: string[]
@@ -20,11 +19,14 @@ inputs:
      type: string[]
   signatures:
      type: File[]
+
 outputs:
   fig:
      type: File[]
+     outputSource: plot-imm/fig
   table:
      type: File
+     outputSource: plot-imm/table
 
 steps:
   call-deconv:

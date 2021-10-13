@@ -40,7 +40,8 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
     thor$Immune.Subtype[thor$Immune.Subtype==6] <- "C6-TGFBetaDominant"
     thor <- thor[,-1]
 
-    sigs <- unique(sapply(file.list,function(x) unlist(strsplit(gsub('.tsv','',x),'-',fixed=T))[6]))
+    sigs <- unique(sapply(file.list,function(x) unlist(strsplit(gsub('.tsv','',basename(x)),'-',fixed=T))[6]))
+#    print(sigs)
     full.tab<-do.call(rbind,lapply(file.list,function(file){
         vars <- unlist(strsplit(basename(file),split='[-\\.]')) #split into pieces
         cancer=vars[1]
