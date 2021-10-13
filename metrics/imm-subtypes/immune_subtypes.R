@@ -66,14 +66,17 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
                 summarise(median=median(Values))
             p1<-full.tab.sig%>%
                 ggplot(aes(x = Values, fill = algorithm)) +
-                geom_histogram(alpha=0.4,position = 'identity',bins = 50)+ #choose a useful number of bins
+                geom_histogram(alpha=0.6,position = 'identity',bins = 50)+ #choose a useful number of bins
                 #geom_bar(position = "dodge", stat = "summary", fun = "median") +
                 theme_classic()+geom_vline(data=mu, aes(xintercept=median, color=algorithm),size=.8)+
                 #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
                 geom_vline(xintercept = 0,size=.8,linetype="dashed")+
                 facet_grid(rows=vars(CellTypes),cols=vars(ImmuneSubtype), scales = 'free') +
-                theme(strip.text.y = element_text(angle = 0),panel.background = element_rect(fill = "grey92"))+ coord_cartesian(xlim =c(-1.5, 1.5))#, ylim = c(10, 20))
+                theme(strip.text.y = element_text(angle = 0),panel.background = element_rect(fill = "grey92"))+
+                coord_cartesian(xlim =c(-1.5, 1.5))+scale_fill_manual(values=pal)+
+                                        scale_color_manual(values=pal)#, ylim = c(10, 20)
             color = c('C1-WoundHealing'='red','C2-IFNGammaDominant'='yellow','C3-Inflammatory'='green3','C4-LymphocyteDepleted'='cyan','C5-ImmunologicallyQuiet'='blue','C6-TGFBetaDominant'='magenta')
+
             tmp3 <- sort(unique(full.tab.sig$algorithm))#sapply(strsplit(full.tab.sig$algorithm,' '), function(x) x[1])))
             color <- color[tmp3]
 
@@ -95,7 +98,7 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
             ggplot(aes(x = molecule, y = Values, fill = algorithm)) +
             geom_bar(position = "dodge", stat = "summary", fun = "median") +
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-            facet_grid(rows=vars(CellTypes),cols=vars(ImmuneSubtype))
+            facet_grid(rows=vars(CellTypes),cols=vars(ImmuneSubtype))+scale_fill_manual(values=pal)
         ggsave(paste0('barplots-immune-subtypes-',sig,'.pdf'),p2, width = 10, height = length(unique(full.tab.sig$CellTypes)) * 2)
     }
 
@@ -106,7 +109,7 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
             geom_boxplot(outlier.shape = NA) +
             scale_y_continuous(limits = quantile(full.tab.sig$Values, c(0.01, 0.99))) +
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-            facet_grid(rows=vars(CellTypes),cols=vars(ImmuneSubtype))
+            facet_grid(rows=vars(CellTypes),cols=vars(ImmuneSubtype))+scale_fill_manual(values=pal)
         ggsave(paste0('boxplots-immune-subtypes-',sig,'.pdf'),p3, width = 10, height = length(unique(full.tab.sig$CellTypes)) * 2)
     }
 
