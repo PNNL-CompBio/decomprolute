@@ -10,16 +10,17 @@ getDfISC <- function(m, thor) {
 
     com <- intersect(colnames(m),rownames(thor))
     m <- m[,com]
+   # print(m)
+    CellTypes=rownames(m)
     thor <- thor[com,]
-
-
     m <- t(scale(t(m)))
     m[is.na(m)] <- 0
-
+#    print(m)
     m2 <- melt(as.matrix(m))
     colnames(m2) <- c("CellTypes", "SampleID", "Values")
+    m2$CellTypes=CellTypes
     m2$ImmuneSubtype <- thor[m2$SampleID, "Immune.Subtype"]
-
+  #  print(m2)
     return(m2)
 }
 
@@ -39,7 +40,7 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
     thor$Immune.Subtype[thor$Immune.Subtype==6] <- "C6-TGFBetaDominant"
     thor <- thor[,-1]
 
-    sigs <- unique(sapply(strsplit(file.list,'[-\\.]'), function(x) x[6]))
+    sigs <- unique(sapply(file.list,function(x) unlist(strsplit(gsub('.tsv','',x),'-',fixed=T))[6]))
     full.tab<-do.call(rbind,lapply(file.list,function(file){
         vars <- unlist(strsplit(basename(file),split='[-\\.]')) #split into pieces
         cancer=vars[1]
@@ -48,18 +49,20 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
         imputation=vars[4]
         algorithm=vars[5]
         sigMatrix=vars[6]
-        m<-read.table(file,sep='\t',header=T,check.names=F)
-        print(m)
+        m<-read.table(file,sep='\t',header=T,check.names=T)%>%
+            tibble::column_to_rownames('X')
         m2 <- getDfISC(m, thor)
-        print(m2)
         return(data.frame(m2,cancer,tissue,molecule,imputation,algorithm,sigMatrix))
     }))
 
      molecules <- unique(full.tab$molecule)
     for (sig in sigs) {
         for (mol in molecules) {
+            print(sig)
             full.tab.sig <- full.tab[full.tab$sigMatrix == sig, ]
-            mu <- ddply(full.tab.sig, c("CellTypes","algorithm",'ImmuneSubtype'), summarise, median=median(Values))
+            mu <- full.tab.sig%>%
+                group_by(CellTypes,algorithm,ImmuneSubtype)%>%
+                summarise(median=median(Values))
             p1<-full.tab.sig%>%
                 ggplot(aes(x = Values, fill = algorithm)) +
                 geom_histogram(alpha=0.4,position = 'identity',bins = 50)+ #choose a useful number of bins
@@ -70,7 +73,7 @@ compareImmuneSubtypes<-function(file.list, iscfile = "/bin/pancan_immune_subtype
                 facet_grid(rows=vars(CellTypes),cols=vars(ImmuneSubtype), scales = 'free') +
                 theme(strip.text.y = element_text(angle = 0),panel.background = element_rect(fill = "grey92"))+ coord_cartesian(xlim =c(-1.5, 1.5))#, ylim = c(10, 20))
             color = c('C1-WoundHealing'='red','C2-IFNGammaDominant'='yellow','C3-Inflammatory'='green3','C4-LymphocyteDepleted'='cyan','C5-ImmunologicallyQuiet'='blue','C6-TGFBetaDominant'='magenta')
-            tmp3 <- sort(unique(sapply(strsplit(full.tab.sig$algorithm,' '), function(x) x[1])))
+            tmp3 <- sort(unique(full.tab.sig$algorithm))#sapply(strsplit(full.tab.sig$algorithm,' '), function(x) x[1])))
             color <- color[tmp3]
 
             g <- ggplot_gtable(ggplot_build(p1))
