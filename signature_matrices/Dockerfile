@@ -2,7 +2,7 @@ FROM rocker/tidyverse
 
 
 COPY *txt /
-COPY getSimDataMatrices.R /
+COPY getSigMatrices.R /
 
 RUN chmod 777 /getSigMatrices.R
 
