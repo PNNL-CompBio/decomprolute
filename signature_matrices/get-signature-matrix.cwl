@@ -7,7 +7,7 @@ cwlVersion: v1.2
 baseCommand: Rscript
 
 arguments:
-  - /getSigMatrix.r
+  - /getSigMatrices.R
 
 requirements:
   - class: DockerRequirement
