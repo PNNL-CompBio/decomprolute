@@ -24,5 +24,5 @@ outputs:
   sigMatrix:
     type: File
     outputBinding:
-      glob: "*.tsv"
+      glob: "*.txt"
  
