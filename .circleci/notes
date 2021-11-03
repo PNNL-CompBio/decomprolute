@@ -2,6 +2,8 @@ Docker images to test
 - tumordeconv/prot-data
 - tumordeconv/signature_matrices
 - tumordeconv/mrna-data
+
+metrics/
 - tumordeconv/correlation
 - tumordeconv/comparison
 - tumordeconv/figures

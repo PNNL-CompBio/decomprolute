@@ -96,11 +96,11 @@ commands:
       - run:
           name: Build << parameters.alg >> Docker image
           command: |
-            docker pull tumordeconv/<< parameters.alg >>
             cd ~/project/<< parameters.dir >>/<< parameters.alg >>
             docker build --cache-from tumordeconv/<< parameters.alg >> -t tumordeconv/<< parameters.alg >> .
             docker push tumordeconv/<< parameters.alg >>
-
+      # add in docker pull later
+      # docker pull tumordeconv/<< parameters.alg >>
 
 jobs:
   build-docker-image-prot-data:
@@ -108,7 +108,7 @@ jobs:
     steps:
       - build-docker-image:
           alg: 'prot-data'
-          dir: 'mRNAData'
+          dir: 'protData'
   build-docker-image-signature_matrices:
     executor: ubuntu
     steps:
