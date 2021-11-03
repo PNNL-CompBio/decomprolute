@@ -1,5 +1,7 @@
 test/*
 results/*.cwl
+.pdf
+
 .RData
 .Rhistory
 *~

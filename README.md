@@ -2,7 +2,7 @@
 The goal of this package is to provide various metrics to assess the ability of a deconvolution algorithm to identify specific cell types in bulk proteomics data. The package is fully dockerized and can be run with the installation of Docker and a CWL-compliant tool on your local machine.
 
 We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools.The modules fall into three categories, each with a data collection and analysis module.
-![Architecture](./arch.png)
+![Architecture](./deconvFIgure1.png)
 
 ## How to use
 
@@ -23,7 +23,7 @@ This will run the MCP-counter algorithm on proteomics data from the CPTAC breast
 In the absence of a proteomics gold standard, we have implemented three distinct metrics to determine the performance of each algorithm listed below.
 
 #### Performance on simulated data
-We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_ directory.
+We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
 
 We have included two `YAML` files to use as test runs of each simulation.
 
