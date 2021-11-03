@@ -90,7 +90,6 @@ commands:
         default: 'xcell'
       dir:
         type: string
-        default: 'tumorDeconvAlgs'
     steps:
       - checkout
       - docker/check
@@ -151,20 +150,25 @@ jobs:
     steps:
       - build-docker-image:
           alg: 'cibersort'
+          dir: 'tumorDeconvAlgs/cibersort'
   build-docker-image-epic:
     executor: ubuntu
     steps:
       - build-docker-image:
           alg: 'epic'
+          dir: 'tumorDeconvAlgs/epic'
   build-docker-image-mcpcounter:
     executor: ubuntu
     steps:
       - build-docker-image:
           alg: 'mcpcounter'
+          dir: 'tumorDeconvAlgs/mcpcounter'
   build-docker-image-xcell:
     executor: ubuntu
     steps:
-      - build-docker-image
+      - build-docker-image:
+          alg: 'xcell'
+          dir: 'tumorDeconvAlgs/xcell'
   test-dl-brca:
     executor: ubuntu
     steps:
