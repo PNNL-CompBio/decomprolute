@@ -59,12 +59,12 @@ steps:
        signature: signature
        alg: alg
      out: [deconvoluted]
-  run-repbulk:
-    run: ../tumorDeconvAlgs/BayesDeBulk/bayes-de-bulk.cwl
+  run-bayesdebulk:
+    run: ../tumorDeconvAlgs/bayesdebulk/run-bayesdebulk-tool.cwl
     when: $(inputs.alg == "bayesdebulk")
     in:
-      expressionFile: matrix
-      signatureMatrix: signature
+      expression: matrix
+      signature: signature
       alg: alg
     out:
       [deconvoluted]
@@ -78,5 +78,5 @@ outputs:
  #     - run-cibersortx/deconvoluted
       - run-epic/deconvoluted
       - run-mcpcounter/deconvoluted
-      - run-repbulk/deconvoluted
+      - run-bayesdebulk/deconvoluted
     pickValue: first_non_null
