@@ -12,10 +12,11 @@ filter: &filter
 workflows:
   build-docker-images:
     jobs:
-      - build-docker-image-xcell
-      - build-docker-image-cibersort
-      - build-docker-image-mcpcounter
-      - build-docker-image-epic
+      - build-docker-image-prot-data
+      # - build-docker-image-xcell
+      # - build-docker-image-cibersort
+      # - build-docker-image-mcpcounter
+      # - build-docker-image-epic
   # test-with-cwl:
   #   jobs:
   #     - rep-bulk:
@@ -96,6 +97,12 @@ commands:
 
 
 jobs:
+  build-docker-image-prot-data:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'prot-data'
+          dir: 'mRNAData'
   build-docker-image-cibersort:
     executor: ubuntu
     steps:
