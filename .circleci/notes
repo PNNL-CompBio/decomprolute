@@ -8,3 +8,9 @@ metrics/
 - tumordeconv/comparison
 - tumordeconv/figures
 - tumordeconv/imm-subtypes
+
+tumorDeconvAlgs/
+- tumordeconv/cibersort
+- tumordeconv/epic
+- tumordeconv/mcpcounter
+- tumordeconv/xcell
