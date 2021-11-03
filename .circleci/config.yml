@@ -96,7 +96,7 @@ commands:
       - run:
           name: Build << parameters.alg >> Docker image
           command: |
-            cd ~/project/<< parameters.dir >>/<< parameters.alg >>
+            cd ~/project/<< parameters.dir >>
             docker build --cache-from tumordeconv/<< parameters.alg >> -t tumordeconv/<< parameters.alg >> .
             docker push tumordeconv/<< parameters.alg >>
       # add in docker pull later
@@ -126,25 +126,25 @@ jobs:
     steps:
       - build-docker-image:
           alg: 'correlation'
-          dir: 'correlations'
+          dir: 'metrics/correlations'
   build-docker-image-comparison:
     executor: ubuntu
     steps:
       - build-docker-image:
           alg: 'comparison'
-          dir: 'distance'
+          dir: 'metrics/distance'
   build-docker-image-figures:
     executor: ubuntu
     steps:
       - build-docker-image:
           alg: 'figures'
-          dir: 'figures'
+          dir: 'metrics/figures'
   build-docker-image-imm-subtypes:
     executor: ubuntu
     steps:
       - build-docker-image:
           alg: 'imm-subtypes'
-          dir: 'imm-subtypes'
+          dir: 'metrics/imm-subtypes'
   build-docker-image-cibersort:
     executor: ubuntu
     steps:
