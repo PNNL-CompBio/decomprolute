@@ -1,0 +1,8 @@
+Docker images to test
+- tumordeconv/prot-data
+- tumordeconv/signature_matrices
+- tumordeconv/mrna-data
+- tumordeconv/correlation
+- tumordeconv/comparison
+- tumordeconv/figures
+- tumordeconv/imm-subtypes

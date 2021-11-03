@@ -8,12 +8,6 @@ filter: &filter
       only:
         - anna*
 
-filter-docker: &filter-docker
-  filters:
-    branches:
-      only:
-        - docker*
-
 
 workflows:
   build-docker-images:
@@ -22,31 +16,31 @@ workflows:
       - build-docker-image-cibersort
       - build-docker-image-mcpcounter
       - build-docker-image-epic
-  test-with-cwl:
-    jobs:
-      - rep-bulk:
-          <<: *filter
-      - rep-bulk-with-imputation:
-          <<: *filter
-      - test-dl-brca:
-          <<: *filter
-      - test-dl-ccrcc:
-          <<: *filter
-      - test-dl-luad:
-          <<: *filter
-      - test-dl-colon:
-          <<: *filter
-      - test-dl-ovarian:
-          <<: *filter
-      - test-dl-hnscc:
-          <<: *filter
-      - test-dl-endometrial:
-          <<: *filter
-      - test-dl-gbm:
-          <<: *filter
-      - imputation:
-          requires:
-            - test-dl-endometrial
+  # test-with-cwl:
+  #   jobs:
+  #     - rep-bulk:
+  #         <<: *filter
+  #     - rep-bulk-with-imputation:
+  #         <<: *filter
+  #     - test-dl-brca:
+  #         <<: *filter
+  #     - test-dl-ccrcc:
+  #         <<: *filter
+  #     - test-dl-luad:
+  #         <<: *filter
+  #     - test-dl-colon:
+  #         <<: *filter
+  #     - test-dl-ovarian:
+  #         <<: *filter
+  #     - test-dl-hnscc:
+  #         <<: *filter
+  #     - test-dl-endometrial:
+  #         <<: *filter
+  #     - test-dl-gbm:
+  #         <<: *filter
+  #     - imputation:
+  #         requires:
+  #           - test-dl-endometrial
 
 executors:
   ubuntu:
@@ -86,6 +80,9 @@ commands:
       alg:
         type: string
         default: 'xcell'
+      dir:
+        type: string
+        default: 'tumorDeconvAlgs'
     steps:
       - checkout
       - docker/check
@@ -93,7 +90,7 @@ commands:
           name: Build << parameters.alg >> Docker image
           command: |
             docker pull tumordeconv/<< parameters.alg >>
-            cd ~/project/tumorDeconvAlgs/<< parameters.alg >>
+            cd ~/project/<< parameters.dir >>/<< parameters.alg >>
             docker build --cache-from tumordeconv/<< parameters.alg >> -t tumordeconv/<< parameters.alg >> .
             docker push tumordeconv/<< parameters.alg >>
 
