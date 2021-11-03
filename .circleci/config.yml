@@ -13,6 +13,12 @@ workflows:
   build-docker-images:
     jobs:
       - build-docker-image-prot-data
+      - build-docker-image-signature_matrices
+      - build-docker-image-mrna-data
+      - build-docker-image-correlation
+      - build-docker-image-comparison
+      - build-docker-image-figures
+      - build-docker-image-imm-subtypes
       # - build-docker-image-xcell
       # - build-docker-image-cibersort
       # - build-docker-image-mcpcounter
@@ -103,6 +109,42 @@ jobs:
       - build-docker-image:
           alg: 'prot-data'
           dir: 'mRNAData'
+  build-docker-image-signature_matrices:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'signature_matrices'
+          dir: 'signature_matrices'
+  build-docker-image-mrna-data:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'mrna-data'
+          dir: 'mRNAData'
+  build-docker-image-correlation:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'correlation'
+          dir: 'correlations'
+  build-docker-image-comparison:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'comparison'
+          dir: 'distance'
+  build-docker-image-figures:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'figures'
+          dir: 'figures'
+  build-docker-image-imm-subtypes:
+    executor: ubuntu
+    steps:
+      - build-docker-image:
+          alg: 'imm-subtypes'
+          dir: 'imm-subtypes'
   build-docker-image-cibersort:
     executor: ubuntu
     steps:
