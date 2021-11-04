@@ -83,7 +83,7 @@ steps:
          source: match-prot-to-sig/updated-cell-matrix
      out: [corr]
   matrix-distance:
-     run: ../comparison/deconv-comparison-tool.cwl
+     run: ../distance/deconv-comparison-tool.cwl
      in:
        matrixA: match-prot-to-sig/updated-deconv
        matrixB: match-prot-to-sig/updated-cell-matrix 
