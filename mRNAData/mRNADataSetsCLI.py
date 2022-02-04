@@ -21,8 +21,6 @@ def main():
         dat = cptac.Ccrcc()
     elif opts.type.lower() == 'colon':
         dat = cptac.Colon()
-    elif opts.type.lower() == 'ovarian':
-        dat = cptac.Ovarian()
     elif opts.type.lower() == 'endometrial':
         dat = cptac.Endometrial()
     elif opts.type.lower() == 'gbm':
@@ -33,6 +31,8 @@ def main():
         dat = cptac.Lscc()
     elif opts.type.lower() == 'luad':
         dat = cptac.Luad()
+    elif opts.type.lower() == 'ovarian':
+        dat = cptac.Ovarian()
     else:
         exit()
     df = dat.get_transcriptomics()
