@@ -60,7 +60,7 @@ steps:
        alg: alg
      out: [deconvoluted]
   run-bayesdebulk:
-    run: ../tumorDeconvAlgs/bayesdebulk/run-bayesdebulk-tool.cwl
+    run: ../tumorDeconvAlgs/BayesDeBulk/run-bayesdebulk-tool.cwl
     when: $(inputs.alg == "bayesdebulk")
     in:
       expression: matrix
