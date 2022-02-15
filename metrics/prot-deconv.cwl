@@ -10,7 +10,7 @@ requirements:
 
 inputs:
    signature:
-     type: File
+     type: string
    protAlg:
      type: string
    cancerType:
@@ -19,6 +19,12 @@ inputs:
      type: string
 
 steps:
+  download-mat:
+    run: ../signature_matrices/get-signature-matrix.cwl
+    in:
+      sigMatrixName: signature
+    out:
+      [sigMatrix]
   download-prot:
     run: ../protData/prot-data-cwl-tool.cwl
     in:
@@ -30,7 +36,7 @@ steps:
     run: run-deconv.cwl
     in:
       matrix: download-prot/matrix
-      signature: signature
+      signature: download-mat/sigMatrix
       alg: protAlg
     out:
       [deconvoluted]
