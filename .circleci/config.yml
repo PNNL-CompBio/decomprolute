@@ -12,17 +12,17 @@ filter: &filter
 workflows:
   build-docker-images:
     jobs:
-      - build-docker-image-prot-data
-      - build-docker-image-signature_matrices
-      - build-docker-image-mrna-data
-      - build-docker-image-correlation
-      - build-docker-image-comparison
-      - build-docker-image-figures
-      - build-docker-image-imm-subtypes
+      # - build-docker-image-prot-data
+      # - build-docker-image-signature_matrices
+      # - build-docker-image-mrna-data
+      # - build-docker-image-correlation
+      # - build-docker-image-comparison
+      # - build-docker-image-figures
+      # - build-docker-image-imm-subtypes
       - build-docker-image-xcell
-      - build-docker-image-cibersort
-      - build-docker-image-mcpcounter
-      - build-docker-image-epic
+      # - build-docker-image-cibersort
+      # - build-docker-image-mcpcounter
+      # - build-docker-image-epic
       # - build-docker-image-bayesdebulk
   # test-with-cwl:
   #   jobs:
