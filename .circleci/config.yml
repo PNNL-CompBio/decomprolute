@@ -24,8 +24,8 @@ workflows:
       # - build-docker-image-mcpcounter
       # - build-docker-image-epic
       # - build-docker-image-bayesdebulk
-  test-with-cwl:
-    jobs:
+  # test-with-cwl:
+  #   jobs:
   #     - rep-bulk:
   #         <<: *filter
   #     - rep-bulk-with-imputation:
