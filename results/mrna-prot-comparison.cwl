@@ -59,7 +59,7 @@ steps:
       out:
         [sigMatrix]
    run-all-algs-by-sig:
-      run: call-deconv-and-cor.cwl
+      run: ./call-deconv-and-cor.cwl
       scatter: [signature,mrna-alg,prot-alg,cancerType,tissueType]
       scatterMethod: flat_crossproduct
       in:
