@@ -1,0 +1,26 @@
+cancerTypes:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+prot-algorithms:
+  - mcpcounter
+  - epic
+  - xcell
+  - cibersort
+mrna-algorithms:
+  - mcpcounter
+  - epic
+  - xcell
+  - cibersort
+tissueTypes:
+   - tumor
+signatures:
+  - class: File
+    path: ../../signature_matrices/LM7c.txt
+  - class: File
+    path: ../../signature_matrices/LM22.txt
+  - class: File
+    path: ../../signature_matrices/PBMC.txt
