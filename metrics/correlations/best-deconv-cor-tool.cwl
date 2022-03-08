@@ -18,6 +18,8 @@ requirements:
 inputs:
   corFiles:
     type: File[]
+    inputBinding:
+       position: 1
 
 outputs:
   cor:
