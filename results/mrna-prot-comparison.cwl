@@ -50,7 +50,7 @@ outputs:
 
 steps:
    get-all-mat:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/signature_matrices/get-signature-matrix.cwl
       #./../proteomicsTumorDeconv/signature_matrices/get-signature-matrix.cwl
       scatter: [sigMatrixName]
       scatterMethod: flat_crossproduct
@@ -63,7 +63,8 @@ steps:
       scatter: [signature,mrna-alg,prot-alg,cancerType,tissueType]
       scatterMethod: flat_crossproduct
       in:
-        signature: get-all-mat/sigMatrix
+        signature: 
+            source: get-all-mat/sigMatrix
         mrna-alg: mrna-algorithms
         prot-alg: prot-algorithms
         cancerType: cancerTypes
