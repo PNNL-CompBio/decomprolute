@@ -21,3 +21,8 @@ mrna-algorithms:
   - cibersort
 tissueTypes:
    - tumor
+signatures:
+  - LM9
+  - LM7c
+  - LM22
+  - PBMC
