@@ -40,7 +40,6 @@ steps:
         signature: signature
         alg: mrna-alg
         matrix: 
-            type: File
             valueFrom: "../$(inputs.cancerType)-tumor-mrna-raw.tsv"
       out:
         [deconvoluted]
@@ -50,7 +49,6 @@ steps:
         signature: signature
         alg: prot-alg
         matrix: 
-            type: File
             valueFrom: "../$(inputs.cancerType)-tumor-prot-raw.tsv"
       out:
         [deconvoluted]
@@ -61,7 +59,7 @@ steps:
        mrnaAlg: mrna-alg
        protAlg: prot-alg
        signature: signature
-       sampleType: 
+       sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
@@ -74,8 +72,7 @@ steps:
        mrnaAlg: mrna-alg
        protAlg: prot-alg
        signature: signature
-       sampleType: 
-         valueFrom: "raw"
+       sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
@@ -90,7 +87,6 @@ steps:
        aAlg: mrna-alg
        bAlg: prot-alg
        signature: signature
-       sampleType: 
-         valueFrom: "raw"
+       sampleType: tissueType
      out:
        [dist]

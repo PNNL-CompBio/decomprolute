@@ -1,10 +1,14 @@
 cancerTypes:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - BR
+  - CCRCC
+  - CO
+  - GBM
+  - HNSCC
+  - LSCC
+  - LUAD
+  - OV
+  - PDA
+  - UCEC
 prot-algorithms:
   - mcpcounter
   - epic
@@ -17,10 +21,3 @@ mrna-algorithms:
   - cibersort
 tissueTypes:
    - tumor
-signatures:
-  - class: File
-    path: ../../signature_matrices/LM7c.txt
-  - class: File
-    path: ../../signature_matrices/LM22.txt
-  - class: File
-    path: ../../signature_matrices/PBMC.txt
