@@ -21,8 +21,8 @@ inputs:
 
 outputs:
   cor:
-    type: stdout
+    type: string
   alg:
-    type: stdout
+    type: string
   matrix:
-    type: stdout
+    type: string
