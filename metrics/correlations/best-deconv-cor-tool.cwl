@@ -21,10 +21,13 @@ inputs:
     inputBinding:
        position: 1
 
+stdout: 
+   message.txt
+
 outputs:
-  cor:
+  value:
     type: string
-  alg:
-    type: string
-  matrix:
-    type: string
+    outputBinding:
+      glob: message.txt
+      loadContents: true
+      outputEval: $(self[0].contents)
