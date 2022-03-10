@@ -7,7 +7,7 @@ import pandas
 import os
 
 filelist = sys.argv[2:]
-print(filelist)
+#print(filelist)
 max = 0
 matrix = ""
 alg = ""
