@@ -28,4 +28,8 @@ stdout:
 
 outputs:
   value:
-    type: stdout
+    type: string
+    outputBinding:
+      glob: message.txt
+      loadContents: true
+      outputEval: $(self[0].contents)
