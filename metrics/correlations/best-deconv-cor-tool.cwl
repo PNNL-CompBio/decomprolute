@@ -20,6 +20,11 @@ inputs:
     type: string
   corFiles:
     type: File[]
+    inputBinding:
+       position: 1
+
+stdout: 
+   message.txt
 
 outputs:
   value:
