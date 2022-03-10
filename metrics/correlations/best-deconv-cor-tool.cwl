@@ -24,12 +24,12 @@ inputs:
        position: 1
 
 stdout: 
-   message.txt
+   message
 
 outputs:
   value:
     type: string
     outputBinding:
-      glob: message.txt
+      glob: message
       loadContents: true
       outputEval: $(self[0].contents)
