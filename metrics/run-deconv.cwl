@@ -21,7 +21,7 @@ inputs:
 steps:
   run-cibersort:
      run: ../tumorDeconvAlgs/cibersort/run-cibersort-tool.cwl
-     when: $(inputs.alg == "cibersort")
+     when: $(inputs.alg.trim() == "cibersort")
      in:
       expression: matrix
       signature: signature
@@ -29,7 +29,7 @@ steps:
      out: [deconvoluted]
   run-xcell:
      run: ../tumorDeconvAlgs/xcell/run-xcell-tool.cwl
-     when: $(inputs.alg == "xcell")
+     when: $(inputs.alg.trim() == "xcell")
      in:
        expression: matrix
        signature: signature
@@ -37,7 +37,7 @@ steps:
      out: [deconvoluted]
   run-epic:
      run: ../tumorDeconvAlgs/epic/run-epic-tool.cwl
-     when: $(inputs.alg == "epic")
+     when: $(inputs.alg.trim() == "epic")
      in:
        expression: matrix
        signature: signature
@@ -53,7 +53,7 @@ steps:
 #     out: [deconvoluted]
   run-mcpcounter:
      run: ../tumorDeconvAlgs/mcpcounter/run-mcpcounter-tool.cwl
-     when: $(inputs.alg == "mcpcounter")
+     when: $(inputs.alg.trim() == "mcpcounter")
      in:
        expression: matrix
        signature: signature
@@ -61,7 +61,7 @@ steps:
      out: [deconvoluted]
   run-bayesdebulk:
     run: ../tumorDeconvAlgs/BayesDeBulk/run-bayesdebulk-tool.cwl
-    when: $(inputs.alg == "bayesdebulk")
+    when: $(inputs.alg.trim() == "bayesdebulk")
     in:
       expression: matrix
       signature: signature
