@@ -16,13 +16,11 @@ requirements:
   - class: InlineJavascriptRequirement
 
 inputs:
+  alg_or_mat:
+    type: string
   corFiles:
     type: File[]
 
 outputs:
-  cor:
-    type: stdout
-  alg:
-    type: stdout
-  matrix:
+  value:
     type: stdout
