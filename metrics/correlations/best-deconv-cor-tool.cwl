@@ -18,10 +18,11 @@ requirements:
 inputs:
   alg_or_mat:
     type: string
+    position: 1
   corFiles:
     type: File[]
     inputBinding:
-       position: 1
+       position: 2
 
 stdout: 
    message
