@@ -66,8 +66,8 @@ steps:
      run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
        cancerType: cancerType
-       mrnaAlg: mrna-alg
-       protAlg: prot-alg
+       mrnaAlg: alg
+       protAlg: alg
        signature: signature
        sampleType: tissueType
        proteomics:
@@ -81,8 +81,8 @@ steps:
        matrixA: deconv-mrna/deconvoluted
        matrixB: deconv-prot/deconvoluted
        cancerType: cancerType
-       aAlg: mrna-alg
-       bAlg: prot-alg
+       aAlg: alg
+       bAlg: alg
        signature: signature
        sampleType: tissueType
      out:
