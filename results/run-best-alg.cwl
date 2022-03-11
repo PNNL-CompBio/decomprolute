@@ -44,10 +44,12 @@ steps:
       scatter: [signature,alg]
       scatterMethod: flat_crossproduct
       in:
-        mrna-file: rnaFile
-        prot-file: protFile
+        rnaFile: rnaFile
+        protFile: protFile
         alg: prot-algorithms
         signature: get-all-mat/sigMatrix
+        cancerType:
+         valueFrom: "tumor"
       out:
         [cell-cor-file,pat-cor-file,prot-file,mrna-file,mat-dist-file]
    get-best-cor-mat:
@@ -69,7 +71,7 @@ steps:
       in:
         alg_or_mat:
           valueFrom: "alg"
-        corFiles: get-all-cors/corr
+        corFiles: get-all-cors/cell-cor-file
       out:
         [value]
    run-best-algs-by-sig:
