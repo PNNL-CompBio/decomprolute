@@ -57,6 +57,7 @@ steps:
        mrnaAlg: alg
        protAlg: alg
        signature: signature
+       sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
        transcriptomics:
