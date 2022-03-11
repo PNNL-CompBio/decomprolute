@@ -14,7 +14,8 @@ inputs:
    alg: string
    mrna-file: File
    prot-file: File
-
+   cancerType: string
+   tissueType: string
 
 outputs:
   pat-cor-file:
