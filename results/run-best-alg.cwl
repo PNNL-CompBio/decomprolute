@@ -45,8 +45,6 @@ steps:
         prot-file: protFile
         alg: prot-algorithms
         signature: get-all-mat/sigMatrix
-        sampleType:
-           valueFrom: "all"
       out:
         [cell-cor-file]
    get-best-cor-mat:
