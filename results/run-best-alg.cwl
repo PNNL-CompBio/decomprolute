@@ -19,6 +19,10 @@ inputs:
      type: File
    rnaFile:
      type: File
+   cancerType:
+     type: string
+   tissueType:
+     type: string
 
 outputs:
    deconvoluted:
@@ -29,7 +33,6 @@ outputs:
 steps:
    get-all-mat:
       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
-      #./../proteomicsTumorDeconv/signature_matrices/get-signature-matrix.cwl
       scatter: [sigMatrixName]
       scatterMethod: flat_crossproduct
       in:
@@ -37,7 +40,7 @@ steps:
       out:
         [sigMatrix]
    get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/deconv-corr-single-mat.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/mrna-prot/deconv-cor-single-mat.cwl
       scatter: [signature,alg]
       scatterMethod: flat_crossproduct
       in:
@@ -46,13 +49,13 @@ steps:
         alg: prot-algorithms
         signature: get-all-mat/sigMatrix
       out:
-        [cell-cor-file]
+        [cell-cor-file,pat-cor-file,prot-file,mrna-file,mat-dist-file]
    get-best-cor-mat:
        run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
        in:
          alg_or_mat:
            valueFrom: "mat"
-         corFiles: get-all-cors/corr
+         corFiles: get-all-cors/cell-cor-file
        out:
          [value]
    get-best-mat:
