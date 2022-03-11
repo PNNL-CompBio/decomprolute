@@ -10,80 +10,93 @@ requirements:
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
   - class: InlineJavascriptRequirement
-
+  
 inputs:
-   signatures:
-     type: string[]
-   prot-algorithms:
-     type: string[]
+   signature:
+     type: File
+   alg:
+     type: string
    protFile:
      type: File
    rnaFile:
      type: File
    cancerType:
      type: string
-     default: "cancer"
    tissueType:
      type: string
      default: "all"
 
 outputs:
-   deconvoluted:
+   cell-cor-file:
      type: File
      outputSource:
-      - run-best-algs-by-sig/deconvoluted
-
+      - celltype-cor/corr
+   pat-cor-file:
+     type: File
+     outputSource:
+      - patient-cor/corr
+   mat-dist-file:
+     type: File
+     outputSource:
+      - matrix-distance/dist
+   mrna-file:
+     type: File
+     outputSource:
+      - deconv-mrna/deconvoluted
+   prot-file:
+     type: File
+     outputSource:
+       - deconv-prot/deconvoluted
 steps:
-   get-all-mat:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
-      scatter: [sigMatrixName]
-      scatterMethod: flat_crossproduct
+   deconv-mrna:
+      run: ../run-deconv.cwl
       in:
-        sigMatrixName: signatures
-      out:
-        [sigMatrix]
-   get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/mrna-prot/deconv-cor-single-mat.cwl
-      scatter: [signature,alg]
-      scatterMethod: flat_crossproduct
+        matrix: rnaFile
+        signature: signature
+        alg: alg
+      out: [deconvoluted]
+   deconv-prot:
+      run: ../run-deconv.cwl
       in:
-        mrna-file: rnaFile
-        prot-file: protFile
-        alg: prot-algorithms
-        signature: get-all-mat/sigMatrix
-        cancerType:
-          valueFrom: "cancer"
-        tissueType:
-          valueFrom: "all"
-      out:
-        [cell-cor-file,mat-dist-file,mrna-deconv,pat-cor-file,prot-deconv]
-   get-best-cor-mat:
-       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
-       in:
-         alg_or_mat:
-           valueFrom: "mat"
-         corFiles: get-all-cors/cell-cor-file
-       out:
-         [value]
-   get-best-mat:
-       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
-       in:
-          sigMatrixName: get-best-cor-mat/value
-       out:
-          [sigMatrix]
-   get-best-cor-alg:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
-      in:
-        alg_or_mat:
-          valueFrom: "alg"
-        corFiles: get-all-cors/cell-cor-file
-      out:
-        [value]
-   run-best-algs-by-sig:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/run-deconv.cwl
-      in:
-        signature: get-best-mat/sigMatrix
-        alg: get-best-cor-alg/value
         matrix: protFile
+        signature: signature
+        alg: alg
+      out: [deconvoluted]
+   patient-cor:
+      run: ../correlations/deconv-corr-cwl-tool.cwl
+      in:
+        cancerType: cancerType
+        mrnaAlg: alg
+        protAlg: alg
+        signature: signature
+        sampleType: tissueType
+        proteomics:
+          source: deconv-prot/deconvoluted
+        transcriptomics:
+          source: deconv-mrna/deconvoluted
+      out: [corr]
+   celltype-cor:
+      run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
+      in:
+        cancerType: cancerType
+        mrnaAlg: alg
+        protAlg: alg
+        signature: signature
+        sampleType: tissueType
+        proteomics:
+          source: deconv-prot/deconvoluted
+        transcriptomics:
+          source: deconv-mrna/deconvoluted
+      out: [corr]
+   matrix-distance:
+      run: ../distance/deconv-comparison-tool.cwl
+      in:
+        matrixA: deconv-mrna/deconvoluted
+        matrixB: deconv-prot/deconvoluted
+        cancerType: cancerType
+        aAlg: alg
+        bAlg: alg
+        signature: signature
+        sampleType: tissueType
       out:
-        [deconvoluted]
+        [dist]
