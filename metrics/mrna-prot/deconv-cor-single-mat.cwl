@@ -7,8 +7,20 @@ cwlVersion: v1.2
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+<<<<<<< HEAD
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
+=======
+  - class: InlineJavascriptRequirement
+  
+inputs:
+   signature: File
+   alg: string
+   mrna-file: File
+   prot-file: File
+   cancerType: string
+   tissueType: string
+>>>>>>> 6cd75777c329fd2bfd39a21479544c9d98e4e600
 
 inputs:
    signatures:
@@ -27,6 +39,7 @@ outputs:
       - run-best-algs-by-sig/deconvoluted
 
 steps:
+<<<<<<< HEAD
    get-all-mat:
       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
       #./../proteomicsTumorDeconv/signature_matrices/get-signature-matrix.cwl
@@ -81,3 +94,58 @@ steps:
         matrix: protFile
       out:
         [deconvoluted]
+=======
+  deconv-mrna:
+     run: ../run-deconv.cwl
+     in:
+       matrix: mrna-file
+       signature: signature
+       alg: alg
+     out: [deconvoluted]
+  deconv-prot:
+     run: ../run-deconv.cwl
+     in:
+       matrix: prot-file
+       signature: signature
+       alg: alg
+       sampleType: tissueType
+     out: [deconvoluted]
+  patient-cor:
+     run: ../correlations/deconv-corr-cwl-tool.cwl
+     in:
+       cancerType: cancerType
+       mrnaAlg: alg
+       protAlg: alg
+       signature: signature
+       sampleType: tissueType
+       proteomics:
+         source: deconv-prot/deconvoluted
+       transcriptomics:
+         source: deconv-mrna/deconvoluted
+     out: [corr]
+  celltype-cor:
+     run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
+     in:
+       cancerType: cancerType
+       mrnaAlg: alg
+       protAlg: alg
+       signature: signature
+       sampleType: tissueType
+       proteomics:
+         source: deconv-prot/deconvoluted
+       transcriptomics:
+         source: deconv-mrna/deconvoluted
+     out: [corr]
+  matrix-distance:
+     run: ../distance/deconv-comparison-tool.cwl
+     in:
+       matrixA: deconv-mrna/deconvoluted
+       matrixB: deconv-prot/deconvoluted
+       cancerType: cancerType
+       aAlg: alg
+       bAlg: alg
+       signature: signature
+       sampleType: tissueType
+     out:
+       [dist]
+>>>>>>> 6cd75777c329fd2bfd39a21479544c9d98e4e600
