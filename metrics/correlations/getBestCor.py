@@ -8,7 +8,7 @@ import os
 
 filelist = sys.argv[2:]
 #print(filelist)
-max = 0
+maxval = 0
 matrix = ""
 alg = ""
 for file in filelist:
@@ -16,8 +16,8 @@ for file in filelist:
     if mrna == prot:
         tab = pandas.read_csv(file, sep='\t', header=None)
         meanVal = tab[1].mean()
-        if meanVal > max:
-            max = meanVal
+        if meanVal > maxval:
+            maxval = meanVal
             alg = mrna
             matrix = mat
 

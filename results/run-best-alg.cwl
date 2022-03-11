@@ -37,21 +37,18 @@ steps:
       out:
         [sigMatrix]
    get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/deconv-corr-cwl-tool.cwl
-      scatter: [signature,mrnaAlg,protAlg]
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/deconv-corr-single-mat.cwl
+      scatter: [signature,alg]
       scatterMethod: flat_crossproduct
       in:
-        transcriptomics: rnaFile
-        proteomics: protFile
-        cancerType:
-           valueFrom: "AML"
-        mrnaAlg: prot-algorithms
-        protAlg: prot-algorithms
+        mrna-file: rnaFile
+        prot-file: protFile
+        alg: prot-algorithms
         signature: get-all-mat/sigMatrix
         sampleType:
            valueFrom: "all"
       out:
-        [corr]
+        [cell-cor-file]
    get-best-cor-mat:
        run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
        in:
