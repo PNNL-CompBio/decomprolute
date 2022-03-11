@@ -18,14 +18,20 @@ requirements:
 inputs:
   alg_or_mat:
     type: string
+    inputBinding:
+       position: 1
   corFiles:
     type: File[]
     inputBinding:
-       position: 1
+       position: 2
 
 stdout: 
-   message.txt
+   message
 
 outputs:
   value:
-    type: stdout
+    type: string
+    outputBinding:
+      glob: message
+      loadContents: true
+      outputEval: $(self[0].contents)
