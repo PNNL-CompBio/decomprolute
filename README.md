@@ -1,26 +1,27 @@
 # Decomprolute: Benchmarking study of proteomic based tumor deconvolution
-The goal of this package is to provide various metrics to assess the ability of a deconvolution algorithm to identify specific cell types in bulk proteomics data. The package is fully dockerized and can be run with the installation of Docker and a CWL-compliant tool on your local machine.
+The goal of this package are to run tumor deconvolution algorithms on multi-omics data. We provide two basic use cases: 
+1. Evaluate the performance of new algorithms on proteogenomic data
+2. Identify the *best* tool for unseen proteogenomic data
 
-We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools.The modules fall into three categories, each with a data collection and analysis module.
+These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module.
 ![Architecture](./deconvFIgure1.png)
 
 ## How to use
 
-There are multiple ways to use this package. Given the multiple modules, you can use this package to simply run a deconvolution algorithm a specific dataset, or you can swap out the algorithm for a new one or run on your own data. These various approaches are listed in the [workflows](./workflows/) directory.
+To run the code you will need to download [Docker]() and a [CWL interpreter](). These tools will enable the different modules to interoperate. For example, to run single deconvolution algorithm on HNSCC data you can do the following:
 
-### To deconvolve cell types on CPTAC data
+``` shell
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/prot-deconv.cwl --cancer hnscc --protAlg mcpcounter --sampleType tumor --signature LM7c
+```
+This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature. Here are more specific use cases. 
+
+### To benchmark a new algorithm on CPTAC data
+### To find the *best* algorithm for your data
 
 The workflow script to run a single algorithm is located in the root of the [workflows](./workflows) directory.
 
-``` shell
-cd workflows
-cwltool prot-deconv.cwl --cancer hnscc --protAlg mcpcounter --sampleType tumor --signature ../signature_matrices/LM7c.txt
-```
-
-This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature.
-
-### To assess _performance_ of existing algorithms
-In the absence of a proteomics gold standard, we have implemented three distinct metrics to determine the performance of each algorithm listed below.
+## To review the results of our manuscript
+In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
 
 #### Performance on simulated data
 We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
@@ -54,10 +55,6 @@ This will run the evaluation in our test `YAML` file. To update the parameters, 
 
 #### Pan-Immune clustering annotation
 Lastly we can cross-reference known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well
-
-### To add your own algorithm or data
-
-To test your own algorithm, or data, we suggest putting it in its own Docker image. For more details please see the [Contributing Guide](./contribution_guide/).
 
 
 ## Data
