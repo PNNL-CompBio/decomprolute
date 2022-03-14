@@ -8,17 +8,24 @@ These two use cases are enabled by the modular dockerized framework shown below.
 
 ## How to use
 
-To run the code you will need to download [Docker]() and a [CWL interpreter](). These tools will enable the different modules to interoperate. For example, to run single deconvolution algorithm on HNSCC data you can do the following:
+To run the code you will need to download [Docker](http://docker.com) and a [CWL interpreter](https://github.com/common-workflow-language/cwltool) such as CWL tool. These tools will enable the different modules to interoperate. For example, to run single deconvolution algorithm on HNSCC data you can do the following:
 
 ``` shell
 cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/prot-deconv.cwl --cancer hnscc --protAlg mcpcounter --sampleType tumor --signature LM7c
 ```
 This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature. Here are more specific use cases. 
 
-### To benchmark a new algorithm on CPTAC data
-### To find the *best* algorithm for your data
+### To benchmark a new algorithm or cell signature on CPTAC data
+If you have developed a new deconvolution algorithm and/or cell signature matrix that you want to compare to others, we recommend you add them to this framework so they can easily be compared. 
 
-The workflow script to run a single algorithm is located in the root of the [workflows](./workflows) directory.
+To add an *algorithm* we recommend you create your own Docker image with CWL tool to run it. Once the CWL is accessible remotely (via github, for example), it can be added to the [primary deconvolution tool](./metrics/run-deconv.cwl) via a pull request. See the [contribution_guide](./contribution_guide) for more details.
+
+To add a *signature matrix* we recommend creating a text file representing the marker genes and cell types and creating a pull request to add it to the [signature matrices](./signature_matrices) folder. 
+
+### To find the *best* algorithm for your data
+If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. 
+
+The workflow script to run a single algorithm is located in the root of the [metrics](./metrics) directory.
 
 ## To review the results of our manuscript
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
