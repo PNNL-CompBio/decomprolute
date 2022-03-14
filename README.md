@@ -4,7 +4,7 @@ The goal of this package are to run tumor deconvolution algorithms on multi-omic
 2. Identify the *best* tool for unseen proteogenomic data
 
 These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module.
-![Architecture](./deconvFIgure1.png)
+![Architecture](./deconvFIgure1.png,width=100)
 
 ## How to use
 
@@ -23,9 +23,7 @@ To add an *algorithm* we recommend you create your own Docker image with CWL too
 To add a *signature matrix* we recommend creating a text file representing the marker genes and cell types and creating a pull request to add it to the [signature matrices](./signature_matrices) folder. 
 
 ### To find the *best* algorithm for your data
-If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. 
-
-The workflow script to run a single algorithm is located in the root of the [metrics](./metrics) directory.
+If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. To assess which algorithm/signature matrix best agrees with simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow. 
 
 ## To review the results of our manuscript
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
