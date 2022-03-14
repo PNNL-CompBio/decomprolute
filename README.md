@@ -34,9 +34,8 @@ We have simulated both mRNA and proteomics data from established experiments as 
 We have included two `YAML` files to use as test runs of each simulation.
 
 ``` shell
-cd workflows/data-sim/
-cwltool simul-data-comparison.cwl rna-sim-test.yml ##evaluate rna-based deconvolution
-cwltool simul-data-comparison.cwl prot-sim-test.yml ##evaluate protein based deconvolution
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/sna-sim-test.yml ##evaluate rna-based deconvolution
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/prot-sim-test.yml ##evaluate protein based deconvolution
 
 ```
 
@@ -47,8 +46,7 @@ These will produced the necessary summary statistics and figures.
 We also wanted to measure how _consistent_ an algorithm was between mRNA and proteomics data. This iterates through all algorithms, data, and matrices to and compares how similar each cell type prediction is across mRNA vs. proteomic samples.
 
 ``` shell
-cd workflows/mrna-prot
-cwltool mrna-prot-comparison.cwl alg-test.yml
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/mrna-prot-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/alg-test.yml
 ```
 
 This will run the evaluation in our test `YAML` file. To update the parameters, create your own `YAML` file. The algorithm currently has five parameters:
@@ -59,8 +57,12 @@ This will run the evaluation in our test `YAML` file. To update the parameters, 
 5. tissueTypes: list of tissue types: `tumor`, `normal`, or `all`
 
 #### Pan-Immune clustering annotation
-Lastly we can cross-reference known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well
+Lastly we can cross-reference known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well predicted cell types align with immune populations.
 
+``` shell
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/imm-subtypes/pan-can-immune-preds.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/imm-subtypes/imm-args.yml
+
+```
 
 ## Data
 For this module we have collected real and simulated data.
@@ -88,10 +90,6 @@ Ovarian | high grade serous ovarian cancer | no restrictions | https://pubmed.nc
 
 As such, datasets have been updated to following (added hnscc):
 ['brca', 'ccrcc', 'endometrial', 'colon', 'ovarian', 'hnscc', 'luad']
-
-
-### Simulated data
-We also evaluate the algorithms on simulated data.
 
 
 ## Algorithms
