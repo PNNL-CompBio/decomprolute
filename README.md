@@ -4,7 +4,8 @@ The goal of this package are to run tumor deconvolution algorithms on multi-omic
 2. Identify the *best* tool for unseen proteogenomic data
 
 These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module.
-![Architecture](./deconvFIgure1.png | width=100px)
+ <img src="./deconvFIgure1.png" width="600">
+
 
 ## How to use
 
