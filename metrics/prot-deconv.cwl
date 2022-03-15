@@ -33,7 +33,7 @@ steps:
     out:
       [matrix]
   run-deconv:
-    run: run-deconv.cwl
+    run: ../tumorDeconvAlgs/run-deconv.cwl
     in:
       matrix: download-prot/matrix
       signature: download-mat/sigMatrix
