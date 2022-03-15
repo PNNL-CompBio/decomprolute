@@ -2,7 +2,7 @@
 class: Workflow
 label: prot-deconv
 id: prot-deconv
-cwlVersion: v1.2
+cwlVersion: v1.1
 
 requirements:
   - class: SubworkflowFeatureRequirement

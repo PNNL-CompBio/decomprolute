@@ -2,7 +2,7 @@
 class: Workflow
 label: 02-run-all-algs
 id: run-all-algos
-cwlVersion: v1.2
+cwlVersion: v1.1
 
 requirements:
   - class: SubworkflowFeatureRequirement
@@ -16,6 +16,7 @@ inputs:
    prot-algorithms:
      type: string[]
    protFile:
+     type: File
    rnaFile:
      type: File
    cancerType:

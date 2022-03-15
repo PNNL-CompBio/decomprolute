@@ -3,7 +3,7 @@
 class: CommandLineTool
 label: get-signature-matrix
 id: get-signature-matrix
-cwlVersion: v1.2
+cwlVersion: v1.1
 baseCommand: Rscript
 
 arguments:
