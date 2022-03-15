@@ -2,7 +2,7 @@
 class: Workflow
 label: run-deconv
 id: run-deconv
-cwlVersion: v1.2
+cwlVersion: v1.1
 
 requirements:
   - class: SubworkflowFeatureRequirement
