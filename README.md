@@ -25,6 +25,13 @@ To add a *signature matrix* we recommend creating a text file representing the m
 ### To find the *best* algorithm for your data
 If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. To assess which algorithm/signature matrix best agrees with simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow.
 
+We have included test data for you to evaluate these two workflows:
+
+``` shell
+cwltool
+```
+
+
 ## To review the results of our manuscript
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
 
@@ -34,7 +41,7 @@ We have simulated both mRNA and proteomics data from established experiments as 
 We have included two `YAML` files to use as test runs of each simulation.
 
 ``` shell
-cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/sna-sim-test.yml ##evaluate rna-based deconvolution
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/rna-sim-test.yml ##evaluate rna-based deconvolution
 cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/prot-sim-test.yml ##evaluate protein based deconvolution
 
 ```
