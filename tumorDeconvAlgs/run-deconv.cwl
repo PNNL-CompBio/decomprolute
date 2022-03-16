@@ -2,7 +2,7 @@
 class: Workflow
 label: run-deconv
 id: run-deconv
-cwlVersion: v1.1
+cwlVersion: v1.2
 
 requirements:
   - class: SubworkflowFeatureRequirement
@@ -81,5 +81,4 @@ outputs:
       - run-epic/deconvoluted
       - run-mcpcounter/deconvoluted
       - run-bayesdebulk/deconvoluted
-    ###ADD NEW OUTPUT FROM NEW TOOL
     pickValue: first_non_null
