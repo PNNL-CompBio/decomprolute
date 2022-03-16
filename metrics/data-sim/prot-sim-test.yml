@@ -1,5 +1,4 @@
 signatures:
   - LM9
   - LM7c
-simType:
-  - prot
+simType: prot
