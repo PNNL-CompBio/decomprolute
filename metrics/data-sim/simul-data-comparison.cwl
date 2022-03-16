@@ -14,12 +14,31 @@ requirements:
 inputs: 
    reps:
       type: string[]
+      default:
+       - "1"
+       - "2"
+       - "3"
+       - "4"
+       - "5"
+       - "6"
+       - "7"
+       - "8"
+       - "9"
+       - "10"
+       - "pbmc"
    prot-algorithms:
       type: string[]
+      default:
+      - mcpcounter
+      - xcell
+      - epic
+      - cibersort
    signatures:
-      type: File[]
-   simTypes: 
       type: string[]
+      
+   simType: 
+      type: string
+
 
 outputs:
    cell-cor-tab:
@@ -39,7 +58,7 @@ outputs:
 steps:
    run-all-algs-by-sig:
      run: call-deconv-on-sim.cwl
-     scatter: [protAlg,permutation,simType,signature]
+     scatter: [protAlg,permutation,signature]
      scatterMethod: flat_crossproduct
      in:
         protAlg: prot-algorithms
@@ -49,7 +68,7 @@ steps:
           valueFrom: 'normal'
         dataType:
           valueFrom: 'prot'
-        simType: simTypes
+        simType: simType
      out:
         [cell-cor-file,mat-dist-file, deconv, cellPred, deconvoluted, matrix]
    get-celltype-cors:

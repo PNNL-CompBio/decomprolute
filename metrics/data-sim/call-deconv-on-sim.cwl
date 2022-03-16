@@ -60,7 +60,7 @@ steps:
      out:
        [matrix,cellType]
   deconv-prot:
-     run: ../run-deconv.cwl
+     run: ../../tumorDeconvAlgs/run-deconv.cwl
      in:
        alg: protAlg
        signature: get-sig-mat/sigMatrix
@@ -70,7 +70,7 @@ steps:
      run: ../../simulatedData/map-sig-tool.cwl
      in:
        deconv-matrix: deconv-prot/deconvoluted
-       sig-matrix: signature
+       sig-matrix: get-sig-mat/sigMatrix
        deconv-type: simType
        cell-matrix: get-sim-data/cellType
      out: [updated-deconv,updated-cell-matrix]
@@ -81,7 +81,7 @@ steps:
        mrnaAlg:
           valueFrom: "cellFraction"
        protAlg: protAlg
-       signature: signature
+       signature: get-sig-mat/sigMatrix
        sampleType: simType
        proteomics:
          source: match-prot-to-sig/updated-deconv
@@ -97,7 +97,7 @@ steps:
        aAlg: protAlg
        bAlg:
          valueFrom: "cellFraction"
-       signature: signature
+       signature: get-sig-mat/sigMatrix
        sampleType: simType
      out:
        [dist]

@@ -1,0 +1,19 @@
+signatures:
+  - LM7c
+  - PBMC
+  - LM22
+prot-algorithms:
+  - cibersort
+  - xcell
+  - mcpcounter
+  - epic
+
+protFile:
+  class: File
+  path: ../../toy_data/TOY_log2ratio_protein_abundance_withNA.tsv
+
+rnaFile:
+  class: File
+  path: ../../toy_data/TOY_rna_expression_imputed.tsv
+cancerType: test
+tissueType: test

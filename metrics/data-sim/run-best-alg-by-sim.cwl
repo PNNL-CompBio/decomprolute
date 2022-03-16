@@ -1,7 +1,7 @@
 #!/usr/bin/env cwltool
 class: Workflow
-label: 02-run-all-algs
-id: run-all-algos
+label: run-best-alg-by-sim
+id: run-best-alg-by-sim
 cwlVersion: v1.1
 
 requirements:
@@ -11,13 +11,9 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
-   signatures:
-     type: string[]
-   prot-algorithms:
-     type: string[]
-   protFile:
-     type: File
-   rnaFile:
+   data-type: ##evaluate mRNA or protein
+     type: string
+   datFile:
      type: File
    cancerType:
      type: string

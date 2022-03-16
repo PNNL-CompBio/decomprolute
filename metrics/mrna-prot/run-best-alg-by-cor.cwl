@@ -40,7 +40,7 @@ steps:
       out:
         [sigMatrix]
    get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/mrna-prot/deconv-cor-single-mat.cwl
+      run: ./deconv-cor-single-mat.cwl
       scatter: [signature,alg]
       scatterMethod: flat_crossproduct
       in:
@@ -75,7 +75,7 @@ steps:
       out:
         [value]
    run-best-algs-by-sig:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/run-deconv.cwl
+      run: ../../tumorDeconvAlgs/run-deconv.cwl
       in:
         signature: get-best-mat/sigMatrix
         alg: get-best-cor-alg/value

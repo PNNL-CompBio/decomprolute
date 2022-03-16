@@ -49,14 +49,14 @@ outputs:
        - deconv-prot/deconvoluted
 steps:
    deconv-mrna:
-      run: ../run-deconv.cwl
+      run: ../../tumorDeconvAlgs/run-deconv.cwl
       in:
         matrix: rnaFile
         signature: signature
         alg: alg
       out: [deconvoluted]
    deconv-prot:
-      run: ../run-deconv.cwl
+      run: ../../tumorDeconvAlgs/run-deconv.cwl
       in:
         matrix: protFile
         signature: signature
