@@ -9,7 +9,7 @@ The CWL workflow [run-deconv.cwl](./run-deconv.cwl) takes the following argument
 to run an algorithm included in our suite:
 | Argument | Required? | Description|
 | --- | --- | --- |
-| signature | yes | Signature matrix file used to run the deconvolution, such as those located in [the signature matrix directory](../signature_matrices)|
+| signature | yes | Name of a signature matrix file used to run the deconvolution, such as those located in [the signature matrix directory](../signature_matrices)|
 | alg | yes | Name of algorithm. Currently implemented are: `cibersort`, `xcell`, `epic`, `mcpcounter`, and `bayesdebulk`|
 |matrix | yes | Matrix of gene expression values to be deconvoluted. Row names are genes, column names are sample names. |
 
@@ -26,17 +26,12 @@ algorithms between mRNA and proteins from the same tumors with the same signatur
 These tests can be evaluated across signature matrices, tissue types (tumor, normal, all) and cancer
 types. These tests are located in the [`mrna-prot` directory](./mrna-prot).
 
-
-### Imputation analysis
-Here we measure how sensitive an algorithm is to imputed vs. unimputed proteomics data.
-The documentation to evaluate this is in the [`imputation` directory](./imputation).
-
 ### Simulated data analysis
 Here we test how well each algorithm performs on simulated data.
 The documentation to test this is in the [`data-sim` directory](./data-sim).
 
 ### Immune subtype analysis
-We also evaluate how well the various cell types agree with what is expected based on the mRNA-defined immune subtypes.
+We also evaluate how well the various cell types agree with what is expected based on the mRNA-defined immune subtypes. This analysis is in the [imm-subtypes](./imm-subtypes) directory.
 
 ## How to determine agreement
 How we compare the deconvolution algorithms to the 'gold standard' of any particular approach is just as important as what data we are using. As such, we have carefully thought through the various approaches. Here are the current comparisons we employ.

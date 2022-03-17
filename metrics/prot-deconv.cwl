@@ -2,7 +2,7 @@
 class: Workflow
 label: prot-deconv
 id: prot-deconv
-cwlVersion: v1.2
+cwlVersion: v1.1
 
 requirements:
   - class: SubworkflowFeatureRequirement
@@ -33,7 +33,7 @@ steps:
     out:
       [matrix]
   run-deconv:
-    run: run-deconv.cwl
+    run: ../tumorDeconvAlgs/run-deconv.cwl
     in:
       matrix: download-prot/matrix
       signature: download-mat/sigMatrix

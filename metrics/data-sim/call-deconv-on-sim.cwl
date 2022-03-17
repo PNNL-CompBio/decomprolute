@@ -12,7 +12,7 @@ requirements:
 
 inputs:
    signature:
-     type: File
+     type: string
    protAlg:
      type: string
    permutation:
@@ -46,6 +46,12 @@ outputs:
      outputSource: celltype-cor/corr
 
 steps:
+  get-sig-mat:
+     run: ../../signature_matrices/get-signature-matrix.cwl
+     in:
+      sigMatrixName: signature
+     out:
+      [sigMatrix]
   get-sim-data:
      run: ../../simulatedData/sim-data-tool.cwl
      in:
@@ -54,17 +60,17 @@ steps:
      out:
        [matrix,cellType]
   deconv-prot:
-     run: ../run-deconv.cwl
+     run: ../../tumorDeconvAlgs/run-deconv.cwl
      in:
        alg: protAlg
-       signature: signature
+       signature: get-sig-mat/sigMatrix
        matrix: get-sim-data/matrix
      out: [deconvoluted]
   match-prot-to-sig:
      run: ../../simulatedData/map-sig-tool.cwl
      in:
        deconv-matrix: deconv-prot/deconvoluted
-       sig-matrix: signature
+       sig-matrix: get-sig-mat/sigMatrix
        deconv-type: simType
        cell-matrix: get-sim-data/cellType
      out: [updated-deconv,updated-cell-matrix]
@@ -75,7 +81,7 @@ steps:
        mrnaAlg:
           valueFrom: "cellFraction"
        protAlg: protAlg
-       signature: signature
+       signature: get-sig-mat/sigMatrix
        sampleType: simType
        proteomics:
          source: match-prot-to-sig/updated-deconv
@@ -91,7 +97,7 @@ steps:
        aAlg: protAlg
        bAlg:
          valueFrom: "cellFraction"
-       signature: signature
+       signature: get-sig-mat/sigMatrix
        sampleType: simType
      out:
        [dist]
