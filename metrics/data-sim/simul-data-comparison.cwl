@@ -84,7 +84,8 @@ steps:
             source:
               - run-all-algs-by-mrna/cell-cor-file
               - run-all-algs-by-prot/cell-cor-file
-            pickValue: first_non_null
+            linkMerge: merge_flattened
+            pickValue: all_non_null
       out:
          [table,fig]
 #   get-celltype-cordists:
