@@ -3,9 +3,26 @@ The goal of this package are to run tumor deconvolution algorithms on multi-omic
 1. Evaluate the performance of new algorithms on proteogenomic data
 2. Identify the *best* tool for unseen proteogenomic data
 
-These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module. <img src="./deconvFIgure1.png" width="400">
+These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module. 
 
+<img src="./deconvFIgure1.png" width="400">
 
+## Contents
+- [How to use](#how-to-use)
+
+- [To find the best algorithm for your data](#to-find-the-best-algorithm-for-your-data)
+
+- [To review the results of our manuscript](#to-review-the-results-of-our-manuscript)
+	- [Performance on simulated data](#performance-on-simulated-data)
+	- [mRNA-Proteomics Comparison](#mrna-proteomics-comparison)
+	- [Pan-Immune clustering annotation](#pan-immune-clustering-annotation)
+
+- [Data](#data)
+	- [CPTAC Data](#cptac-data)
+
+- [Algorithms](#algorithms)
+
+- [Cell type signatures](#cell-type-signatures)
 ## How to use
 
 To run the code you will need to download [Docker](http://docker.com) and a [CWL interpreter](https://pypi.org/project/cwltool/) such as CWL tool that supports CWL v1.2. These tools will enable the different modules to interoperate. For example, to run single deconvolution algorithm on HNSCC data you can do the following:
@@ -23,7 +40,11 @@ To add an *algorithm* we recommend you create your own Docker image with CWL too
 To add a *signature matrix* we recommend creating a text file representing the marker genes and cell types and creating a pull request to add it to the [signature matrices](./signature_matrices) folder.
 
 ### To find the *best* algorithm for your data
-If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. To assess which algorithm/signature matrix best agrees with simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow.
+If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine which algorithm best suits your needs. 
+
+One way of measuring the performance of an algorithm is its agreement between mRNA and protein datasets.To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to execute the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. This workflow takes two matrices, an mRNA expression matrix and protein abundance matrix, as input for comparison.
+
+Another way of assessing performance is measuring which algorithm/signature matrix best agrees with simulated data. To perform this comparison, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow.
 
 We have included test data for you to evaluate these two workflows:
 
@@ -36,7 +57,7 @@ cwltool
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
 
 #### Performance on simulated data
-We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
+We simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
 
 We have included two `YAML` files to use as test runs of each simulation.
 
@@ -46,7 +67,7 @@ cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/mai
 
 ```
 
-These will produced the necessary summary statistics and figures.
+These commands will produce summary statistics and figures, including: ...
 
 #### mRNA-Proteomics Comparison
 
@@ -64,7 +85,7 @@ This will run the evaluation in our test `YAML` file. To update the parameters, 
 5. tissueTypes: list of tissue types: `tumor`, `normal`, or `all`
 
 #### Pan-Immune clustering annotation
-Lastly we can cross-reference known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well predicted cell types align with immune populations.
+Lastly we cross-referenced known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well predicted cell types align with immune populations.
 
 ``` shell
 cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/imm-subtypes/pan-can-immune-preds.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/imm-subtypes/imm-args.yml
