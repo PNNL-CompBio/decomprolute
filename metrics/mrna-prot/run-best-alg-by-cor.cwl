@@ -53,7 +53,7 @@ steps:
       out:
         [cell-cor-file,pat-cor-file,prot-file,mrna-file,mat-dist-file]
    get-best-cor-mat:
-       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
+       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
        in:
          alg_or_mat:
            valueFrom: "mat"
@@ -67,7 +67,7 @@ steps:
        out:
           [sigMatrix]
    get-best-cor-alg:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
       in:
         alg_or_mat:
           valueFrom: "alg"

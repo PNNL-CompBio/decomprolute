@@ -22,7 +22,7 @@ inputs:
 
 outputs:
    deconvoluted:
-     type: File
+     type: File   
      outputSource:
       - run-best-algs-by-sig/deconvoluted
 
@@ -36,7 +36,7 @@ steps:
       out:
         [sigMatrix]
    get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/mrna-prot/deconv-cor-single-mat.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/deconv-cor-single-mat.cwl
       scatter: [signature,alg]
       scatterMethod: flat_crossproduct
       in:
@@ -49,7 +49,7 @@ steps:
       out:
         [cell-cor-file,pat-cor-file,prot-file,mrna-file,mat-dist-file]
    get-best-cor-mat:
-       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
+       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
        in:
          alg_or_mat:
            valueFrom: "mat"
@@ -63,7 +63,7 @@ steps:
        out:
           [sigMatrix]
    get-best-cor-alg:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/correlations/best-deconv-cor-tool.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
       in:
         alg_or_mat:
           valueFrom: "alg"
@@ -71,7 +71,7 @@ steps:
       out:
         [value]
    run-best-algs-by-sig:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/localdata/metrics/run-deconv.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/run-deconv.cwl
       in:
         signature: get-best-mat/sigMatrix
         alg: get-best-cor-alg/value
