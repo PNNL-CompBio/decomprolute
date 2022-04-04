@@ -52,12 +52,11 @@ We have included test data for you to evaluate these two workflows:
 cwltool
 ```
 
-
 ## To review the results of our manuscript
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
 
 #### Performance on simulated data
-We simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
+We added datasets that simulate tumor deconvolution using both mRNA and protein derived markers. We use these simulated datasets to ask which algorithms best deconvolve mRNA and protein data respectively. Therefore we added a tool that runs the deconvolution algorithm that is best performing on the type of data that interests you. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
 
 We have included two `YAML` files to use as test runs of each simulation.
 
