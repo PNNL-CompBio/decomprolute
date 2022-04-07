@@ -11,6 +11,8 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
+   algorithms:
+     type: string[]
    data-type: ##evaluate mRNA or protein
      type: string
    datFile:
@@ -27,27 +29,13 @@ outputs:
       - run-best-algs-by-sig/deconvoluted
 
 steps:
-   get-all-mat:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
-      scatter: [sigMatrixName]
-      scatterMethod: flat_crossproduct
-      in:
-        sigMatrixName: signatures
-      out:
-        [sigMatrix]
    get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/deconv-cor-single-mat.cwl
-      scatter: [signature,alg]
-      scatterMethod: flat_crossproduct
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl
       in:
-        rnaFile: rnaFile
-        protFile: protFile
-        alg: prot-algorithms
-        signature: get-all-mat/sigMatrix
-        cancerType:
-         valueFrom: "tumor"
+        prot-algorithms: algorithms
+        simType: data-type
       out:
-        [cell-cor-file,pat-cor-file,prot-file,mrna-file,mat-dist-file]
+        [cell-cor-tab,cell-fig]
    get-best-cor-mat:
        run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
        in:
@@ -56,7 +44,7 @@ steps:
          corFiles: get-all-cors/cell-cor-file
        out:
          [value]
-   get-best-mat:
+   get-best-alg:
        run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
        in:
           sigMatrixName: get-best-cor-mat/value
@@ -71,7 +59,7 @@ steps:
       out:
         [value]
    run-best-algs-by-sig:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/run-deconv.cwl
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/tumorDeconvAlgs/run-deconv.cwl
       in:
         signature: get-best-mat/sigMatrix
         alg: get-best-cor-alg/value
