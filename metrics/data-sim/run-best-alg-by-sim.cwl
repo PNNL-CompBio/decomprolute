@@ -39,9 +39,9 @@ steps:
    get-best-sim-mat:
        run: ../correlations/get-best-sim.cwl
        in:
-         alg_or_mat:
+         output:
            valueFrom: "mat"
-         corFiles: compare-cors/cell-cor-tab
+         file: compare-cors/cell-cor-tab
        out:
          [value]
    get-mat:
@@ -53,9 +53,9 @@ steps:
    get-best-sim-alg:
       run: ../correlations/get-best-sim.cwl
       in:
-        alg_or_mat:
+        output:
           valueFrom: "alg"
-        corFiles: compare-cors/cell-cor-tab
+        file: compare-cors/cell-cor-tab
       out:
         [value]
    run-best-algs-by-sig:
@@ -63,6 +63,6 @@ steps:
       in:
         signature: get-mat/sigMatrix
         alg: get-best-sim-alg/value
-        matrix: protFile
+        matrix: datFile
       out:
         [deconvoluted]
