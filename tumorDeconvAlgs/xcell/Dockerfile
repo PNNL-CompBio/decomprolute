@@ -17,7 +17,7 @@ RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
 
 COPY xcell.r /bin
 
-ENV HOME /bin
+#ENV HOME /bin
 WORKDIR /bin
 
 #VOLUME ['/tmp']

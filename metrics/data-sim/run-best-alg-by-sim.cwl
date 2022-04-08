@@ -29,40 +29,40 @@ outputs:
       - run-best-algs-by-sig/deconvoluted
 
 steps:
-   get-all-cors:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/data-sim/simul-data-comparison.cwl
+   compare-cors:
+      run: simul-data-comparison.cwl
       in:
         prot-algorithms: algorithms
         simType: data-type
       out:
         [cell-cor-tab,cell-fig]
-   get-best-cor-mat:
-       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
+   get-best-sim-mat:
+       run: ../correlations/get-best-sim.cwl
        in:
          alg_or_mat:
            valueFrom: "mat"
-         corFiles: get-all-cors/cell-cor-file
+         corFiles: compare-cors/cell-cor-tab
        out:
          [value]
-   get-best-alg:
+   get-mat:
        run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
        in:
-          sigMatrixName: get-best-cor-mat/value
+          sigMatrixName: get-best-sim-mat/value
        out:
           [sigMatrix]
-   get-best-cor-alg:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/correlations/best-deconv-cor-tool.cwl
+   get-best-sim-alg:
+      run: ../correlations/get-best-sim.cwl
       in:
         alg_or_mat:
           valueFrom: "alg"
-        corFiles: get-all-cors/cell-cor-file
+        corFiles: compare-cors/cell-cor-tab
       out:
         [value]
    run-best-algs-by-sig:
       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/tumorDeconvAlgs/run-deconv.cwl
       in:
-        signature: get-best-mat/sigMatrix
-        alg: get-best-cor-alg/value
+        signature: get-mat/sigMatrix
+        alg: get-best-sim-alg/value
         matrix: protFile
       out:
         [deconvoluted]
