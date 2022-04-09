@@ -21,8 +21,12 @@ inputs:
       type: string[]
    mrna-algorithms:
       type: string[]
-   signatures:
+   mrna-files:
       type: File[]
+   prot-files:
+      type: File[]
+   signatures:
+      type: string[]
       
 outputs:
    cell-cor-tab:
@@ -49,6 +53,7 @@ outputs:
     
 
 steps:
+   run-algs-on-files:
    run-all-algs-by-sig:
       run: call-deconv-and-cor-on-lists.cwl
       scatter: [signature,mrna-alg,prot-alg,cancerType,tissueType]
