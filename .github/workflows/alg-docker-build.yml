@@ -1,0 +1,72 @@
+name: Docker-build
+defaults:
+  run:
+    working-directory: ./
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build and push correlations
+        uses: docker/build-push-action@v2
+        with:
+          context: metrics/correlations
+          push: true
+          tags: tumordeconv/correlation:latest
+      - name: Build and push distance
+        uses: docker/build-push-action@v2
+        with:
+          context: metrics/distance
+          push: true
+          tags: tumordeconv/comparison:latest
+      - name: Build and push figures
+        uses: docker/build-push-action@v2
+        with:
+          context: metrics/figures
+          push: true
+          tags: tumordeconv/figures:latest
+      - name: Build and push immune subtype
+        uses: docker/build-push-action@v2
+        with:
+          context: metrics/imm-subtypes
+          push: true
+          tags: tumordeconv/imm-subtypes:latest
+      - name: Build and push cibersort
+        uses: docker/build-push-action@v2
+        with:
+         context: tumorDeconvAlgs/cibersort
+         push: true
+         tags: tumordeconv/cibersort:latest
+      - name: Build and push epic
+        uses: docker/build-push-action@v2
+        with:
+         context: tumorDeconvAlgs/epic
+         push: true
+         tags: tumordeconv/epic:latest
+      - name: Build and push xcell
+        uses: docker/build-push-action@v2
+        with:
+         context: tumorDeconvAlgs/xcell
+         push: true
+         tags: tumordeconv/xcell:latest
+      - name: Build and push mcpcounter
+        uses: docker/build-push-action@v2
+        with:
+         context: tumorDeconvAlgs/mcpcounter
+         push: true
+         tags: tumordeconv/mcpcounter:latest
