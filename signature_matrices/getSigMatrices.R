@@ -7,8 +7,13 @@ main<-function(){
     sig_name <- trimws(argv[1])
     if(sig_name=='AML'){
       ###get AML Signature
+<<<<<<< Updated upstream
       tab <- readxl::read_xlsx('aml_vanGalen_cellTypes.xlsx',skip=1)[,-c(1,10,14)]
       colnames(tab)<-paste(c(rep('Normal-Combined',3),rep('Tumor-combined',3),rep('Tumor-celltype',3)),
+=======
+      tab <- readxl::read_xlsx('/aml_vanGalen_cellTypes.xlsx',skip=1)[,-c(1,10,14)]
+      colnames(tab)<-paste(c(rep('Normal-Combined',3),rep('Tumor-combined',3),rep('Tumor-celltype',5)),
+>>>>>>> Stashed changes
                            gsub('...6','',colnames(tab)))
       tab<-tab[1:50,]
       tab$LSC17=c('DNMT3B','ZBTB46','NYNRIN','ARHGAP22','LAPTM4B','MMRN1','DPYSL3','KIAA0125','CDK6','CPXM1','GPR56','AKR1C3','CD34','NGFRAP1','EMP1','SMIM24','SOCS2',rep('',33))
