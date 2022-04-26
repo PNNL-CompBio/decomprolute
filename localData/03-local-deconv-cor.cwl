@@ -1,7 +1,7 @@
 #!/usr/bin/env cwltool
 class: Workflow
-label: manual-deconv-and-cor
-id: manual-deconv-and-cor
+label: call-deconv-and-cor
+id: call-deconv-and-cor
 cwlVersion: v1.2
 
 requirements:
@@ -10,13 +10,13 @@ requirements:
   - class: InlineJavascriptRequirement
   
 inputs:
-   signature: File
+   signature: string
    mrna-alg: string
    prot-alg: string
-   mrna-file: File
-   prot-file: File
    cancerType: string
    tissueType: string
+   mrna-file: File
+   prot-file: File
 
 outputs:
   pat-cor-file:
@@ -30,27 +30,37 @@ outputs:
      outputSource: matrix-distance/dist
 
 steps:
+  get-sig:
+      run: ../signature_matrices/get-signature-matrix.cwl
+      in:
+        sigMatrixName: signature
+      out:
+        [sigMatrix]
   deconv-mrna:
-     run: ../../tumorDeconvAlgs/run-deconv.cwl
-     in:
-       alg: mrna-alg
-       signature: signature
-       matrix: mrna-file
-     out: [deconvoluted]
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/tumorDeconvAlgs/run-deconv.cwl
+      in:
+        signature: get-sig/sigMatrix
+        alg: mrna-alg
+        matrix: mrna-file
+#            valueFrom: "../$(inputs.cancerType)-tumor-mrna-raw.tsv"
+      out:
+        [deconvoluted]
   deconv-prot:
-     run: ../../tumorDeconvAlgs/run-deconv.cwl
-     in:
-       alg: prot-alg
-       signature: signature
-       matrix: prot-file
-     out: [deconvoluted]
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/tumorDeconvAlgs/run-deconv.cwl
+      in:
+        signature: get-sig/sigMatrix
+        alg: prot-alg
+        matrix: prot-file
+        #valueFrom: "../$(inputs.cancerType)-tumor-prot-raw.tsv"
+      out:
+        [deconvoluted]
   patient-cor:
-     run: ../correlations/deconv-corr-cwl-tool.cwl
+     run: ../metrics/correlations/deconv-corr-cwl-tool.cwl
      in:
        cancerType: cancerType
        mrnaAlg: mrna-alg
        protAlg: prot-alg
-       signature: signature
+       signature: get-sig/sigMatrix
        sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
@@ -58,12 +68,12 @@ steps:
          source: deconv-mrna/deconvoluted
      out: [corr]
   celltype-cor:
-     run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
+     run: ../metrics/correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
        cancerType: cancerType
        mrnaAlg: mrna-alg
        protAlg: prot-alg
-       signature: signature
+       signature: get-sig/sigMatrix
        sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
@@ -71,14 +81,14 @@ steps:
          source: deconv-mrna/deconvoluted
      out: [corr]
   matrix-distance:
-     run: ../distance/deconv-comparison-tool.cwl
+     run: ../metrics/distance/deconv-comparison-tool.cwl
      in:
        matrixA: deconv-mrna/deconvoluted
        matrixB: deconv-prot/deconvoluted
        cancerType: cancerType
        aAlg: mrna-alg
        bAlg: prot-alg
-       signature: signature
+       signature: get-sig/sigMatrix
        sampleType: tissueType
      out:
        [dist]

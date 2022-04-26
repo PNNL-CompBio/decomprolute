@@ -13,10 +13,10 @@ requirements:
 
    
 inputs:
-   tissueTypes:
-      type: string[]
-   cancerTypes:
-      type: string[]
+   tissueType:
+      type: string
+   cancerType:
+      type: string
    prot-algorithms:
       type: string[]
    mrna-algorithms:
@@ -30,15 +30,18 @@ inputs:
       
 outputs:
    cell-cor-file:
-      type: File
-      outputSource: get-celltype-cors/table
+      type: File[]
+      outputSource: run-all-algs-by-sig/cell-cor-file
    mat-dist-file:
-      type: File
-      outputSource: get-distnace/table
+      type: File[]
+      outputSource: run-all-algs-by-sig/mat-dist-file
+   pat-cor-file:
+      type: File[]
+      outputSource: run-all-algs-by-sig/pat-cor-file
 
 steps:
    run-all-algs-by-sig:
-      run: call-deconv-and-cor-on-lists.cwl
+      run: 03-local-deconv-cor.cwl
       scatter: [signature,mrna-alg,prot-alg]
       scatterMethod: flat_crossproduct
       in:
@@ -48,7 +51,7 @@ steps:
         cancerType: cancerType
         tissueType: tissueType
         mrna-file: mrna-file
-	prot-file: prot-file
+        prot-file: prot-file
       out:
         [pat-cor-file,cell-cor-file,mat-dist-file]
       
