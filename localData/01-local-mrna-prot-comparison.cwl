@@ -29,18 +29,39 @@ inputs:
       type: string[]
       
 outputs:
+   sample-cor-tab:
+      type: File
+      outputSource: plot-sample-cors/table
+   sample-fig:
+      type: File[]
+      outputSource: plot-sample-cors/fig
    cell-cor-tab:
       type: File
-      outputSource: get-celltype-cors/table
+      outputSource: plot-celltype-cors/table
    cell-fig:
       type: File[]
-      outputSource: get-celltype-cors/fig
+      outputSource: plot-celltype-cors/fig
    dist-fig:
       type: File[]
-      outputSource: get-distances/fig
+      outputSource: plot-distances/fig
    dist-tab:
       type: File
-      outputSource: get-distances/table
+      outputSource: plot-distances/table
+   # cell-cor-file:
+   #    type: File[]
+   #    outputSource: run-algs-on-files/cell-cor-file
+   # mat-dist-file:
+   #    type: File[]
+   #    outputSource: run-algs-on-files/mat-dist-file
+   # pat-cor-file:
+   #    type: File[]
+   #    outputSource: run-algs-on-files/pat-cor-file
+   # mrna-deconv-file:
+   #    type: File[]
+   #    outputSource: run-algs-on-files/mrna-deconv-file
+   # prot-deconv-file:
+   #    type: File[]
+   #    outputSource: run-algs-on-files/prot-deconv-file
     
 
 steps:
@@ -55,11 +76,20 @@ steps:
         mrna-file: mrna-files #scattered
         prot-file: prot-files #scattered
         cancerType: cancerTypes #scattered
-        tissueType:
-          valueFrom: "all"
+        tissueType: #tissueTypes
+            valueFrom: "tumor"
       out:
-        [pat-cor-file,cell-cor-file,mat-dist-file]
-   get-celltype-cors:
+        [pat-cor-file,cell-cor-file,mat-dist-file, mrna-deconv-file, prot-deconv-file]
+   plot-sample-cors:
+      run: 04-plot-figs.cwl
+      in:
+        metricType:
+            valueFrom: "sample"
+        files:
+            source: run-algs-on-files/pat-cor-file
+      out:
+        [table,fig]
+   plot-celltype-cors:
       run: 04-plot-figs.cwl
       in:
         metricType:
@@ -68,13 +98,13 @@ steps:
             source: run-algs-on-files/cell-cor-file
       out:
         [table,fig]
-   get-distances:
+   plot-distances:
       run: 04-plot-figs.cwl
       in:
          metric:
             valueFrom: "distance"
          metricType:
-            valueFrom: "cellType"
+            valueFrom: "js"
          files:
             source: run-algs-on-files/mat-dist-file
       out:

@@ -28,6 +28,12 @@ outputs:
   mat-dist-file:
      type: File
      outputSource: matrix-distance/dist
+  mrna-deconv-file:
+     type: File 
+     outputSource: deconv-mrna/deconvoluted
+  prot-deconv-file:
+     type: File 
+     outputSource: deconv-prot/deconvoluted
 
 steps:
   get-sig:
@@ -42,7 +48,7 @@ steps:
         signature: get-sig/sigMatrix
         alg: mrna-alg
         matrix: mrna-file
-#            valueFrom: "../$(inputs.cancerType)-tumor-mrna-raw.tsv"
+            # valueFrom: "../$(inputs.cancerType)-tumor-mrna-raw.tsv"
       out:
         [deconvoluted]
   deconv-prot:
@@ -51,7 +57,7 @@ steps:
         signature: get-sig/sigMatrix
         alg: prot-alg
         matrix: prot-file
-        #valueFrom: "../$(inputs.cancerType)-tumor-prot-raw.tsv"
+            # valueFrom: "../$(inputs.cancerType)-tumor-prot-raw.tsv"
       out:
         [deconvoluted]
   patient-cor:

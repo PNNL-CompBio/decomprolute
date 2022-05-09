@@ -38,6 +38,12 @@ outputs:
    pat-cor-file:
       type: File[]
       outputSource: run-all-algs-by-sig/pat-cor-file
+   mrna-deconv-file:
+      type: File[]
+      outputSource: run-all-algs-by-sig/mrna-deconv-file
+   prot-deconv-file:
+      type: File[]
+      outputSource: run-all-algs-by-sig/prot-deconv-file
 
 steps:
    run-all-algs-by-sig:
@@ -53,5 +59,5 @@ steps:
         mrna-file: mrna-file
         prot-file: prot-file
       out:
-        [pat-cor-file,cell-cor-file,mat-dist-file]
+        [pat-cor-file,cell-cor-file,mat-dist-file, mrna-deconv-file, prot-deconv-file]
       

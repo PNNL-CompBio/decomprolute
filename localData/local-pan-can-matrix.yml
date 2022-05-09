@@ -42,7 +42,7 @@ mrna-algorithms:
   - xcell
   - cibersort
 tissueTypes:
-   - tumor
+  - tumor
 signatures:
   - LM9
   - LM7c
