@@ -10,7 +10,23 @@ The goal of this package are to run tumor deconvolution algorithms on multi-omic
 
 These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module. <img src="../deconvFIgure1.png" width="400">
 
+## Contents
+- [How to use](#how-to-use)
 
+- [To find the best algorithm for your data](#to-find-the-best-algorithm-for-your-data)
+
+- [To review the results of our manuscript](#to-review-the-results-of-our-manuscript)
+	- [Performance on simulated data](#performance-on-simulated-data)
+	- [mRNA-Proteomics Comparison](#mrna-proteomics-comparison)
+	- [Pan-Immune clustering annotation](#pan-immune-clustering-annotation)
+
+- [Data](#data)
+	- [CPTAC Data](#cptac-data)
+
+- [Algorithms](#algorithms)
+
+- [Cell type signatures](#cell-type-signatures)
+- 
 ## How to use
 
 To run the code you will need to download [Docker](http://docker.com) and a [CWL interpreter](https://pypi.org/project/cwltool/) such as CWL tool that supports CWL v1.2. These tools will enable the different modules to interoperate. For example, to run single deconvolution algorithm on HNSCC data you can do the following:
