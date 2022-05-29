@@ -3,8 +3,9 @@ layout: post
 title: Decomprolute: Benchmarking study of proteomic based tumor deconvolution
 {:toc}
 ---
+# Decomprolute
 
-The goal of this package are to run tumor deconvolution algorithms on multi-omics data. We provide two basic use cases:
+The goal of this package are to run and evaluate tumor deconvolution algorithms on multi-omics data. To use, we provide two primary scenarios:
 1. Evaluate the performance of new algorithms on proteogenomic data
 2. Identify the *best* tool for unseen proteogenomic data
 
@@ -27,7 +28,8 @@ These two use cases are enabled by the modular dockerized framework shown below.
 - [Algorithms](#algorithms)
 
 - [Cell type signatures](#cell-type-signatures)
-- 
+- [Contribute](http://github.com/pnnl-compbio/decomprolute)
+
 ## How to use
 
 To run the code you will need to download [Docker](http://docker.com) and a [CWL interpreter](https://pypi.org/project/cwltool/) such as CWL tool that supports CWL v1.2. These tools will enable the different modules to interoperate. For example, to run single deconvolution algorithm on HNSCC data you can do the following:
@@ -38,9 +40,7 @@ cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/mai
 This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature. Here are more specific use cases.
 
 ### To benchmark a new algorithm or cell signature on CPTAC data
-If you have developed a new deconvolution algorithm and/or cell signature matrix that you want to compare to others, we recommend you add them to this framework so they can easily be compared.
-
-To add an *algorithm* we recommend you create your own Docker image with CWL tool to run it. Once the CWL is accessible remotely (via github, for example), it can be added to the [primary deconvolution tool](./metrics/run-deconv.cwl) via a pull request. See the [contribution_guide](./contribution_guide) for more details.
+If you have developed a new deconvolution algorithm and/or cell signature matrix that you want to compare to others, we recommend you add them to this framework so they can easily be compared. This is described better in our main [code repository](http://github.com/pnnl-compbio/decomprolute). 
 
 To add a *signature matrix* we recommend creating a text file representing the marker genes and cell types and creating a pull request to add it to the [signature matrices](./signature_matrices) folder.
 
