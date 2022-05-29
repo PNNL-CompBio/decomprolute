@@ -28,18 +28,24 @@ To implement your algorithm in this framework, you will need a CWL engine and Do
 - [cwltool 3.0.20210124104916^](https://github.com/common-workflow-language/cwltool)
 - [Docker](https://docs.docker.com/get-docker/)
 
-### Contribute an algorithm
+### Adding a new algorithm to decomprolute
 
-Here are the following steps needed to add your algorithm.
+#### Build docker image
+
+#### Build a cwl file
 
 To add an algorithm you will need to encapsulate a script that runs the algorithm with the list of signature matrices we have on a specific dataset. Then you will need to add it to the cwl file that captures each algorithm.
 
-
-#### Validating input data
-
 To add an *algorithm* we recommend you create your own Docker image with CWL tool to run it. Once the CWL is accessible remotely (via github, for example), it can be added to the [primary deconvolution tool](./metrics/run-deconv.cwl) via a pull request. See the [contribution_guide](./contribution_guide) for more details.
 
-### Contribute a cell type matrix
+#### Add CWL file to existing workflow
+
+#### Add to documentation
+
+### Contribute a cell type matrix to decomprolute
 To add a cell type atrix, follow these steps.
 
-#### Validating cell type matrix
+#### Format matrix file
+#### Add to R script
+
+#### Add to documentationn
