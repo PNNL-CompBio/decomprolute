@@ -19,7 +19,7 @@ workflows:
       # - build-docker-image-comparison
       # - build-docker-image-figures
       # - build-docker-image-imm-subtypes
-      - build-docker-image-xcell
+      # - build-docker-image-xcell
       # - build-docker-image-cibersort
       # - build-docker-image-mcpcounter
       # - build-docker-image-epic
