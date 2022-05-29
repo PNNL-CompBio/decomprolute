@@ -5,8 +5,8 @@ We employ a modular, containerized, framework written in the Common Workflow Lan
 <img src="docs/deconvFIgure1.png" width="400">
 
 
-![Data docker builds](https://github.com/pnnl-compBio/decomprolute/workflows/docker-build.yml/badge.svg)
-![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/workflows/alg-docker-build.yml/badge.svg)
+![Data docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build.yml/badge.svg)
+![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/alg-docker-build.yml/badge.svg)
 
 ## How to contribute
 
