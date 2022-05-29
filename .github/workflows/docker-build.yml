@@ -1,4 +1,4 @@
-name: Docker-build
+name: Accessory-docker-build
 defaults:
   run:
     working-directory: ./
