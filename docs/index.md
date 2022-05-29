@@ -34,7 +34,11 @@ cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics
 This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature. Here are more specific use cases.
 
 ## Deconvolve CPTAC data
-If you have developed a new deconvolution algorithm and/or cell signature matrix that you want to compare to others, we recommend you add them to this framework so they can easily be compared. This is described better in our main [code repository](http://github.com/pnnl-compbio/decomprolute).
+Decomprolute can be very useful to evaluate cell type on a specific CPTAC dataset, as we have included numerous publicly available datasets and algorithms within the framework. Specifically, you can run the `prot-deconv.cwl` script with the following arguments:
+- cancer: one of the datatypes described in the [CPTAC Data](#cptac-data) section.
+- protAlg: one of the algorithms described in the [Algorithms](#algorithms) section.
+- sampleType: either `tumor`, `normal`, or `all`
+- signature: one of the signature matrices described in the [Signature Matrix](#signature-matrices) section.
 
 ### CPTAC Data
 
