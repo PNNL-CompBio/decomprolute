@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: Decomprolute
 description: Benchmarking study of proteomic based tumor deconvolution
 {:toc}
