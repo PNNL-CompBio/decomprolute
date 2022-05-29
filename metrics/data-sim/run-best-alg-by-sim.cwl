@@ -11,16 +11,10 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
-   algorithms:
-     type: string[]
    data-type: ##evaluate mRNA or protein
      type: string
    datFile:
      type: File
-   cancerType:
-     type: string
-   tissueType:
-     type: string
 
 outputs:
    deconvoluted:
@@ -32,7 +26,6 @@ steps:
    compare-cors:
       run: simul-data-comparison.cwl
       in:
-        prot-algorithms: algorithms
         simType: data-type
       out:
         [cell-cor-tab,cell-fig]

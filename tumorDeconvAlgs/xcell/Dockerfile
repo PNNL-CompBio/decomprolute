@@ -11,9 +11,9 @@ WORKDIR $SRC
 
 RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
     Rscript -e 'install.packages("matrixStats")' && \
-#    Rscript -e 'install.packages("devtools")' && \
-    Rscript -e 'install.packages("remotes")' && \
-    Rscript -e 'require("remotes");install_github("dviraran/xCell")'
+    Rscript -e 'install.packages("devtools")' && \
+#    Rscript -e 'install.packages("remotes")' && \
+    Rscript -e 'require("devtools");install_github("dviraran/xCell")'
 
 COPY xcell.r /bin
 

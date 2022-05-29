@@ -2,6 +2,7 @@ FROM rocker/tidyverse
 
 
 COPY *txt /
+COPY *xlsx /
 COPY getSigMatrices.R /
 COPY *xlsx /
 
