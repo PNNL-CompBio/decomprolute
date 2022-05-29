@@ -1,11 +1,11 @@
 # Decomprolute: Benchmarking study of proteomic based tumor deconvolution
-The goal of this package are to run tumor deconvolution algorithms on multi-omics data. We provide two basic use cases:
-1. Evaluate the performance of new algorithms on proteogenomic data
-2. Identify the *best* tool for unseen proteogenomic data
+The goal of this package is to provide a framework for the benchmarking of tumor deconvolution algorithms specifically on proteomics data. As such, we welcome contribtions from the community to add new algorithms and datasets.
 
-These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module.
-
+We employ a modular, containerized, framework written in the Common Workflow Language to enable plug-n-play assessment of novel algorithms as described in the image below.
 <img src="docs/deconvFIgure1.png" width="400">
+
+![Data docker builds](https://github.com/pnnl-compBio/decomprolute/.github/workflows/docker-build.yml/badge.svg)
+![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/.github/workflows/alg-docker-build.yml/badge.svg)
 
 ## How to contribute
 
@@ -31,7 +31,7 @@ To implement your algorithm in this framework, you will need a CWL engine and Do
 
 Here are the following steps needed to add your algorithm.
 
-To add an algorithm you will need to encasulate a script that runs the algorithm with the list of signature matrices we have on a specific datase
+To add an algorithm you will need to encapsulate a script that runs the algorithm with the list of signature matrices we have on a specific dataset. Then you will need to add it to the cwl file that captures each algorithm.
 
 
 #### Validating input data
