@@ -1,3 +1,8 @@
+---
+layout: post
+title: Decomprolute
+---
+
 # Decomprolute: Benchmarking study of proteomic based tumor deconvolution
 The goal of this package are to run tumor deconvolution algorithms on multi-omics data. We provide two basic use cases:
 1. Evaluate the performance of new algorithms on proteogenomic data
