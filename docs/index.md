@@ -1,6 +1,7 @@
 ---
 layout: post
-title: Decomprolute: Benchmarking study of proteomic based tumor deconvolution
+title: Decomprolute
+description: Benchmarking study of proteomic based tumor deconvolution
 {:toc}
 ---
 
