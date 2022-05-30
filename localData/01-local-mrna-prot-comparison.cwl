@@ -4,14 +4,12 @@ label: scatter-test
 id: scatter-test
 cwlVersion: v1.2
 
-
 requirements:
    - class: SubworkflowFeatureRequirement
    - class: MultipleInputFeatureRequirement
    - class: ScatterFeatureRequirement
    - class: StepInputExpressionRequirement
 
-   
 inputs:
    tissueTypes:
       type: string[]

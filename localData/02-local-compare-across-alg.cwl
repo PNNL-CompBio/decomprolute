@@ -46,6 +46,26 @@ outputs:
       outputSource: run-all-algs-by-sig/prot-deconv-file
 
 steps:
+   rename-mrna-file:
+      run: 02a-rename-files-by-tissue-tumor-data.cwl
+      in:
+        fileName: mrna-file
+        tissueType: tissueType
+        cancerType: cancerType
+        dataType:
+          valueFrom: 'rna'
+      out:
+        [outFile]
+   rename-prot-file:
+      run: 02a-rename-files-by-tissue-tumor-data.cwl
+      in:
+        fileName: prot-file
+        tissueType: tissueType
+        cancerType: cancerType
+        dataType:
+          valueFrom: 'prot'
+      out:
+        [outFile]
    run-all-algs-by-sig:
       run: 03-local-deconv-cor.cwl
       scatter: [signature,mrna-alg,prot-alg]
@@ -56,8 +76,8 @@ steps:
         prot-alg: prot-algorithms
         cancerType: cancerType
         tissueType: tissueType
-        mrna-file: mrna-file
-        prot-file: prot-file
+        mrna-file: rename-mrna-file/outFile
+        prot-file: rename-prot-file/outFile
       out:
         [pat-cor-file,cell-cor-file,mat-dist-file, mrna-deconv-file, prot-deconv-file]
       
