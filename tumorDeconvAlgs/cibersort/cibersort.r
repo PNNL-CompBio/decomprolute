@@ -58,55 +58,55 @@ library(preprocessCore)
 #Core algorithm
 CoreAlg <- function(X, y, absolute, abs_method){
 
-  #try different values of nu
-  svn_itor <- 3
+                                        #try different values of nu
+    svn_itor <- 3
 
-  res <- function(i){
-    if(i==1){nus <- 0.25}
-    if(i==2){nus <- 0.5}
-    if(i==3){nus <- 0.75}
-    model<-svm(X,y,type="nu-regression",kernel="linear",nu=nus,scale=F)
-    model
-  }
+    res <- function(i){
+        if(i==1){nus <- 0.25}
+        if(i==2){nus <- 0.5}
+        if(i==3){nus <- 0.75}
+        model<-svm(X,y,type="nu-regression",kernel="linear",nu=nus,scale=F)
+        model
+    }
 
-  if(Sys.info()['sysname'] == 'Windows') out <- mclapply(1:svn_itor, res, mc.cores=1) else
-    out <- mclapply(1:svn_itor, res, mc.cores=svn_itor)
+    if(Sys.info()['sysname'] == 'Windows') out <- mclapply(1:svn_itor, res, mc.cores=1) else
+                                                                                            out <- mclapply(1:svn_itor, res, mc.cores=svn_itor)
 
-  nusvm <- rep(0,svn_itor)
-  corrv <- rep(0,svn_itor)
+    nusvm <- rep(0,svn_itor)
+    corrv <- rep(0,svn_itor)
 
-  #do cibersort
-  t <- 1
-  while(t <= svn_itor) {
-    weights = t(out[[t]]$coefs) %*% out[[t]]$SV
-    weights[which(weights<0)]<-0
-    w<-weights/sum(weights)
-    u <- sweep(X,MARGIN=2,w,'*')
-    k <- apply(u, 1, sum)
-    nusvm[t] <- sqrt((mean((k - y)^2)))
-    corrv[t] <- cor(k, y)
-    t <- t + 1
-  }
+                                        #do cibersort
+    t <- 1
+    while(t <= svn_itor) {
+        weights = t(out[[t]]$coefs) %*% out[[t]]$SV
+        weights[which(weights<0)]<-0
+        w<-weights/sum(weights)
+        u <- sweep(X,MARGIN=2,w,'*')
+        k <- apply(u, 1, sum)
+        nusvm[t] <- sqrt((mean((k - y)^2)))
+        corrv[t] <- cor(k, y)
+        t <- t + 1
+    }
 
-  #pick best model
-  rmses <- nusvm
-  mn <- which.min(rmses)
-  if(length(mn)<1)
-     mn=1
-  model <- out[[mn]]
+                                        #pick best model
+    rmses <- nusvm
+    mn <- which.min(rmses)
+    if(length(mn)<1)
+        mn=1
+    model <- out[[mn]]
 
-  #get and normalize coefficients
-  q <- t(model$coefs) %*% model$SV
-  q[which(q<0)]<-0
-  if(!absolute || abs_method == 'sig.score') w <- (q/sum(q)) #relative space (returns fractions)
-  if(absolute && abs_method == 'no.sumto1') w <- q #absolute space (returns scores)
+                                        #get and normalize coefficients
+    q <- t(model$coefs) %*% model$SV
+    q[which(q<0)]<-0
+    if(!absolute || abs_method == 'sig.score') w <- (q/sum(q)) #relative space (returns fractions)
+    if(absolute && abs_method == 'no.sumto1') w <- q #absolute space (returns scores)
 
-  mix_rmse <- rmses[mn]
-  mix_r <- corrv[mn]
+    mix_rmse <- rmses[mn]
+    mix_r <- corrv[mn]
 
-  newList <- list("w" = w, "mix_rmse" = mix_rmse, "mix_r" = mix_r)
+    newList <- list("w" = w, "mix_rmse" = mix_rmse, "mix_r" = mix_r)}
 
-}
+
 
 #do permutations
 doPerm <- function(perm, X, Y, absolute, abs_method){
