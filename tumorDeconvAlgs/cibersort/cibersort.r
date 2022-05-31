@@ -91,6 +91,8 @@ CoreAlg <- function(X, y, absolute, abs_method){
   #pick best model
   rmses <- nusvm
   mn <- which.min(rmses)
+  if(length(mn)<1)
+     mn=1
   model <- out[[mn]]
 
   #get and normalize coefficients
