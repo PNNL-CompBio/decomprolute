@@ -273,3 +273,4 @@ tumorDeconvAlgs/BayesDeBulk/*.tsv
 
 # Ignore protData outputs
 protData/file.tsv
+rna_results/

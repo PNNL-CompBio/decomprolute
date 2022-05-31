@@ -46,11 +46,32 @@ cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/mai
 
 ```
 
-These will produced the necessary summary statistics and figures.
+These will produce the following summary statistics and figures in the same directory where the command was run:
+| File                                        |Description  |
+|---------------------------------------------|-------------|
+| combined-cellType-correlation               |             |
+| LM22cellTypecorrelationsBars.pdf            |             |
+| LM22cellTypecorrelationsMrnabp.pdf          |             |
+| LM22cellTypecorrelationsProtbp.pdf          |             |
+| LM7ccellTypecorrelationsBars.pdf            |             |
+| LM7ccellTypecorrelationsMrnabp.pdf          |             |
+| LM7ccellTypecorrelationsProtbp.pdf          |             |
+| LM9cellTypecorrelationsBars.pdf             |             |
+| LM9cellTypecorrelationsMrnabp.pdf           |             |
+| LM9cellTypecorrelationsProtbp.pdf           |             |
+| PBMCcellTypecorrelationsBars.pdf            |             |
+| PBMCcellTypecorrelationsMrnabp.pdf          |             |
+| PBMCcellTypecorrelationsProtbp.pdf          |             |
+| allSigsCellTypecorrelation.pdf              |             |
+| allSigsMatrixcorrelation.pdf                |             |
+| cellTypecorrelationBoxplotMrna-averages.pdf |             |
+| cellTypecorrelationBoxplotProt-averages.pdf |             |
+| heatmaps-correlationaverages.pdf            |             |
+
 
 #### mRNA-Proteomics Comparison
 
-We also wanted to measure how _consistent_ an algorithm was between mRNA and proteomics data. This iterates through all algorithms, data, and matrices to and compares how similar each cell type prediction is across mRNA vs. proteomic samples.
+We also wanted to measure how _consistently_ an algorithm performed between mRNA and proteomics data. This iterates through all algorithms, data, and matrices to and compares how similar each cell type prediction is across mRNA vs. proteomic samples.
 
 ``` shell
 cwltool https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/mrna-prot-comparison.cwl https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/metrics/mrna-prot/alg-test.yml
