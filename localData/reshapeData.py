@@ -7,9 +7,9 @@ for fname in allfiles:
     print(fname)
     tab = pd.read_csv(fname,sep='\t')
     if "HGNC_Approved_Symbol" in tab.columns:
-        tab = tab.iloc[:,2:].groupby('HGNC_Approved_Symbol').sum()
+        tab = tab.iloc[:,2:].groupby('HGNC_Approved_Symbol').median()
     elif 'gene_name' in tab.columns:
-        tab = tab.iloc[:,1:].groupby('gene_name').sum()
+        tab = tab.iloc[:,1:].groupby('gene_name').median()
     else:
         print(tab.columns)
     tab.to_csv('new'+fname,sep='\t')
