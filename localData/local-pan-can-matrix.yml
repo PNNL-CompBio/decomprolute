@@ -1,0 +1,50 @@
+cancerTypes:
+  - BR
+  - CCRCC
+  - CO
+  - GBM
+  - HNSCC
+  - LSCC
+  - LUAD
+  - OV
+  - PDA
+  - UCEC
+prot-files:
+  - {class: File, path: "./data/BR-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/CCRCC-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/CO-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/GBM-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/HNSCC-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/LSCC-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/LUAD-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/OV-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/PDA-tumor-prot-raw.tsv"}
+  - {class: File, path: "./data/UCEC-tumor-prot-raw.tsv"}
+mrna-files:
+  - {class: File, path: "./data/BR-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/CCRCC-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/CO-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/GBM-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/HNSCC-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/LSCC-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/LUAD-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/OV-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/PDA-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./data/UCEC-tumor-mrna-raw.tsv"}
+prot-algorithms:
+  - mcpcounter
+  - epic
+  - xcell
+  - cibersort
+mrna-algorithms:
+  - mcpcounter
+  - epic
+  - xcell
+  - cibersort
+tissueTypes:
+  - tumor
+signatures:
+  - LM9
+  - LM7c
+  - LM22
+  - PBMC

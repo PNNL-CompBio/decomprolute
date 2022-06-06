@@ -1,4 +1,4 @@
-name: Docker-build
+name: Docker-build-algs
 defaults:
   run:
     working-directory: ./
@@ -8,7 +8,7 @@ on:
       - "*"
 
 jobs:
-  build-and-push:
+  build-and-push-tools:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
