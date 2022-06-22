@@ -67,7 +67,7 @@ steps:
       run: 02-local-compare-across-alg.cwl
       scatter: [mrna-file,prot-file,cancerType]
       scatterMethod: dotproduct
-      in:
+      in:      
         signatures: signatures
         mrna-algorithms: mrna-algorithms
         prot-algorithms: prot-algorithms
