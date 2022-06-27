@@ -1,0 +1,23 @@
+cancerTypes:
+  - BR
+  - CCRCC
+  - UCEC
+prot-files:
+  - {class: File, path: "./newdata/BR_panCancer_proteomicData_tumorOnly_rowMedianCentered_removeMissingInAll.tsv"}
+  - {class: File, path: "./newdata/CCRCC_panCancer_proteomicData_tumorOnly_rowMedianCentered_removeMissingInAll.tsv"}
+  - {class: File, path: "./newdata/UCEC_panCancer_proteomicData_tumorOnly_rowMedianCentered_removeMissingInAll.tsv"}
+mrna-files:
+  - {class: File, path: "./newdata/BR_panCancer_rnaData_tumorOnly_rowMedianCentered_removeMissingInAll.tsv"}
+  - {class: File, path: "./newdata/CCRCC_panCancer_rnaData_tumorOnly_rowMedianCentered_removeMissingInAll.tsv"}
+  - {class: File, path: "./newdata/UCEC_panCancer_rnaData_tumorOnly_rowMedianCentered_removeMissingInAll.tsv"}
+prot-algorithms:
+  - epic
+  - cibersort
+mrna-algorithms:
+  - epic
+  - cibersort
+tissueTypes:
+  - tumor
+signatures:
+  - LM9
+  - PBMC

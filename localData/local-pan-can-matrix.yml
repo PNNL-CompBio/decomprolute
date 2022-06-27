@@ -10,27 +10,27 @@ cancerTypes:
   - PDA
   - UCEC
 prot-files:
-  - {class: File, path: "./data/BR-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/CCRCC-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/CO-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/GBM-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/HNSCC-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/LSCC-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/LUAD-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/OV-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/PDA-tumor-prot-raw.tsv"}
-  - {class: File, path: "./data/UCEC-tumor-prot-raw.tsv"}
+  - {class: File, path: "./newdata/BR_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/CCRCC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/CO_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/GBM_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/HNSCC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/LSCC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/LUAD_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/OV_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/PDA_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/UCEC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
 mrna-files:
-  - {class: File, path: "./data/BR-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/CCRCC-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/CO-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/GBM-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/HNSCC-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/LSCC-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/LUAD-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/OV-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/PDA-tumor-mrna-raw.tsv"}
-  - {class: File, path: "./data/UCEC-tumor-mrna-raw.tsv"}
+  - {class: File, path: "./newdata/BR_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/CCRCC_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/CO_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/GBM_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/HNSCC_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/LSCC_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/LUAD_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/OV_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/PDA_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/UCEC_panCancer_rnaData_tumorOnly_rowMedianCentered.tsv"}
 prot-algorithms:
   - mcpcounter
   - epic
