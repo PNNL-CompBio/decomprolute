@@ -1,0 +1,32 @@
+cancerTypes:
+  - BR
+  - CCRCC
+  - CO
+  - GBM
+  - HNSCC
+  - LSCC
+  - LUAD
+  - OV
+  - PDA
+  - UCEC
+prot-files:
+  - {class: File, path: "./newdata/BR_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/CCRCC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/CO_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/GBM_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/HNSCC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/LSCC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/LUAD_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/OV_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/PDA_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+  - {class: File, path: "./newdata/UCEC_panCancer_proteomicData_tumorOnly_rowMedianCentered.tsv"}
+algorithms:
+  - mcpcounter
+  - epic
+  - xcell
+  - cibersort
+signatures:
+  - LM9
+  - LM7c
+  - LM22
+  - PBMC
