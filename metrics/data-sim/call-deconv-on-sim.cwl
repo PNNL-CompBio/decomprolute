@@ -38,9 +38,9 @@ outputs:
   deconv:
      type: File
      outputSource: match-prot-to-sig/updated-deconv
-  mat-dist-file:
-     type: File
-     outputSource: matrix-distance/dist     
+#  mat-dist-file:
+#     type: File
+#     outputSource: matrix-distance/dist     
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr
@@ -81,23 +81,23 @@ steps:
        mrnaAlg:
           valueFrom: "cellFraction"
        protAlg: protAlg
-       signature: get-sig-mat/sigMatrix
+       signature: signature
        sampleType: simType
        proteomics:
          source: match-prot-to-sig/updated-deconv
        transcriptomics:
          source: match-prot-to-sig/updated-cell-matrix
      out: [corr]
-  matrix-distance:
-     run: ../distance/deconv-comparison-tool.cwl
-     in:
-       matrixA: match-prot-to-sig/updated-deconv
-       matrixB: match-prot-to-sig/updated-cell-matrix 
-       cancerType: permutation
-       aAlg: protAlg
-       bAlg:
-         valueFrom: "cellFraction"
-       signature: get-sig-mat/sigMatrix
-       sampleType: simType
-     out:
-       [dist]
+#  matrix-distance:
+#     run: ../distance/deconv-comparison-tool.cwl
+#     in:
+#       matrixA: match-prot-to-sig/updated-deconv
+#       matrixB: match-prot-to-sig/updated-cell-matrix 
+#       cancerType: permutation
+#       aAlg: protAlg
+#       bAlg:
+#         valueFrom: "cellFraction"
+#       signature: get-sig-mat/sigMatrix
+#       sampleType: simType
+#     out:
+#       [dist]

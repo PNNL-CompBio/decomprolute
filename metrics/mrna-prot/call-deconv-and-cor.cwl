@@ -10,7 +10,7 @@ requirements:
   - class: InlineJavascriptRequirement
   
 inputs:
-   signature: File
+   signature: string
    mrna-alg: string
    prot-alg: string
    cancerType: string
@@ -29,9 +29,9 @@ outputs:
   prot-file:
      type: File
      outputSource: deconv-prot/deconvoluted
-  mat-dist-file:
-     type: File
-     outputSource: matrix-distance/dist
+#  mat-dist-file:
+#     type: File
+#     outputSource: matrix-distance/dist
 
 steps:
   deconv-mrna:
@@ -76,15 +76,15 @@ steps:
        transcriptomics:
          source: deconv-mrna/deconvoluted
      out: [corr]
-  matrix-distance:
-     run: ../distance/deconv-comparison-tool.cwl
-     in:
-       matrixA: deconv-mrna/deconvoluted
-       matrixB: deconv-prot/deconvoluted
-       cancerType: cancerType
-       aAlg: mrna-alg
-       bAlg: prot-alg
-       signature: signature
-       sampleType: tissueType
-     out:
-       [dist]
+#  matrix-distance:
+#     run: ../distance/deconv-comparison-tool.cwl
+#     in:
+#       matrixA: deconv-mrna/deconvoluted
+#       matrixB: deconv-prot/deconvoluted
+#       cancerType: cancerType
+#       aAlg: mrna-alg
+#       bAlg: prot-alg
+#       signature: signature
+#       sampleType: tissueType
+#     out:
+#       [dist]

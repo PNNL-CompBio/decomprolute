@@ -7,12 +7,9 @@ cancerTypes:
   - ovarian
   - ccrcc
 signatures:
-  - class: File
-    path: ../../signature_matrices/LM7c.txt
-  - class: File
-    path: ../../signature_matrices/LM22.txt
-  - class: File
-    path: ../../signature_matrices/PBMC.txt
+  - LM7c
+  - LM22
+  - PBMC
 prot-algorithms:
   - mcpcounter
   - epic
