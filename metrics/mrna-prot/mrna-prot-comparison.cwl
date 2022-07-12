@@ -22,7 +22,7 @@ inputs:
    mrna-algorithms:
       type: string[]
    signatures:
-      type: File[]
+      type: string[]
       
 outputs:
    cell-cor-tab:
@@ -37,15 +37,15 @@ outputs:
    prot-files:
       type: File[]
       outputSource: run-all-algs-by-sig/prot-file
-   dist-files:
-      type: File[]
-      outputSource: run-all-algs-by-sig/mat-dist-file
-   dist-fig:
-      type: File[]
-      outputSource: get-distances/fig
-   dist-tab:
-      type: File
-      outputSource: get-distances/table
+#   dist-files:
+#      type: File[]
+#      outputSource: run-all-algs-by-sig/mat-dist-file
+#   dist-fig:
+#      type: File[]
+#      outputSource: get-distances/fig
+#   dist-tab:
+#      type: File
+#      outputSource: get-distances/table
     
 
 steps:
@@ -60,7 +60,7 @@ steps:
         cancerType: cancerTypes
         tissueType: tissueTypes
       out:
-        [pat-cor-file,cell-cor-file,prot-file,mrna-file,mat-dist-file]
+        [pat-cor-file,cell-cor-file,prot-file,mrna-file]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
@@ -70,15 +70,15 @@ steps:
             source: run-all-algs-by-sig/cell-cor-file
       out:
         [table,fig]
-   get-distances:
-      run: ../figures/plot-figs.cwl
-      in:
-         metric:
-            valueFrom: "distance"
-         metricType:
-            valueFrom: "cellType"
-         files:
-            source: run-all-algs-by-sig/mat-dist-file
-      out:
-        [table,fig]
+#   get-distances:
+#      run: ../figures/plot-figs.cwl
+#      in:
+#         metric:
+#            valueFrom: "distance"
+#         metricType:
+#            valueFrom: "cellType"
+#         files:
+#            source: run-all-algs-by-sig/mat-dist-file
+#      out:
+#        [table,fig]
       

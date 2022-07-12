@@ -58,7 +58,7 @@ steps:
           valueFrom: 'prot'
         simType: simType
      out:
-        [cell-cor-file,mat-dist-file, deconv, cellPred, deconvoluted, matrix]
+        [cell-cor-file, deconv, cellPred, deconvoluted, matrix]
    run-all-algs-by-prot:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'prot')
@@ -74,7 +74,7 @@ steps:
           valueFrom: 'prot'
         simType: simType
      out:
-        [cell-cor-file,mat-dist-file, deconv, cellPred, deconvoluted, matrix]   
+        [cell-cor-file,deconv, cellPred, deconvoluted, matrix]   
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:

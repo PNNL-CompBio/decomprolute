@@ -10,7 +10,7 @@ requirements:
   
 inputs:
    signature:
-      type: File
+      type: string
    mrnaAlg:
       type: string
    cancerType:
@@ -19,6 +19,12 @@ inputs:
       type: string
 
 steps:
+  download-mat:
+    run: ../../signature_matrices/get-signature-matrix.cwl
+    in:
+      sigMatrixName: signature
+    out:
+      [sigMatrix]
   download-mrna:
     run: ../../mRNAData/mrna-data-cwl-tool.cwl
     in:
@@ -27,10 +33,10 @@ steps:
     out:
       [matrix]
   run-deconv:
-    run: ../run-deconv.cwl
+    run: ../../tumorDeconvAlgs/run-deconv.cwl
     in:
       matrix: download-mrna/matrix
-      signature: signature
+      signature: download-mat/sigMatrix
       alg: mrnaAlg
     out:
       [deconvoluted]

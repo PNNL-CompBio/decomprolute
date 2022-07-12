@@ -36,7 +36,7 @@ inputs:
   protAlg:
     type: string
   signature:
-    type: File
+    type: string
   sampleType:
     type: string
 
@@ -47,7 +47,7 @@ outputs:
       glob: "corr.tsv" 
       outputEval: |
         ${
-          var mat = inputs.signature.nameroot
+          var mat = inputs.signature
           var name = inputs.sampleType + '-' + inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' + inputs.protAlg +'-'+ mat + '-corr.tsv'
           self[0].basename = name;
           return self[0]
