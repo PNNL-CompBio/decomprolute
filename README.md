@@ -10,42 +10,44 @@ We employ a modular, containerized, framework written in the Common Workflow Lan
 
 ## How to contribute
 
-To add an *algorithm* we recommend you create your own Docker image with CWL tool to run it. Once the CWL is accessible remotely (via github, for example), it can be added to the [primary deconvolution tool](./metrics/run-deconv.cwl) via a pull request. See the [contribution_guide](./contribution_guide) for more details.
+As a benchmarking platform, we constructed an architecture that enables others to contribute and add their own customization. While our [documentation site](https://pnnl-compbio.github.io/decomprolute/) has information on how to run the platform, this page focuses on how to contribute.
 
-To add a *signature matrix* we recommend creating a text file representing the marker genes and cell types and creating a pull request to add it to the [signature matrices](./signature_matrices) folder.
+### Adding a new algorithm
+Once you have written an algorithm, we require first a script to run the algorithm, and then integration into our larger script.
 
-Algorithms in the framework are configured with the [Common Workflow Language, CWL](#https://www.commonwl.org/user_guide/) and rely on [Docker](https://www.docker.com/) runtime environments to execute source code.
 
-There are essentially two requirements to run a novel algorithm to the framework:
+To add a tumor deconvolution algorithm this platform requires two inputs:
+1. An expression matrix
+2. A cell type matrix
+As such we recommend building a [Docker](https://www.docker.com/) container that runs your algorithm together with a [Common Workflow Language]() script to run the algorithm with the two inputs (labeled `expression` and `signature`. The expected output is a matrix called `deconvoluted`.
 
-- Docker image with executable source code and all pre-requisite software installed
-- CWL tool file describing expected inputs, outputs, and runtime environment
+Once you have a script that can run, you can modify the `run-deconv.cwl` script in the [./tumorDeconvAlgs]() directory. This script takes the same parameters as the script described above but also an additional parameter called `alg`.
 
-### Software requirements
+Once this is complete, you should be able to run a test command such as
+
+``` 1c-enterprise
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/prot-deconv.cwl --cancer hnscc --protAlg [yourAlgNameHere] --sampleType tumor --signature LM7c
+
+```
+
+Once this test script can run, you can create a pull request from your fork.
+
+
+### Adding a new cell type matrix
+It is important to test new signature matrices as they evolve, and therefore we created a separate module to enable the creation of custom cell-type matrices.
+
+The easiest way to add a custom signature matrix is to copy a weighted matrix into the [./signature_matrices](./signature_matrices) directory. The rows of the matrix represent gene names (the first column should be an HGNC gene name) and the columns represent cell types. Once the docker image rebuilds with this file in the directory, it can be called by the `cwl` script.
+
+### Updating documentation
+
+We also try to keep our [documentation site](https://pnnl-compbio.github.io/decomprolute/) up to date. If you have any updates to this, please create a pull request with updates to the [docs/index.md](docs/index.md) page.
+
+## Software requirements
 
 To implement your algorithm in this framework, you will need a CWL engine and Docker installed.
 
 - [cwltool 3.0.20210124104916^](https://github.com/common-workflow-language/cwltool)
 - [Docker](https://docs.docker.com/get-docker/)
 
-### Adding a new algorithm to decomprolute
-
-#### Build docker image
-
-#### Build a cwl file
-
-To add an algorithm you will need to encapsulate a script that runs the algorithm with the list of signature matrices we have on a specific dataset. Then you will need to add it to the cwl file that captures each algorithm.
-
-To add an *algorithm* we recommend you create your own Docker image with CWL tool to run it. Once the CWL is accessible remotely (via github, for example), it can be added to the [primary deconvolution tool](./metrics/run-deconv.cwl) via a pull request. See the [contribution_guide](./contribution_guide) for more details.
-
-#### Add CWL file to existing workflow
-
-#### Add to documentation
-
-### Contribute a cell type matrix to decomprolute
-To add a cell type atrix, follow these steps.
-
-#### Format matrix file
-#### Add to R script
-
-#### Add to documentationn
+## More documentation
+We have put mo
