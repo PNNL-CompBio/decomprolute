@@ -1,7 +1,7 @@
 # Decomprolute: Benchmarking study of proteomic based tumor deconvolution
-The goal of this package is to provide a framework for the benchmarking of tumor deconvolution algorithms specifically on proteomics data. As such, we welcome contribtions from the community to add new algorithms and datasets.
+The goal of this package is to provide a framework for the benchmarking of tumor deconvolution algorithms specifically on proteomics data. To run the platform, please see our [primary documentation site](https://pnnl-compbio.github.io/decomprolute). 
 
-We employ a modular, containerized, framework written in the Common Workflow Language to enable plug-n-play assessment of novel algorithms as described in the image below.
+Here we describe how to contribute to the project. We employ a modular, containerized, framework written in the Common Workflow Language to enable plug-n-play assessment of novel algorithms as described in the image below.
 <img src="docs/deconvFIgure1.png" width="400">
 
 
@@ -19,6 +19,7 @@ Once you have written an algorithm, we require first a script to run the algorit
 To add a tumor deconvolution algorithm this platform requires two inputs:
 1. An expression matrix
 2. A cell type matrix
+
 As such we recommend building a [Docker](https://www.docker.com/) container that runs your algorithm together with a [Common Workflow Language]() script to run the algorithm with the two inputs (labeled `expression` and `signature`. The expected output is a matrix called `deconvoluted`.
 
 Once you have a script that can run, you can modify the `run-deconv.cwl` script in the [./tumorDeconvAlgs]() directory. This script takes the same parameters as the script described above but also an additional parameter called `alg`.
@@ -49,5 +50,3 @@ To implement your algorithm in this framework, you will need a CWL engine and Do
 - [cwltool 3.0.20210124104916^](https://github.com/common-workflow-language/cwltool)
 - [Docker](https://docs.docker.com/get-docker/)
 
-## More documentation
-We have put mo
