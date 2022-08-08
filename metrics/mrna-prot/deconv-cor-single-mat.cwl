@@ -13,7 +13,7 @@ requirements:
   
 inputs:
    signature:
-     type: File
+     type: string
    alg:
      type: string
    protFile:
