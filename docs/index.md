@@ -6,7 +6,7 @@ description: Benchmarking study of proteomic based tumor deconvolution
 ---
 # Decomprolute
 
-The goal of this package is to run and evaluate tumor deconvolution algorithms on multi-omics data. We provide the ability to assess a suite of algorithms and cell signature matrices such that you can select your algorithm wisely. We also provide a modular framework that enables you to add your own algorithm, cell signature, or proteogenomic dataset. For doing this, please see our [GitHub site](http://github.com/pnnl-compbio/decomprolute).
+The goal of this package is to run and evaluate tumor deconvolution algorithms on multi-omics data. We provide the ability to assess a suite of algorithms and cell signature matrices such that you can select your algorithm wisely. We also provide a modular framework that enables you to add your own algorithm or cell signature. For doing this, please see our [GitHub site](http://github.com/pnnl-compbio/decomprolute).
 
 These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module.
 <img src="./deconvFIgure1.png" width="400">
@@ -17,8 +17,8 @@ These two use cases are enabled by the modular dockerized framework shown below.
    - [CPTAC Data](#cptac-data)
    - [Algorithms](#algorithms)
    - [Cell type signatures](#cell-type-signatures)
-- [To find the best algorithm for your data](#to-find-the-best-algorithm-for-your-data)
-- [To review the results of our manuscript](#to-review-the-results-of-our-manuscript)
+- [Deconvolve your own data](#deconvolve-your-own-data)
+- [Evaluate metrics on new algorithm or signature matrix](#evaluate-metrics-on-new-algorithm)
    - [Performance on simulated data](#performance-on-simulated-data)
    - [mRNA-Proteomics Comparison](#mrna-proteomics-comparison)
    - [Pan-Immune clustering annotation](#pan-immune-clustering-annotation)
@@ -67,12 +67,13 @@ As such, datasets have been updated to following (added hnscc):
 
 ### Algorithms
 We have included numerous algorithms in this package. Docker files and requisite data are included in the [existing code base](http://github.com/pnnl-compbio/decomprolute).
-| Algorithm                           | Source |
-| ---                                 | ---    |
-| [cibersort](./tumorDeconvAlgs/cibersort)|       |
-| [epic](./tumorDeconvAlgs/epic)|  |
-| [xcell](/tumorDeconvAlgs/xcell)| |
-| [mcpcounter](./tumorDeconvAlgos/xcell)| |
+
+ Algorithm                           | Source
+ ---                                 | ---
+ [cibersort](./tumorDeconvAlgs/cibersort)|
+ [epic](./tumorDeconvAlgs/epic)|
+ [xcell](/tumorDeconvAlgs/xcell)|
+ [mcpcounter](./tumorDeconvAlgos/xcell)|
 
 
 ### Cell type signatures
@@ -85,7 +86,7 @@ There are numerous ways to define the individual cell types we are using to run 
 | LM9 | Ten cell types predicted by MCPCounter signature | |
 | LM22 | The original matrix from cibersort  | |
 
-## To find the *best* algorithm for your data
+## Deconvolve your own data
 If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. To assess which algorithm/signature matrix best agrees with simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow.
 
 We have included test data for you to evaluate these two workflows:
@@ -94,8 +95,8 @@ We have included test data for you to evaluate these two workflows:
 cwltool
 ```
 
-## To review the results of our manuscript
-In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms.
+## Evaluate metrics on new algorithm or signature matrix.
+In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms. To benchmark your own algorithm or signature matrix, follow the [Contribution guide](https://github.com/pnnl-compbio/decomprolute) on the main GitHub page to add to our framework, then you can run the following metrics as described in our manuscript.
 
 ### Performance on simulated data
 We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
