@@ -48,18 +48,24 @@ outputs:
      outputSource:
        - deconv-prot/deconvoluted
 steps:
+   get-mat:
+      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
+      in:
+        sigMatrixName: signature
+      out:
+        [sigMatrix]
    deconv-mrna:
       run: ../../tumorDeconvAlgs/run-deconv.cwl
       in:
         matrix: rnaFile
-        signature: signature
+        signature: get-mat/sigMatrix
         alg: alg
       out: [deconvoluted]
    deconv-prot:
       run: ../../tumorDeconvAlgs/run-deconv.cwl
       in:
         matrix: protFile
-        signature: signature
+        signature: get-mat/sigMatrix
         alg: alg
       out: [deconvoluted]
    patient-cor:
