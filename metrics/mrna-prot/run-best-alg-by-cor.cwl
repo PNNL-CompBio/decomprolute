@@ -46,7 +46,7 @@ steps:
       in:
         rnaFile: rnaFile
         protFile: protFile
-        alg: algorithms
+        alg: prot-algorithms
         signature: get-all-mat/sigMatrix
         cancerType:
          valueFrom: "tumor"
