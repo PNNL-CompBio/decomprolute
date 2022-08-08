@@ -102,7 +102,7 @@ steps:
         cancerType: cancerType
         aAlg: alg
         bAlg: alg
-        signature: signature
+        signature: get-mat/sigMatrix
         sampleType: tissueType
       out:
         [dist]
