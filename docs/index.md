@@ -91,9 +91,16 @@ If you have a specific dataset you'd like to deconvolve but are not sure which t
 
 We have included test data for you to evaluate these two workflows:
 
+### Run the algorithm/signature matrix that correlates best between mRNA and protein
+
+Here we recommend replacing the two files in the `YAML` file shown here to compare the mRNA and protein correlations to find the *best* algorithm for your data.
+
 ``` shell
-cwltool
+ cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/run-best-alg-by-cor.cwl https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/best-test.yml
 ```
+
+### Run the algorithm on simulated data
+Here you can
 
 ## Evaluate metrics on new algorithm or signature matrix.
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms. To benchmark your own algorithm or signature matrix, follow the [Contribution guide](https://github.com/pnnl-compbio/decomprolute) on the main GitHub page to add to our framework, then you can run the following metrics as described in our manuscript.
