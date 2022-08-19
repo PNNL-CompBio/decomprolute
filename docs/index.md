@@ -89,15 +89,16 @@ There are numerous ways to define the individual cell types we are using to run 
 ## Deconvolve your own data
 If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. To assess which algorithm/signature matrix best agrees with simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow.
 
-We have included test data for you to evaluate these two workflows:
+
+To identify the signature matrix/algorithm combination that agrees between your own mRNA/protein data, you can run the following (replacing the files in the best-test.yml file).
 
 ### Run the algorithm/signature matrix that correlates best between mRNA and protein
 
 Here we recommend replacing the two files in the `YAML` file shown here to compare the mRNA and protein correlations to find the *best* algorithm for your data.
 
 ``` shell
- cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/run-best-alg-by-cor.cwl https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/best-test.yml
-```
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/run-best-alg-by-cor.cwl https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/best-test.yml
+
 
 ### Run the algorithm on simulated data
 Here you can
