@@ -98,7 +98,7 @@ Here we recommend replacing the two files in the `YAML` file shown here to compa
 
 ``` shell
 cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/run-best-alg-by-cor.cwl https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/mrna-prot/best-test.yml
-
+```
 
 ### Run the algorithm on simulated data
 Here you can
