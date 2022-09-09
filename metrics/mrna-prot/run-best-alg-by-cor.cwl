@@ -31,14 +31,14 @@ outputs:
       - run-best-algs-by-sig/deconvoluted
 
 steps:
-   get-all-mat:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
-      scatter: [sigMatrixName]
-      scatterMethod: flat_crossproduct
-      in:
-        sigMatrixName: signatures
-      out:
-        [sigMatrix]
+ #  get-all-mat:
+ #     run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
+ #     scatter: [sigMatrixName]
+ #     scatterMethod: flat_crossproduct
+ #     in:
+ #       sigMatrixName: signatures
+ #     out:
+ #       [sigMatrix]
    get-all-cors:
       run: ./deconv-cor-single-mat.cwl
       scatter: [signature,alg]
@@ -47,7 +47,7 @@ steps:
         rnaFile: rnaFile
         protFile: protFile
         alg: prot-algorithms
-        signature: get-all-mat/sigMatrix
+        signature: signatures
         cancerType:
          valueFrom: "tumor"
       out:
