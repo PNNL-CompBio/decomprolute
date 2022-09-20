@@ -66,7 +66,7 @@ steps:
        cancerType: cancerType
        mrnaAlg: mrna-alg
        protAlg: prot-alg
-       signature: get-sig/sigMatrix
+       signature: signature #get-sig/sigMatrix
        sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
@@ -79,7 +79,7 @@ steps:
        cancerType: cancerType
        mrnaAlg: mrna-alg
        protAlg: prot-alg
-       signature: get-sig/sigMatrix
+       signature: signature #get-sig/sigMatrix
        sampleType: tissueType
        proteomics:
          source: deconv-prot/deconvoluted
