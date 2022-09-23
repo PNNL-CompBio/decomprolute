@@ -5,6 +5,8 @@ if (!is.null(args[1])) {
     if (max(df, na.rm = TRUE) < 50) {
         df <- 2^df
     }
+    # df <- df[rowSums(is.na(df)) != ncol(df), ]
+    df[is.na(df)] <- 0.0
 } else {
     stop("No expression matrix provided!")
 }

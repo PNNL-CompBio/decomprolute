@@ -158,6 +158,7 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
   X <- data.matrix(X)
   Y <- data.matrix(Y)
 
+
   #order
   X <- X[order(rownames(X)),]
   Y <- Y[order(rownames(Y)),]
@@ -167,8 +168,9 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
   #anti-log if max < 50 in mixture file
   if (max(Y, na.rm = TRUE) < 50) {
     Y <- 2^Y
-    Y[is.na(Y)] <- 0.0
   }
+  # Y <- Y[rowSums(is.na(Y)) != ncol(Y), ]
+  Y[is.na(Y)] <- 0.0
 
   #quantile normalization of mixture file
   if(QN == TRUE){
