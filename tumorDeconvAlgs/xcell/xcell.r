@@ -2,11 +2,12 @@
 args <- commandArgs(TRUE)
 if (!is.null(args[1])) {
     df <- read.csv(args[1], sep = "\t", row.names = 1, check.names=F)
+    df[df == 0] <- NA
     if (max(df, na.rm = TRUE) < 50) {
         df <- 2^df
     }
     # df <- df[rowSums(is.na(df)) != ncol(df), ]
-    df[is.na(df)] <- 0.0
+    df[is.na(df)] <- 0
 } else {
     stop("No expression matrix provided!")
 }

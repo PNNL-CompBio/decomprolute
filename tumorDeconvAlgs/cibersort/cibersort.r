@@ -165,12 +165,13 @@ CIBERSORT <- function(sig_matrix, mixture_file, perm=0, QN=FALSE, absolute=FALSE
 
   P <- perm #number of permutations
 
-  #anti-log if max < 50 in mixture file
+  #anti-log if max < 50 in mixture filed 
+  Y[Y == 0] <- NA
   if (max(Y, na.rm = TRUE) < 50) {
     Y <- 2^Y
   }
   # Y <- Y[rowSums(is.na(Y)) != ncol(Y), ]
-  Y[is.na(Y)] <- 0.0
+  Y[is.na(Y)] <- 0
 
   #quantile normalization of mixture file
   if(QN == TRUE){
