@@ -4,12 +4,5 @@ downloads data into docker image
 '''
 
 import cptac
-for ds in ['brca',
-           'ccrcc',
-           'endometrial',
-           'colon',
-           'ovarian',
-           'hnscc',
-           'luad',
-           'gbm']:
+for ds in ['brca', 'ccrcc', 'colon', 'endometrial', 'gbm', 'hnscc', 'lscc', 'luad', 'ovarian']:
     cptac.download(dataset=ds)

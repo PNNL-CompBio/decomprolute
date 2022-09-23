@@ -12,7 +12,7 @@ requirements:
 
 inputs:
    signature:
-     type: File
+     type: string
    protAlg:
      type: string
    permutation:
@@ -38,14 +38,20 @@ outputs:
   deconv:
      type: File
      outputSource: match-prot-to-sig/updated-deconv
-  mat-dist-file:
-     type: File
-     outputSource: matrix-distance/dist     
+#  mat-dist-file:
+#     type: File
+#     outputSource: matrix-distance/dist     
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr
 
 steps:
+  get-sig-mat:
+     run: ../../signature_matrices/get-signature-matrix.cwl
+     in:
+      sigMatrixName: signature
+     out:
+      [sigMatrix]
   get-sim-data:
      run: ../../simulatedData/sim-data-tool.cwl
      in:
@@ -54,17 +60,17 @@ steps:
      out:
        [matrix,cellType]
   deconv-prot:
-     run: ../run-deconv.cwl
+     run: ../../tumorDeconvAlgs/run-deconv.cwl
      in:
        alg: protAlg
-       signature: signature
+       signature: get-sig-mat/sigMatrix
        matrix: get-sim-data/matrix
      out: [deconvoluted]
   match-prot-to-sig:
      run: ../../simulatedData/map-sig-tool.cwl
      in:
        deconv-matrix: deconv-prot/deconvoluted
-       sig-matrix: signature
+       sig-matrix: get-sig-mat/sigMatrix
        deconv-type: simType
        cell-matrix: get-sim-data/cellType
      out: [updated-deconv,updated-cell-matrix]
@@ -82,16 +88,16 @@ steps:
        transcriptomics:
          source: match-prot-to-sig/updated-cell-matrix
      out: [corr]
-  matrix-distance:
-     run: ../comparison/deconv-comparison-tool.cwl
-     in:
-       matrixA: match-prot-to-sig/updated-deconv
-       matrixB: match-prot-to-sig/updated-cell-matrix 
-       cancerType: permutation
-       aAlg: protAlg
-       bAlg:
-         valueFrom: "cellFraction"
-       signature: signature
-       sampleType: simType
-     out:
-       [dist]
+#  matrix-distance:
+#     run: ../distance/deconv-comparison-tool.cwl
+#     in:
+#       matrixA: match-prot-to-sig/updated-deconv
+#       matrixB: match-prot-to-sig/updated-cell-matrix 
+#       cancerType: permutation
+#       aAlg: protAlg
+#       bAlg:
+#         valueFrom: "cellFraction"
+#       signature: get-sig-mat/sigMatrix
+#       sampleType: simType
+#     out:
+#       [dist]

@@ -1,114 +1,52 @@
 # Decomprolute: Benchmarking study of proteomic based tumor deconvolution
-The goal of this package is to provide various metrics to assess the ability of a deconvolution algorithm to identify specific cell types in bulk proteomics data. The package is fully dockerized and can be run with the installation of Docker and a CWL-compliant tool on your local machine.
+The goal of this package is to provide a framework for the benchmarking of tumor deconvolution algorithms specifically on proteomics data. To run the platform, please see our [primary documentation site](https://pnnl-compbio.github.io/decomprolute). 
 
-We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools.The modules fall into three categories, each with a data collection and analysis module.
-![Architecture](./deconvFIgure1.png)
+Here we describe how to contribute to the project. We employ a modular, containerized, framework written in the Common Workflow Language to enable plug-n-play assessment of novel algorithms as described in the image below.
+<img src="docs/deconvFIgure1.png" width="400">
 
-## How to use
 
-There are multiple ways to use this package. Given the multiple modules, you can use this package to simply run a deconvolution algorithm a specific dataset, or you can swap out the algorithm for a new one or run on your own data. These various approaches are listed in the [workflows](./workflows/) directory.
+![Data docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build.yml/badge.svg)
+![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/alg-docker-build.yml/badge.svg)
 
-### To deconvolve cell types on CPTAC data
+## How to contribute
 
-The workflow script to run a single algorithm is located in the root of the [workflows](./workflows) directory.
+As a benchmarking platform, we constructed an architecture that enables others to contribute and add their own customization. While our [documentation site](https://pnnl-compbio.github.io/decomprolute/) has information on how to run the platform, this page focuses on how to contribute.
 
-``` shell
-cd workflows
-cwltool prot-deconv.cwl --cancer hnscc --protAlg mcpcounter --sampleType tumor --signature ../signature_matrices/LM7c.txt
-```
+### Adding a new algorithm
+Once you have written an algorithm, we require first a script to run the algorithm, and then integration into our larger script.
 
-This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature.
 
-### To assess _performance_ of existing algorithms
-In the absence of a proteomics gold standard, we have implemented three distinct metrics to determine the performance of each algorithm listed below.
+To add a tumor deconvolution algorithm this platform requires two inputs:
+1. An expression matrix
+2. A cell type matrix
 
-#### Performance on simulated data
-We have simulated both mRNA and proteomics data from established experiments as described below. We try to evaluate mRNA data on mRNA-derived simulations, and proteomics data on proteomics-derived simulated data. The datasets themselves are stored in the [simulatedData](./simulatedData_) directory.
+As such we recommend building a [Docker](https://www.docker.com/) container that runs your algorithm together with a [Common Workflow Language]() script to run the algorithm with the two inputs (labeled `expression` and `signature`. The expected output is a matrix called `deconvoluted`.
 
-We have included two `YAML` files to use as test runs of each simulation.
+Once you have a script that can run, you can modify the `run-deconv.cwl` script in the [./tumorDeconvAlgs]() directory. This script takes the same parameters as the script described above but also an additional parameter called `alg`.
 
-``` shell
-cd workflows/data-sim/
-cwltool simul-data-comparison.cwl rna-sim-test.yml ##evaluate rna-based deconvolution
-cwltool simul-data-comparison.cwl prot-sim-test.yml ##evaluate protein based deconvolution
+Once this is complete, you should be able to run a test command such as
+
+``` 1c-enterprise
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/prot-deconv.cwl --cancer hnscc --protAlg [yourAlgNameHere] --sampleType tumor --signature LM7c
 
 ```
 
-These will produced the necessary summary statistics and figures.
-
-#### mRNA-Proteomics Comparison
-
-We also wanted to measure how _consistent_ an algorithm was between mRNA and proteomics data. This iterates through all algorithms, data, and matrices to and compares how similar each cell type prediction is across mRNA vs. proteomic samples.
-
-``` shell
-cd workflows/mrna-prot
-cwltool mrna-prot-comparison.cwl alg-test.yml
-```
-
-This will run the evaluation in our test `YAML` file. To update the parameters, create your own `YAML` file. The algorithm currently has five parameters:
-1. mrna-algorithms: List of algorithms to use to deconvolve mRNA data. One of `epic`, `xcell`, `cibersort`, `mcpcounter`.
-2. prot-algorithms: List of algorithms to use to deconvolve protein data. One of `epic`, `xcell`, `cibersort`, `mcpcounter`.
-3. cancerTypes: List of cancer types
-4. signatures: List of signature matrices, currently found in the [signature matrix](./signature_matrices) directory
-5. tissueTypes: list of tissue types: `tumor`, `normal`, or `all`
-
-#### Pan-Immune clustering annotation
-Lastly we can cross-reference known immune types with predicted cell types from the various deconvolution algorithms to ascertain how well
-
-### To add your own algorithm or data
-
-To test your own algorithm, or data, we suggest putting it in its own Docker image. For more details please see the [Contributing Guide](./contribution_guide/).
+Once this test script can run, you can create a pull request from your fork.
 
 
-## Data
-For this module we have collected real and simulated data.
+### Adding a new cell type matrix
+It is important to test new signature matrices as they evolve, and therefore we created a separate module to enable the creation of custom cell-type matrices.
 
-### CPTAC Data
+The easiest way to add a custom signature matrix is to copy a weighted matrix into the [./signature_matrices](./signature_matrices) directory. The rows of the matrix represent gene names (the first column should be an HGNC gene name) and the columns represent cell types. Once the docker image rebuilds with this file in the directory, it can be called by the `cwl` script.
 
-This algorithm leverages data collected through the clinical proteomic tumor analysis consortium (CPTAC) as the foundation of its benchmarking metrics. This consortium has collected hundreds of patient tumor data, including proteomic and transcriptomic data from the same patients. Given the general confidence in transcriptomic-based tumor convolution, we can use these data to compare transcriptomic and proteomic tumor deconvolution in the same patient samples
+### Updating documentation
 
-We have collect this data via the [CPTAC Python API](https://github.com/PayneLab/cptac) to better match the mRNA data. This CWL tool and Docker image are in the [protData](./protData) and [mRNAdata](./mRNAData) directories.
+We also try to keep our [documentation site](https://pnnl-compbio.github.io/decomprolute/) up to date. If you have any updates to this, please create a pull request with updates to the [docs/index.md](docs/index.md) page.
 
-Below are the available tumor types:
+## Software requirements
 
-Dataset name | Description | Data reuse status | Publication link
--- | -- | -- | --
-Brca | breast cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33212010/
-Ccrcc | clear cell renal cell carcinoma (kidney) | no restrictions | https://pubmed.ncbi.nlm.nih.gov/31675502/
-Colon | colorectal cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/31031003/
-Endometrial | endometrial carcinoma (uterine) | no restrictions | https://pubmed.ncbi.nlm.nih.gov/32059776/
-Gbm | glioblastoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33577785/
-Hnscc | head and neck squamous cell carcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/33417831/
-**Lscc | lung squamous cell carcinoma | password access only | unpublished**
-Luad | lung adenocarcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/32649874/
-Ovarian | high grade serous ovarian cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/27372738/
-**Pdac | pancreatic ductal adenocarcinoma | password access only | unpublished**
+To implement your algorithm in this framework, you will need a CWL engine and Docker installed.
 
-As such, datasets have been updated to following (added hnscc):
-['brca', 'ccrcc', 'endometrial', 'colon', 'ovarian', 'hnscc', 'luad']
+- [cwltool 3.0.20210124104916^](https://github.com/common-workflow-language/cwltool)
+- [Docker](https://docs.docker.com/get-docker/)
 
-
-### Simulated data
-We also evaluate the algorithms on simulated data.
-
-
-## Algorithms
-We have included numerous algorithms in this package. Docker files and requisite data are included in the [tumorDeconvAlgs](./tumorDeconvAlgs) folder.
-
-| Algorithm                           | Source |
-| ---                                 | ---    |
-| [cibersort](./tumorDeconvAlgs/cibersort)|       |
-| [epic](./tumorDeconvAlgs/epic)|  |
-| [xcell](/tumorDeconvAlgs/xcell)| |
-| [mcpcounter](./tumorDeconvAlgos/xcell)| |
-
-
-## Cell type signatures
-There are numerous ways to define the individual cell types we are using to run the deconvolution algorithms. We will upload specific lists to compare in our workflow.
-
-| List Name | Description | Source |
-| --- | --- | --- |
-| LM7c | Seven cell types (B, CD4 T, CD8 T, dendritic cells, granulocytes, monocytes, NK) collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
-| 3' PBMCs | Seven cell types (B, CD4 T, CD8 T (CD8 T + NK T), dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
-| LM10 | Ten cell types predicted by MCPCounter signature | |
-| LM22 | The original matrix from cibersort  | |

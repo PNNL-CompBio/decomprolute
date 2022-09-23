@@ -22,7 +22,7 @@ inputs:
 
 outputs:
   table:
-    type: File
+    type: File[]
     outputBinding:
       glob: "*.tsv"
   fig:

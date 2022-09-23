@@ -2,7 +2,7 @@
 class: Workflow
 label: prot-deconv
 id: prot-deconv
-cwlVersion: v1.2
+cwlVersion: v1.1
 
 requirements:
   - class: SubworkflowFeatureRequirement
@@ -10,7 +10,7 @@ requirements:
 
 inputs:
    signature:
-     type: File
+     type: string
    protAlg:
      type: string
    cancerType:
@@ -19,6 +19,12 @@ inputs:
      type: string
 
 steps:
+  download-mat:
+    run: ../signature_matrices/get-signature-matrix.cwl
+    in:
+      sigMatrixName: signature
+    out:
+      [sigMatrix]
   download-prot:
     run: ../protData/prot-data-cwl-tool.cwl
     in:
@@ -27,10 +33,10 @@ steps:
     out:
       [matrix]
   run-deconv:
-    run: run-deconv.cwl
+    run: ../tumorDeconvAlgs/run-deconv.cwl
     in:
       matrix: download-prot/matrix
-      signature: signature
+      signature: download-mat/sigMatrix
       alg: protAlg
     out:
       [deconvoluted]

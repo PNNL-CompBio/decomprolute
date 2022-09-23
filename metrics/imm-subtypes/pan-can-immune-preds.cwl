@@ -18,14 +18,14 @@ inputs:
   prot-algorithms:
      type: string[]
   signatures:
-     type: File[]
+     type: string[]
 
 outputs:
   fig:
      type: File[]
      outputSource: plot-imm/fig
   table:
-     type: File
+     type: File[]
      outputSource: plot-imm/table
 
 steps:

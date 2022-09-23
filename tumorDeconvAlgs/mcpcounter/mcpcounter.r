@@ -13,7 +13,7 @@ library(matrixStats)
 library(MCPcounter)
 
 if (length(args) > 1) {
-    ref <- read.csv(args[2], sep = "\t", row.names = 1,check.names=FALSE,header=T) ### Need to change later
+    ref <- read.csv(args[2], sep = "\t", row.names = 1, check.names=FALSE, header=T) ### Need to change later
     cellTypeNames <- colnames(ref)
    # print(cellTypeNames)
     markerGenes <- c()

@@ -12,7 +12,7 @@ arguments:
 
 requirements:
    - class: DockerRequirement
-     dockerPull: tumordeconv/cibersort
+     dockerPull: tumordeconv/cibersort:latest
    - class: InlineJavascriptRequirement
    
 inputs:
