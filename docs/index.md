@@ -6,10 +6,8 @@ description: Benchmarking study of proteomic based tumor deconvolution
 ---
 # Decomprolute
 
-The goal of this package is to run and evaluate tumor deconvolution algorithms on multi-omics data. We provide the ability to assess a suite of algorithms and cell signature matrices such that you can select your algorithm wisely. We also provide a modular framework that enables you to add your own algorithm or cell signature. For doing this, please see our [GitHub site](http://github.com/pnnl-compbio/decomprolute).
+The goal of this package is to both run and evaluate tumor deconvolution algorithms on multi-omics data. We provide the ability to assess a suite of algorithms and cell signature matrices such that you can select your algorithm in a data-driven fashion. We also provide a modular framework that enables you to add your own algorithm or cell signature. For doing this, please see our [GitHub site](http://github.com/pnnl-compbio/decomprolute).
 
-These two use cases are enabled by the modular dockerized framework shown below. We employed a modular architecture to enable 'plug and play' comparisons of different datasets and tools. This will enable you to use the tool fully remotely, without having to download the code yourself. The modules fall into three categories, each with a data collection and analysis module.
-<img src="./deconvFIgure1.png" width="400">
 
 ## Contents
 - [Prepare your system](#prepare-your-system)
@@ -31,14 +29,18 @@ To run the code you will need to download [Docker](http://docker.com) and a [CWL
 ``` shell
 cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/prot-deconv.cwl --cancer hnscc --protAlg mcpcounter --sampleType tumor --signature LM7c
 ```
-This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature. Here are more specific use cases.
+This will run the MCP-counter algorithm on proteomics data from the CPTAC breast HNSCC cohort using our LM7c signature and confirm that the system is able to run the more complex analyses. Here are more specific use cases.
 
 ## Deconvolve CPTAC data
-Decomprolute can be very useful to evaluate cell type on a specific CPTAC dataset, as we have included numerous publicly available datasets and algorithms within the framework. Specifically, you can run the `prot-deconv.cwl` script with the following arguments:
+Decomprolute can be used to evaluate cell type on a specific CPTAC dataset, as we have included numerous publicly available datasets and algorithms within the framework. Specifically, you can run the `prot-deconv.cwl` script with the following arguments:
 - cancer: one of the datatypes described in the [CPTAC Data](#cptac-data) section.
 - protAlg: one of the algorithms described in the [Algorithms](#algorithms) section.
 - sampleType: either `tumor`, `normal`, or `all`
 - signature: one of the signature matrices described in the [Signature Matrix](#signature-matrices) section.
+
+``` shell
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/prot-deconv.cwl --cancer hnscc --protAlg cibersort --sampleType tumor --signature LM9
+```
 
 ### CPTAC Data
 
@@ -61,19 +63,20 @@ Luad | lung adenocarcinoma | no restrictions | https://pubmed.ncbi.nlm.nih.gov/3
 Ovarian | high grade serous ovarian cancer | no restrictions | https://pubmed.ncbi.nlm.nih.gov/27372738/
 **Pdac | pancreatic ductal adenocarcinoma | password access only | unpublished**
 
-As such, datasets have been updated to following (added hnscc):
+As such, datasets have been updated to following:
 ['brca', 'ccrcc', 'endometrial', 'colon', 'ovarian', 'hnscc', 'luad']
 
+As more datasets are published we will update the list accordingly.
 
 ### Algorithms
 We have included numerous algorithms in this package. Docker files and requisite data are included in the [existing code base](http://github.com/pnnl-compbio/decomprolute).
 
  Algorithm                           | Source
  ---                                 | ---
- [cibersort](./tumorDeconvAlgs/cibersort)|
- [epic](./tumorDeconvAlgs/epic)|
- [xcell](/tumorDeconvAlgs/xcell)|
- [mcpcounter](./tumorDeconvAlgos/xcell)|
+ [cibersort](./tumorDeconvAlgs/cibersort)| [Cibersort](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4739640/)
+ [epic](./tumorDeconvAlgs/epic)| [EPIC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5718706/)
+ [xcell](/tumorDeconvAlgs/xcell)| [xCell](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-017-1349-1)
+ [mcpcounter](./tumorDeconvAlgos/mcpcounter)| [MCP Counter](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1070-5)
 
 
 ### Cell type signatures
@@ -84,15 +87,18 @@ There are numerous ways to define the individual cell types we are using to run 
 | LM7c | Seven cell types (B, CD4 T, CD8 T, dendritic cells, granulocytes, monocytes, NK) collapsed from proteomic data | [Rieckmann et al.](https://pubmed.ncbi.nlm.nih.gov/28263321/)|
 | 3' PBMCs | Seven cell types (B, CD4 T, CD8 T (CD8 T + NK T), dendritic cells, megakaryocytes, monocytes, NK) from scRNA-seq data | [Newman et al.](https://pubmed.ncbi.nlm.nih.gov/31061481/)|
 | LM9 | Ten cell types predicted by MCPCounter signature | |
-| LM22 | The original matrix from cibersort  | |
+| LM22 | The original matrix from cibersort  | [Newman et al.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4739640/)|
 
 ## Deconvolve your own data
-If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow. To assess which algorithm/signature matrix best agrees with simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow.
+If you have a specific dataset you'd like to deconvolve but are not sure which tool to use, you can use the tools in the metrics directory to determine and then run the *best* algorithm for your data. T
+
 
 
 To identify the signature matrix/algorithm combination that agrees between your own mRNA/protein data, you can run the following (replacing the files in the best-test.yml file).
 
 ### Run the algorithm/signature matrix that correlates best between mRNA and protein
+
+To assess which algorithm/signature matrix provides the best agreement between mRNA and protein datasets, you will need to provide two matrices from your own data as input into the [run-best-alg-by-cor](./metrics/mrna-prot/run-best-alg-by-cor.cwl) workflow.
 
 Here we recommend replacing the two files in the `YAML` file shown here to compare the mRNA and protein correlations to find the *best* algorithm for your data.
 
@@ -101,7 +107,11 @@ cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics
 ```
 
 ### Run the algorithm on simulated data
-Here you can
+To assess which algorithm/signature matrix best agree on simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow. Below is an example using our test data.
+
+``` shell
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/data-sim/run-best-alg-by-sim.cwl --datFile https://raw.gihubusercontent.com/PNNL-CompBio/decomprolute/main/toy_data/TOY_log2ratio_protein_abundance_withNA.tsv --data-type prot
+```
 
 ## Evaluate metrics on new algorithm or signature matrix.
 In the manuscript we completed three separate tests of proteomic tumor deconvolution algorithms. To benchmark your own algorithm or signature matrix, follow the [Contribution guide](https://github.com/pnnl-compbio/decomprolute) on the main GitHub page to add to our framework, then you can run the following metrics as described in our manuscript.

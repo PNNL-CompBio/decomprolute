@@ -22,18 +22,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push imputation
-        uses: docker/build-push-action@v2
-        with:
-          context: imputation
-          push: true
-          tags: tumordeconv/imputation:latest
-      - name: Build and push mRNAData
-        uses: docker/build-push-action@v2
-        with:
-          context: mRNAData
-          push: true
-          tags: tumordeconv/mrna-data:latest
       - name: Build and push protData
         uses: docker/build-push-action@v2
         with:
@@ -52,13 +40,3 @@ jobs:
          context: simulatedData
          push: true
          tags: tumordeconv/sim-data
-      #- name: docker pull
-      #  run: "docker pull sgosline/srp-analytics"
-      #- name: test LPR
-      #  run: "docker run -v $PWD:/tmp sgosline/srp-analytics --test-lpr"
-      #- name: test morpho
-      #  run: "docker run -v $PWD:/tmp sgosline/srp-analytics --test-morpho"
-      #- name: build db
-      #  run: "docker run -v $PWD:/tmp sgosline/srp-analytics"
-      #- name: validate schemas
-      #  run: "docker run -v $PWD:/tmp sgosline/srp-analytics --validate"
