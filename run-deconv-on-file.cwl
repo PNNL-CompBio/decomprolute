@@ -26,7 +26,7 @@ steps:
   run-deconv:
     run: ./tumorDeconvAlgs/run-deconv.cwl
     in:
-      matrix: inputs/data
+      matrix: data
       signature: download-mat/sigMatrix
       alg: protAlg
     out:
