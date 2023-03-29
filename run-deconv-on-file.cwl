@@ -19,13 +19,13 @@ inputs:
 
 steps:
   download-mat:
-    run: ../signature_matrices/get-signature-matrix.cwl
+    run: ./signature_matrices/get-signature-matrix.cwl
     in:
       sigMatrixName: signature
     out:
       [sigMatrix]
   run-deconv:
-    run: ../tumorDeconvAlgs/run-deconv.cwl
+    run: ./tumorDeconvAlgs/run-deconv.cwl
     in:
       matrix: inputs/data
       signature: download-mat/sigMatrix
