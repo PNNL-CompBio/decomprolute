@@ -29,14 +29,16 @@ jobs:
           push: true
           tags: tumordeconv/prot-data:latest
       - name: Build and push sig matrix
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           context: signature_matrices
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: tumordeconv/signature_matrices:latest
       - name: Build and push simulated data
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
          context: simulatedData
+         platforms: linux/amd64,linux/arm64
          push: true
          tags: tumordeconv/sim-data
