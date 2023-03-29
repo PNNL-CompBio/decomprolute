@@ -15,7 +15,6 @@ inputs:
      type: string
    data:
      type: File
-	
 
 steps:
   download-mat:
