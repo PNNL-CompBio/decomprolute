@@ -1,7 +1,7 @@
 FROM rocker/r-ver:4
 RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >>"${R_HOME}/etc/Rprofile.site"
 RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")'
-RUN Rscript -e 'install.packages(c("devtools","readxl","tidyr","dplyr","tibble","argparser","cowplot","viridis","reshape2")); devtools::install_github("katiejolly/nationalparkcolors")'
+RUN Rscript -e 'install.packages(c("remotes","readxl","tidyr","dplyr","tibble","argparser","cowplot","viridis","reshape2")); remotes::install_github("katiejolly/nationalparkcolors")'
 
 
 COPY combine_results.R /bin
