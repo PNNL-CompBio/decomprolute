@@ -1,6 +1,6 @@
 FROM rocker/r-ver:4
 RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >>"${R_HOME}/etc/Rprofile.site"
-RUN Rscript -e 'install.packages(c("readxl","tidyr","dplyr",tibble"))'
+RUN Rscript -e 'install.packages(c("readxl","tidyr","dplyr","tibble"))'
 
 COPY *rda /bin/
 COPY getSimDataMatrices.R /bin/
