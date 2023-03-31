@@ -22,13 +22,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push imputation
-        uses: docker/build-push-action@v4
-        with:
-          context: imputation
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: tumordeconv/imputation:latest
       - name: Build and push mRNAData
         uses: docker/build-push-action@v4
         with:
@@ -36,3 +29,10 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: tumordeconv/mrna-data:latest
+      - name: Build and push imputation
+        uses: docker/build-push-action@v4
+        with:
+          context: imputation
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tumordeconv/imputation:latest
