@@ -1,4 +1,4 @@
-FROM rocker/r-ver:4.0
+FROM rocker/r-ver:4
 
 RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")' && \
 	Rscript -e 'install.packages(c("argparser","cowplot","ggridges","viridis","reshape2","remotes","tibble","dplyr","tidyr")); remotes::install_github("katiejolly/nationalparkcolors")'
