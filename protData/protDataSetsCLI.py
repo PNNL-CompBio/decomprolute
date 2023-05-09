@@ -63,7 +63,7 @@ def main():
         raise
     dfE = np.exp(df)
 #    dfU = np.log(dfE.sum(axis=1, level=0, min_count=1))
-    dfU = np.log(dfE.groupby(axis=1, level=0, min_count=1).sum()#sum(axis=1, level=0, min_count=1))
+    dfU = np.log(dfE.groupby(axis=1, level=0, min_count=1).sum())#sum(axis=1, level=0, min_count=1))
     dfU.dropna(how='all', axis=0, inplace=True)
     dfU.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
 
