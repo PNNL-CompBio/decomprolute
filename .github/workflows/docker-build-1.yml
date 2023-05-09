@@ -26,9 +26,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: protData
+	  platforms: linux/amd64,linux/arm64
           push: true
           tags: tumordeconv/prot-data:latest
-	  platforms: linux/amd64,linux/arm64
       - name: Build and push sig matrix
         uses: docker/build-push-action@v4
         with:
