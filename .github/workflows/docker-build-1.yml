@@ -25,7 +25,7 @@ jobs:
       - name: Build and push protData
         uses: docker/build-push-action@v4
         with:
-	  context: protData
+          context: protData
           platforms: linux/amd64,linux/arm64
           push: true
           tags: tumordeconv/prot-data:latest
