@@ -39,7 +39,7 @@ jobs:
       - name: Build and push simulated data
         uses: docker/build-push-action@v4
         with:
-         context: simulatedData
-         platforms: linux/amd64,linux/arm64
-         push: true
-         tags: tumordeconv/sim-data
+          context: simulatedData
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tumordeconv/sim-data
