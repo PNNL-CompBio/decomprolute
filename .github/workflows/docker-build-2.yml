@@ -1,4 +1,4 @@
-name: Accessory-docker-build
+name: mrna-imput-docker
 defaults:
   run:
     working-directory: ./
