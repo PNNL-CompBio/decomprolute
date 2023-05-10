@@ -5,7 +5,7 @@ library(tibble)
 main<-function(){
     argv <- commandArgs(trailingOnly = TRUE)
     sig_name <- trimws(argv[1])
-    if(to_lower(sig_name)=='aml'){
+    if(tolower(sig_name)=='aml'){
       ###get AML Signature
       tab <- readxl::read_xlsx('/aml_vanGalen_cellTypes.xlsx',skip=1)[,-c(1,10,14)]
       colnames(tab)<-paste(c(rep('Normal-Combined',3),rep('Tumor-combined',3),rep('Tumor-celltype',5)),
