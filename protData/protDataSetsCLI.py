@@ -62,7 +62,8 @@ def main():
         print("The number of column levels is larger not 1 or 2!\n")
         raise
     dfE = np.exp(df)
-    dfU = np.log(dfE.sum(axis=1, level=0, min_count=1))
+#    dfU = np.log(dfE.sum(axis=1, level=0, min_count=1))
+    dfU = np.log(dfE.groupby(axis=1, level=0).sum())#sum(axis=1, level=0, min_count=1))
     dfU.dropna(how='all', axis=0, inplace=True)
     dfU.transpose().to_csv(path_or_buf="file.tsv", sep='\t')
 

@@ -148,16 +148,47 @@ doPlots<-function(full.tab){
        tmp3 <- sort(unique(full.tab.sig$ImmuneSubtype))#sapply(strsplit(full.tab.sig$algorithm,' '), function(x) x[1])))
        color <- color[tmp3]
        
-       p4<-ggplot(full.tab.sig,aes(x=Values,y=CellTypes,fill=ImmuneSubtype,alpha=0.5))+
-         geom_density_ridges()+
+       p4<-ggplot(full.tab.sig,aes(x=Values,y=CellTypes,fill=ImmuneSubtype,alpha=0.3))+
+         geom_density_ridges()+xlim(-3,3)+
          facet_grid(cancer~algorithm)+
          scale_fill_manual(values=color)+
          scale_color_manual(values=color)
-       ggsave(paste0('ridglelines-immune-subtypes-',sig,'.pdf'),p4, width = 12, 
-              height = length(unique(full.tab.sig$algorithm)) * 3)
+       ggsave(paste0('ridgelines-immune-alg-cancer-',sig,'.pdf'),p4, width = 12, 
+              height = length(unique(full.tab.sig$CellTypes)) * 1.5)
+  
+       
+       p4<-ggplot(full.tab.sig,aes(x=Values,y=CellTypes,fill=ImmuneSubtype,alpha=0.3))+
+         geom_density_ridges()+xlim(-3,3)+
+         facet_grid(.~algorithm)+
+         scale_fill_manual(values=color)+
+         scale_color_manual(values=color)
+       ggsave(paste0('ridgelines-immune-alg-all',sig,'.pdf'),p4, width = 12, 
+              height = length(unique(full.tab.sig$CellTypes))*.5)
+    
+           
+       full.tab.sig2 <- full.tab[full.tab$sigMatrix == sig, ]
+       color = pal
+       
+       p5<-ggplot(full.tab.sig2,aes(x=Values,y=CellTypes,fill=algorithm,alpha=0.8))+
+         geom_density_ridges()+xlim(-3,3)+
+         facet_grid(cancer~ImmuneSubtype)+
+         scale_fill_manual(values=color)+
+         scale_color_manual(values=color)
+       ggsave(paste0('ridgelines-immune-subtypes-cancer-',sig,'.pdf'),p5, width = 12, 
+              height = length(unique(full.tab.sig2$CellTypes))*1.5)
+       
+       ##now do one with the entire data summarized!!
+       p6<-ggplot(full.tab.sig2,aes(x=Values,y=CellTypes,fill=algorithm,alpha=0.8))+
+         geom_density_ridges()+xlim(-3,3)+
+         facet_grid(.~ImmuneSubtype)+
+         scale_fill_manual(values=color)+
+         scale_color_manual(values=color)
+       ggsave(paste0('ridgelines-immune-subtypes-all-',sig,'.pdf'),p6, width = 12, 
+              height = length(unique(full.tab.sig2$CellTypes))*0.5)
+       
        
      }
-
+     
     return(full.tab)
 
 }
