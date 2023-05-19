@@ -1,4 +1,4 @@
-from amancevice/pandas
+from amancevice/pandas:1.4.0-alpine
 RUN pip install --upgrade cptac
 COPY mRNADataSetsCLI.py /bin/
 RUN chmod 777 /bin/mRNADataSetsCLI.py
