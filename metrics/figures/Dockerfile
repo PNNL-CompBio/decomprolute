@@ -2,7 +2,7 @@ FROM rocker/r-ver:4
 RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >>"${R_HOME}/etc/Rprofile.site"
 
 #RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")'
-RUN Rscript -e 'install.packages("devtools",dependences=TRUE); devtools::install_github("katiejolly/nationalparkcolors")'
+RUN Rscript -e 'install.packages("remotes",dependences=TRUE); remotes::install_github("katiejolly/nationalparkcolors")'
 RUN Rscript -e 'install.packages("readxl",dependencies=TRUE)'
 RUN Rscript -e 'install.packages("tidyr",dependencies=TRUE)'
 RUN Rscript -e 'install.packages("dplyr",dependencies=TRUE)'
