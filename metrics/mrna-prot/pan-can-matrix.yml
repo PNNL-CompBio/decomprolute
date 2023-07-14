@@ -4,7 +4,6 @@ cancerTypes:
   - luad
   - hnscc
   - ovarian
-  - colon
 prot-algorithms:
   - mcpcounter
   - epic
@@ -21,3 +20,4 @@ signatures:
   - LM7c
   - PBMC
   - LM22
+  - Matrisome
