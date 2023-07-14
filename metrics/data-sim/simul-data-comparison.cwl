@@ -33,6 +33,9 @@ inputs:
       default: ['LM7c','LM9']
    simType: 
       type: string
+   sample:
+      type: int
+      default: 100
 
 outputs:
    cell-cor-tab:
@@ -52,6 +55,7 @@ steps:
         protAlg: prot-algorithms
         permutation: mrna-perms
         signature: rna-sigs
+	sample: sample
         sampleType:
           valueFrom: 'normal'
         dataType:
@@ -68,6 +72,7 @@ steps:
         protAlg: prot-algorithms
         permutation: prot-perms
         signature: prot-sigs
+	sample: sample
         sampleType:
           valueFrom: 'normal'
         dataType:

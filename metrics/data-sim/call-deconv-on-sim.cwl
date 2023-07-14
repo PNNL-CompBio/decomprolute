@@ -11,19 +11,25 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
-   signature:
+   signature:  ##name of matrix to sample from
      type: string
-   protAlg:
+   protAlg:    ##algorithm to run
      type: string
-   permutation:
+   permutation: ## permutation to test
      type: string
      default: '1'
-   dataType:
+   dataType:   ##mRNA or protein data
      type: string
      default: 'prot'
-   simType:
+   simType:    ##data simulated from mrna or protein
      type: string
      default: 'prot'
+   sample:     ##how much of the permuted sample do we test
+     type: int
+     default: 100
+   num-reps:  ##
+     type: int
+     default: 1
 
 outputs:
   matrix:
@@ -38,9 +44,6 @@ outputs:
   deconv:
      type: File
      outputSource: match-prot-to-sig/updated-deconv
-#  mat-dist-file:
-#     type: File
-#     outputSource: matrix-distance/dist     
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr
@@ -50,6 +53,7 @@ steps:
      run: ../../signature_matrices/get-signature-matrix.cwl
      in:
       sigMatrixName: signature
+      subsample: sample
      out:
       [sigMatrix]
   get-sim-data:
@@ -82,6 +86,7 @@ steps:
           valueFrom: "cellFraction"
        protAlg: protAlg
        signature: signature
+       sampleVal: sample
        sampleType: simType
        proteomics:
          source: match-prot-to-sig/updated-deconv

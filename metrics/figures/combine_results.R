@@ -28,6 +28,7 @@ combinePatientCors<-function(file.list,metric='correlation'){
     mrna.algorithm=vars[3]
     prot.algorithm=vars[5]
     matrix=vars[6]
+    sample=vars[7]
     tab<-read.table(file,fill=TRUE,sep = '\t',check.names=FALSE)
     if (ncol(tab) > 1) {
       colnames(tab)<-(c('patient',metric))
@@ -35,7 +36,7 @@ combinePatientCors<-function(file.list,metric='correlation'){
       tab$values <- NaN
       colnames(tab)<-(c('patient',metric))
     }
-    return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix))
+    return(data.frame(tab,tissue,disease,mrna.algorithm,prot.algorithm,matrix,sample))
   }))
 
   full.tab<-full.tab%>%
