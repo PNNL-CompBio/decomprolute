@@ -25,7 +25,7 @@ inputs:
      inputBinding:
        position: 2
    files:
-     type:  File[]
+     type: File[]
      inputBinding:
         position: 3
 

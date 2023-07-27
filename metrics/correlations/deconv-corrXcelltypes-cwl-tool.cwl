@@ -41,6 +41,8 @@ inputs:
     default: 100
   sampleType:
     type: string
+  sampleRep:
+    type: int
 
 outputs:
   corr:
@@ -50,7 +52,7 @@ outputs:
       outputEval: |
         ${
           var mat = inputs.signature
-          var name = inputs.sampleType + '-' + inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' +  inputs.protAlg +'-'+ mat + '-' + inputs.sampleVal + '-cellTypecorr.tsv'
+          var name = inputs.sampleType + '-' + inputs.cancerType + '-' + inputs.mrnaAlg + '-to-' +  inputs.protAlg +'-'+ mat + '-' + inputs.sampleVal + '-sample-' + inputs.sampleRep +'-cellTypecorr.tsv'
           self[0].basename = name;
           return self[0]
          }

@@ -20,20 +20,17 @@ main<-function(){
       
     }
     
-    if(as.numeric(sample)<100){
-    	print('providing sampled signature matrix')
-	tab <- read.table(paste0('/',sig_name,'.txt'),header=T,sep='\t',row.names=1,check.names=F)
-	num<-nrow(tab)
-	prots<-rownames(tab)
-	subsamp<-sample(prots,size=round(length(prots)*sample/100),replace=FALSE)
-	print(paste('reducing signature matrix from',nrow(tab),'to',length(subsamp)))
-	tab<-tab[subsamp,]
-	sig_name <- paste0(sig_name,'_',sample)
-	write.table(tab,paste0('./',sig_name,'.txt'),row.names=T,sep='\t',quote=F)
-    }else{
-        file.copy(paste0("./",sig_name,".txt"), paste0("./",sig_name,'_',sample,".txt"))
 
-    }
+    print('providing sampled signature matrix')
+    tab <- read.table(paste0('/',sig_name,'.txt'),header=T,sep='\t',row.names=1,check.names=F)
+    num<-nrow(tab)
+    prots<-rownames(tab)
+    subsamp<-sample(prots,size=round(length(prots)*sample/100),replace=FALSE)
+    print(paste('reducing signature matrix from',nrow(tab),'to',length(subsamp)))
+    tab<-tab[subsamp,]
+    sig_name <- paste0(sig_name,'_',sample)
+    write.table(tab,paste0('./',sig_name,'.txt'),row.names=T,sep='\t',quote=F)
+
 }
 
 main()
