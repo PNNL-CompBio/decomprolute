@@ -22,31 +22,32 @@ jobs:
         with:
           username: ${{ secrets.DOCKER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push cibersort
+      - name: Build and push correlations
         uses: docker/build-push-action@v4
         with:
-         context: tumorDeconvAlgs/cibersort
-         platforms: linux/amd64,linux/arm64
-         push: true
-         tags: tumordeconv/cibersort:latest
-      - name: Build and push epic
+          context: metrics/correlations
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tumordeconv/correlation:latest
+      - name: Build and push distance
         uses: docker/build-push-action@v4
         with:
-         context: tumorDeconvAlgs/epic
-         platforms: linux/amd64,linux/arm64
-         push: true
-         tags: tumordeconv/epic:latest
-      - name: Build and push xcell
+          context: metrics/distance
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tumordeconv/comparison:latest
+      - name: Build and push figures
         uses: docker/build-push-action@v4
         with:
-         context: tumorDeconvAlgs/xcell
-         platforms: linux/amd64,linux/arm64
-         push: true
-         tags: tumordeconv/xcell:latest
-      - name: Build and push mcpcounter
+          context: metrics/figures
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tumordeconv/figures:latest
+      - name: Build and push immune subtype
         uses: docker/build-push-action@v4
         with:
-         context: tumorDeconvAlgs/mcpcounter
-         platforms: linux/amd64,linux/arm64
-         push: true
-         tags: tumordeconv/mcpcounter:latest
+          context: metrics/imm-subtypes
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tumordeconv/imm-subtypes:latest
+
