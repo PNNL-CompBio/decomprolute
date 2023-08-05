@@ -4,8 +4,9 @@ defaults:
     working-directory: ./
 on:
   push:
-    branches:
-      - "*"
+    paths:
+      - 'tumorDeconvAlgs/*'
+      
 
 jobs:
   build-and-push-tools:

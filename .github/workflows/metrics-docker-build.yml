@@ -1,11 +1,11 @@
-name: Docker-build-algs
+name: Docker-build-metrics
 defaults:
   run:
     working-directory: ./
 on:
   push:
-    branches:
-      - "*"
+    paths:
+      - 'metrics/*'
 
 jobs:
   build-and-push-tools:
