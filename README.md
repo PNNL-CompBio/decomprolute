@@ -5,7 +5,8 @@ Here we describe how to contribute to the project. We employ a modular, containe
 <img src="docs/deconvFIgure1.png" width="400">
 
 Status of docker builds
-
+| Status | 
+| --- | 
 | ![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg) |
 | ![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)|
 | ![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/decon-alg-docker.yml/badge.svg) |
