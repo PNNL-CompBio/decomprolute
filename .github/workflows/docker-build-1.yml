@@ -5,7 +5,7 @@ defaults:
 on:
   push:
     branches:
-      - "*"
+      - "protData/*"
 
 jobs:
   build-and-push-deconv-metrics:
