@@ -9,7 +9,7 @@ on:
       
 
 jobs:
-  build-and-push-tools:
+  build-and-push-algs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
