@@ -5,8 +5,10 @@ Here we describe how to contribute to the project. We employ a modular, containe
 <img src="docs/deconvFIgure1.png" width="400">
 
 
-![Data docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build.yml/badge.svg)
-![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/alg-docker-build.yml/badge.svg)
+![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)
+![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)
+![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/decon-alg-docker.yml/badge.svg)
+![Metrics docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-docker-build.yml/badge.svg)
 
 ## How to contribute
 
