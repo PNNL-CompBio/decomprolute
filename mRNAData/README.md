@@ -3,7 +3,7 @@ This module enables the collection of mRNA patient data using the `cptac` Python
 
 | File name| Description|
 | --- | ---|
-|`getAllDatasets.py`| This script is run within the Docker build process to get all datasets into the `Python` environment|
+|`getAllDatasets.py`| This script is run within the Docker build process to get all datasets into the `Python` environment. Obsolete after latest (aug 2023) change to package|
 | `mRNADataSetsCLI.py`| This script is the primary tool to pull a specific cancer data type |
 | `Dockerfile` | This file contains the two scripts above and the `cptac` Python package|
 |`mrna-data-cwl-tool.cwl`| This is a CWL tool to run the Docker image with the command line tool|
