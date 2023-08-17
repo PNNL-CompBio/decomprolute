@@ -8,7 +8,7 @@ on:
       - "mRNAData/*"
 
 jobs:
-  build-and-push mrna:
+  build-and-push-mrna:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

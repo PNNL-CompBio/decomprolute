@@ -5,10 +5,10 @@ defaults:
 on:
   push:
     branches:
-      - "*"
+      - "protData/*"
 
 jobs:
-  build-and-push-deconv-metrics:
+  build-and-push-protData-sig-sim:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
