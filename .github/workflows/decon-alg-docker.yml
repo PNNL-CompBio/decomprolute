@@ -27,27 +27,27 @@ jobs:
         uses: docker/build-push-action@v4
         with:
          context: tumorDeconvAlgs/cibersort
-         platforms: linux/amd64,linux/arm64
+         platforms: linux/amd64,linux/arm64/v8
          push: true
          tags: tumordeconv/cibersort:latest
       - name: Build and push epic
         uses: docker/build-push-action@v4
         with:
          context: tumorDeconvAlgs/epic
-         platforms: linux/amd64,linux/arm64
+         platforms: linux/amd64,linux/arm64/v8
          push: true
          tags: tumordeconv/epic:latest
       - name: Build and push xcell
         uses: docker/build-push-action@v4
         with:
          context: tumorDeconvAlgs/xcell
-         platforms: linux/amd64,linux/arm64
+         platforms: linux/amd64,linux/arm64/v8
          push: true
          tags: tumordeconv/xcell:latest
       - name: Build and push mcpcounter
         uses: docker/build-push-action@v4
         with:
          context: tumorDeconvAlgs/mcpcounter
-         platforms: linux/amd64,linux/arm64
+         platforms: linux/amd64,linux/arm64/v8
          push: true
          tags: tumordeconv/mcpcounter:latest
