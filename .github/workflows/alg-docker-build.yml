@@ -1,4 +1,4 @@
-name: Docker-build-algs
+name: Docker-build-decon-algs
 defaults:
   run:
     working-directory: ./
@@ -9,7 +9,7 @@ on:
       
 
 jobs:
-  build-and-push-algs:
+  build-and-push-decon-algs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
