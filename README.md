@@ -4,11 +4,12 @@ The goal of this package is to provide a framework for the benchmarking of tumor
 Here we describe how to contribute to the project. We employ a modular, containerized, framework written in the Common Workflow Language to enable plug-n-play assessment of novel algorithms as described in the image below.
 <img src="docs/deconvFIgure1.png" width="400">
 
+Status of docker builds
 
-![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)
-![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)
-![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/decon-alg-docker.yml/badge.svg)
-![Metrics docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-docker-build.yml/badge.svg)
+| ![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg) |
+| ![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)|
+| ![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/decon-alg-docker.yml/badge.svg) |
+| ![Metrics docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-docker-build.yml/badge.svg) |
 
 ## How to contribute
 
