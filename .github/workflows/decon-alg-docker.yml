@@ -5,7 +5,7 @@ defaults:
 on:
   push:
     paths:
-      - 'tumorDeconvAlgs/*'
+      - "tumorDeconvAlgs/*"
       
 
 jobs:
