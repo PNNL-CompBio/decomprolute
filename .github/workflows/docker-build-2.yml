@@ -4,11 +4,11 @@ defaults:
     working-directory: ./
 on:
   push:
-    branches:
-      - "*"
+    paths:
+      - "mRNAData/*"
 
 jobs:
-  build-and-push-deconv-metrics:
+  build-and-push mrna:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

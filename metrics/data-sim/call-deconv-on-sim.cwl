@@ -11,36 +11,39 @@ requirements:
   - class: StepInputExpressionRequirement
 
 inputs:
-   signature:
+   signature:  ##name of matrix to sample from
      type: string
-   protAlg:
+   protAlg:    ##algorithm to run
      type: string
-   permutation:
+   simulation: ## permutation to test
      type: string
      default: '1'
-   dataType:
+   dataType:   ##mRNA or protein data
      type: string
      default: 'prot'
-   simType:
+   simType:    ##data simulated from mrna or protein
      type: string
      default: 'prot'
+   sample:     ##how much of the permuted sample do we test
+     type: int
+     default: 100
+   sampleRep:  ##
+     type: int
+     default: 1
 
 outputs:
-  matrix:
-     type: File
-     outputSource: get-sim-data/matrix
-  cellPred:
-     type: File
-     outputSource: get-sim-data/cellType
-  deconvoluted:
-     type: File
-     outputSource: deconv-prot/deconvoluted
-  deconv:
-     type: File
-     outputSource: match-prot-to-sig/updated-deconv
-#  mat-dist-file:
+#  matrix:
 #     type: File
-#     outputSource: matrix-distance/dist     
+#     outputSource: get-sim-data/matrix
+#  cellPred:
+#     type: File
+#     outputSource: get-sim-data/cellType
+#  deconvoluted:
+#     type: File
+#     outputSource: deconv-prot/deconvoluted
+#  deconv:
+#     type: File
+#     outputSource: match-prot-to-sig/updated-deconv
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr
@@ -50,12 +53,13 @@ steps:
      run: ../../signature_matrices/get-signature-matrix.cwl
      in:
       sigMatrixName: signature
+      subsample: sample
      out:
       [sigMatrix]
   get-sim-data:
      run: ../../simulatedData/sim-data-tool.cwl
      in:
-       repNumber: permutation
+       simNumber: simulation
        simType: simType
      out:
        [matrix,cellType]
@@ -77,12 +81,14 @@ steps:
   celltype-cor:
      run: ../correlations/deconv-corrXcelltypes-cwl-tool.cwl
      in:
-       cancerType: permutation
+       cancerType: simulation
        mrnaAlg:
           valueFrom: "cellFraction"
        protAlg: protAlg
        signature: signature
+       sampleVal: sample
        sampleType: simType
+       sampleRep: sampleRep
        proteomics:
          source: match-prot-to-sig/updated-deconv
        transcriptomics:
@@ -93,7 +99,7 @@ steps:
 #     in:
 #       matrixA: match-prot-to-sig/updated-deconv
 #       matrixB: match-prot-to-sig/updated-cell-matrix 
-#       cancerType: permutation
+#       cancerType: simulation
 #       aAlg: protAlg
 #       bAlg:
 #         valueFrom: "cellFraction"

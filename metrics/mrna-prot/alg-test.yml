@@ -1,6 +1,8 @@
 cancerTypes:
   - luad
   - ccrcc
+  - brca
+  - endometrial
 prot-algorithms:
   - mcpcounter
   - epic
@@ -14,5 +16,6 @@ mrna-algorithms:
 tissueTypes:
    - tumor
 signatures:
-  - LM9
+  - LM7c
   - LM22
+  - Matrisome

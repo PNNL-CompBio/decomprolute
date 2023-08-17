@@ -18,7 +18,7 @@ inputs:
         type: string
         inputBinding:
             position: 1
-    repNumber:
+    simNumber:
         type: string?
         inputBinding:
             position: 2

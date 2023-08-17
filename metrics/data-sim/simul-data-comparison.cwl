@@ -33,6 +33,9 @@ inputs:
       default: ['LM7c','LM9']
    simType: 
       type: string
+   sample:
+      type: int
+      default: 100
 
 outputs:
    cell-cor-tab:
@@ -52,13 +55,14 @@ steps:
         protAlg: prot-algorithms
         permutation: mrna-perms
         signature: rna-sigs
+        sample: sample
         sampleType:
           valueFrom: 'normal'
         dataType:
           valueFrom: 'prot'
         simType: simType
      out:
-        [cell-cor-file, deconv, cellPred, deconvoluted, matrix]
+        [cell-cor-file]
    run-all-algs-by-prot:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'prot')
@@ -68,13 +72,14 @@ steps:
         protAlg: prot-algorithms
         permutation: prot-perms
         signature: prot-sigs
+        sample: sample
         sampleType:
           valueFrom: 'normal'
         dataType:
           valueFrom: 'prot'
         simType: simType
      out:
-        [cell-cor-file,deconv, cellPred, deconvoluted, matrix]   
+        [cell-cor-file]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:

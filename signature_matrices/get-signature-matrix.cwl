@@ -19,6 +19,11 @@ inputs:
     type: string
     inputBinding:
       position: 1
+  subsample:
+    type: int
+    inputBinding:
+      position: 2
+    default: 100
 
 outputs:
   sigMatrix:

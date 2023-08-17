@@ -4,8 +4,9 @@ defaults:
     working-directory: ./
 on:
   push:
-    branches:
-      - "*"
+    paths:
+      - 'tumorDeconvAlgs/*'
+      
 
 jobs:
   build-and-push-tools:
@@ -22,34 +23,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push correlations
-        uses: docker/build-push-action@v4
-        with:
-          context: metrics/correlations
-          platforms: linux/amd64,linux/arm64/v8
-          push: true
-          tags: tumordeconv/correlation:latest
-      - name: Build and push distance
-        uses: docker/build-push-action@v4
-        with:
-          context: metrics/distance
-          platforms: linux/amd64,linux/arm64/v8
-          push: true
-          tags: tumordeconv/comparison:latest
-      - name: Build and push figures
-        uses: docker/build-push-action@v4
-        with:
-          context: metrics/figures
-          platforms: linux/amd64,linux/arm64/v8
-          push: true
-          tags: tumordeconv/figures:latest
-      - name: Build and push immune subtype
-        uses: docker/build-push-action@v4
-        with:
-          context: metrics/imm-subtypes
-          platforms: linux/amd64,linux/arm64/v8
-          push: true
-          tags: tumordeconv/imm-subtypes:latest
       - name: Build and push cibersort
         uses: docker/build-push-action@v4
         with:

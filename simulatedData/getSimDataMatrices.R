@@ -1,3 +1,6 @@
+## getSimDataMatrices
+## 
+
 dataToTxt<-function(dobj){
     print(dobj)
     load(dobj)
