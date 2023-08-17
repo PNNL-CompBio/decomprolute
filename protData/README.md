@@ -3,7 +3,7 @@ This module enables the collection of proteomics patient data using the `cptac` 
 
 | File name| Description|
 | --- | ---|
-|`getAllDatasets.py`| This script is run within the Docker build process to get all datasets into the `Python` environment|
+|`getAllDatasets.py`| This script is run within the Docker build process to get all datasets into the `Python` environment. Obsolete after Aug 2023 change to `cptac` package.|
 | `protDataSetsCLI.py`| This script is the primary tool to pull a specific cancer data type |
 | `Dockerfile` | This file contains the two scripts above and the `cptac` Python package|
 |`prot-data-cwl-tool.cwl`| This is a CWL tool to run the Docker image with the command line tool|
