@@ -9,7 +9,7 @@ Status of docker builds:
 | Status | Description |
 | --- | --- |
 | ![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg) | Collects CPTAC protein data |
-| ![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg)| Collects CPTAC mRNA data |
+| ![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-2.yml/badge.svg)| Collects CPTAC mRNA data |
 | ![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/decon-alg-docker.yml/badge.svg) | Builds deconvolution docker images |
 | ![Metrics docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-docker-build.yml/badge.svg) | Builds metrics and figure docker images |
 
