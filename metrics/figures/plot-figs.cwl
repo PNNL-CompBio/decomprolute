@@ -27,6 +27,10 @@ inputs:
    files:
      type: File[]
      inputBinding:
+        position: 4
+   repNumber:
+     type: int
+     inputBinding:
         position: 3
 
 outputs:
