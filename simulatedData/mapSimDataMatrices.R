@@ -8,6 +8,7 @@ main <- function(){
     print(argv)
     deconv.mat <- read.table(argv[1],header=T,row.names=1,sep='\t', check.names = F) #matrix to be fixed
     sig.mat <- argv[2] #signature used to deconvolve matrix
+    sig.mat <-stringr::str_replace(sig.mat,'_[0-9]*','') ##added this due to sampling changes!!!
     sim.type <- tolower(argv[3]) #type of simulation performed
     cell.type <-read.table(argv[4],header=T,row.names=1,sep='\t', check.names = F)
 

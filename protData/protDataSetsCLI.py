@@ -20,10 +20,10 @@ def main():
         dat = cptac.Brca()
     elif opts.type.lower() == 'ccrcc':
         dat = cptac.Ccrcc()
-    elif opts.type.lower() == 'colon':
-        dat = cptac.Colon()
-    elif opts.type.lower() == 'endometrial':
-        dat = cptac.Endometrial()
+    elif opts.type.lower() == 'coad':
+        dat = cptac.Coad()
+    elif opts.type.lower() == 'ucec':
+        dat = cptac.Ucec()
     elif opts.type.lower() == 'gbm':
         dat = cptac.Gbm()
     elif opts.type.lower() == 'hnscc':
@@ -33,7 +33,9 @@ def main():
     elif opts.type.lower() == 'luad':
         dat = cptac.Luad()
     elif opts.type.lower() == 'ovarian':
-        dat = cptac.Ovarian()
+        dat = cptac.Ov()
+    elif opts.type.loewr() == 'pdac':
+        dat = cptac.Pdac()
     else:
         exit()
     df = dat.get_proteomics()

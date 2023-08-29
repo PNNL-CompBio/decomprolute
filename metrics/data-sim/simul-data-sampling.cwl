@@ -62,13 +62,14 @@ steps:
         simulation: mrna-perms
         signature: rna-sigs
         sample: samples
+        sampleRep: repNumber
         sampleType:
           valueFrom: 'normal'
         dataType:
           valueFrom: 'prot'
         simType: simType
      out:
-       [cell-cor-files]
+       [cell-cor-file]
    run-all-algs-by-prot:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'prot')
@@ -78,6 +79,7 @@ steps:
         protAlg: prot-algorithms
         simulation: prot-perms
         sample: samples
+        sampleRep: repNumber
         signature: prot-sigs
         sampleType:
           valueFrom: 'normal'
@@ -85,7 +87,7 @@ steps:
           valueFrom: 'prot'
         simType: simType
      out:
-        [cell-cor-files]
+        [cell-cor-file]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
@@ -93,8 +95,8 @@ steps:
             valueFrom: "cellType"
         files:
             source:
-              - run-all-algs-by-mrna/cell-cor-files
-              - run-all-algs-by-prot/cell-cor-files
+              - run-all-algs-by-mrna/cell-cor-file
+              - run-all-algs-by-prot/cell-cor-file
             linkMerge: merge_flattened
             pickValue: all_non_null
         repNumber:
