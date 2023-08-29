@@ -19,10 +19,17 @@ def get_cor_stat(dat, prot_markers):
     the correlation of the entitites for a subset of proteins
     '''
 
+    # we have to add data source
+    sources = dat.list_data_sources()
+    psource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='proteomics']
+    tsource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='transcriptomics']
+    genes = [p for p in prot_markers['NAME']]
     #get the merged data frame from cptac data
     merged = dat.join_omics_to_omics(df1_name='proteomics', \
                                      df2_name='transcriptomics', \
-                                     genes1=prot_markers['NAME'], genes2=prot_markers['NAME'])
+                                     df1_source=psource[0],\
+                                     df2_source=tsource[0],\
+                                     genes1=genes, genes2=genes)
     if merged.columns.nlevels == 2:
         merged.columns = merged.columns.droplevel(1)
 
@@ -32,16 +39,18 @@ def get_cor_stat(dat, prot_markers):
     prots['Name'] = prots.index
     prots = prots.melt(id_vars="Name", var_name='id', value_name='prot')
     prots['Gene'] = prots['id'].str.split('_', expand=True)[0]
-
+    prots = prots.drop('id',axis=1)
+    
     trans = merged.loc[:, merged.columns.str.contains('transcriptomics')]
     trans['Name'] = trans.index
     trans = trans.melt(id_vars="Name", var_name='id', value_name='trans')
     trans['Gene'] = trans['id'].str.split('_', expand=True)[0]
+    trans=trans.drop('id',axis=1)
 
     #remerge the proteins and transcripts and compute spearman rank correlation
     both_df = pandas.merge(prots, trans, how='inner', left_on=['Name', 'Gene'],\
                            right_on=['Name', 'Gene'])
-    corvals = both_df[['Name', 'Gene', 'prot', 'trans']].groupby('Gene').corr('spearman').unstack()['trans']['prot']
+    corvals = both_df[['Gene', 'prot', 'trans']].groupby('Gene').corr('spearman').unstack()['trans']['prot']
     corvals = pandas.DataFrame(corvals)
     corvals["NAME"] = corvals.index
     #print(corvals.head())
@@ -57,15 +66,24 @@ def get_na_counts(dat, prot_markers):
     we also want to see how many values are missing between mRNA and protein
 
     '''
+    # we have to add data source
+    sources = dat.list_data_sources()
+    psource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='proteomics']
+    tsource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='transcriptomics']
+    genes = [p for p in prot_markers['NAME']]
+    #get the merged data frame from cptac data
     merged = dat.join_omics_to_omics(df1_name='proteomics', \
                                      df2_name='transcriptomics', \
-                                     genes1=prot_markers['NAME'], genes2=prot_markers['NAME'])
+                                     df1_source=psource[0],\
+                                     df2_source=tsource[0],\
+                                     genes1=genes, genes2=genes)
+
     if merged.columns.nlevels == 2:
         merged.columns = merged.columns.droplevel(1)
 
     sums = merged.isna().sum()/merged.shape[0]
     inds = sums.index.str.split('_', expand=False)
-    sumtab = pandas.DataFrame({'NAs':sums, 'NAME': [i[0] for i in inds], 'Data': [i[1] for i in inds]})
+    sumtab = pandas.DataFrame({'NAs':sums, 'NAME': [i[0] for i in inds], 'Data': [i[2] for i in inds]})
 
     counts = sumtab.merge(prot_markers).groupby(['cell_type', 'Data']).mean("NAs")
     return counts
@@ -96,25 +114,29 @@ def main():
     ##now we get the cptac datasets from the package
     dslist = {}
     countlist = {}
-    for ds in ['brca', 'ccrcc', 'endometrial', 'colon',
-               'ovarian', 'luad', 'hnscc', 'gbm']:
-        cptac.download(dataset=ds)
+    for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac',
+               'ovarian', 'luad', 'hnscc', 'gbm','lscc']:
+        #cptac.download(dataset=ds)
         if ds == 'brca':
             dat = cptac.Brca()
         elif ds == 'ccrcc':
             dat = cptac.Ccrcc()
-        elif ds == 'colon':
-            dat = cptac.Colon()
+        elif ds == 'coad':
+            dat = cptac.Coad()
         elif ds == 'ovarian':
-            dat = cptac.Ovarian()
-        elif ds == 'endometrial':
-            dat = cptac.Endometrial()
+            dat = cptac.Ov()
+        elif ds == 'ucec':
+            dat = cptac.Ucec()
         elif ds == 'hnscc':
             dat = cptac.Hnscc()
         elif ds == 'luad':
             dat = cptac.Luad()
         elif ds == 'gbm':
             dat = cptac.Gbm()
+        elif ds == 'pdac':
+            dat = cptac.Pdac()
+        elif ds == 'lscc':
+            dat = cptac.Lscc()
         else:
             exit()
             ##now get the data, create one large data frame
@@ -124,11 +146,15 @@ def main():
         countlist[ds] = get_na_counts(dat, prot_markers)
         countlist[ds]['Tumor'] = ds
 
+
+    mval= os.path.splitext(os.path.basename(args.matrix))[0]
     #then plot cor values by cell type and cancer type
     fulltab = pandas.concat([dslist[d] for d in dslist.keys()])
     fulltab['Tumor'] = fulltab.Tumor.astype('category')
     fulltab['cell_type'] = fulltab.cell_type.astype('category')
-    fulltab.to_csv(os.path.splitext(os.path.basename(args.matrix))[0]+'_allCors.csv')
+    fulltab['sigMatrix'] = mval
+    fulltab.to_csv(mval+'_allCors.csv')
+
 
     ##now we can plot the statistics using the plotnine pacakge
     print(fulltab.head())
@@ -140,7 +166,7 @@ def main():
         + ylab("Spearman rank correlation")
         + theme(axis_text_x=element_text(rotation=90, hjust=1))
     )
-    fname = os.path.splitext(os.path.basename(args.matrix))[0]+'_sigMatrix_box_and_points.pdf'
+    fname = mval+'_sigMatrix_box_and_points.pdf'
     plot.save(fname)
 
     plot = (
@@ -150,13 +176,14 @@ def main():
         + ylab("Spearman rank correlation")
         + theme(axis_text_x=element_text(rotation=90, hjust=1))
         )
-    fname = os.path.splitext(os.path.basename(args.matrix))[0]+'_sigMatrix_boxplot.pdf'
+    fname = mval+'_sigMatrix_boxplot.pdf'
     plot.save(fname, height=8, width=10)
 
     counttab = pandas.concat([countlist[d] for d in countlist.keys()])
+    counttab['SigMatrix']=mval
     print(counttab.head())
-    counttab.to_csv(os.path.splitext(os.path.basename(args.matrix))[0]+'_allNAs.csv')
-    counttab = pandas.read_csv(os.path.splitext(os.path.basename(args.matrix))[0]+'_allNAs.csv')
+    counttab.to_csv(mval+'_allNAs.csv')
+    counttab = pandas.read_csv(mval+'_allNAs.csv')
     plot = (
         ggplot(counttab, aes(x='cell_type', fill='Tumor', y='NAs'))
         + geom_bar(stat='identity', position='dodge')
@@ -165,7 +192,16 @@ def main():
         + ylab("Fraction missing data")
         + theme(axis_text_x=element_text(rotation=90, hjust=1))
     )
-    fname = os.path.splitext(os.path.basename(args.matrix))[0]+'_nacounts.pdf'
+    fname = mval+'_nacounts_bar.pdf'
+    plot.save(fname)
+    plot = (
+        ggplot(counttab, aes(x='cell_type', fill='Data', y='NAs'))
+        + geom_boxplot(position='dodge')
+        + xlab('Cell Type')
+        + ylab("Fraction missing data")
+        + theme(axis_text_x=element_text(rotation=90, hjust=1))
+    )
+    fname = mval+'_nacounts_box.pdf'
     plot.save(fname)
 
 

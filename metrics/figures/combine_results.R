@@ -5,11 +5,11 @@
 #'
 #'
 #' to run:
-#' Rscript  combine_results.R --metricType sample --metric correlation */*corr.tsv
-#' Rscript  combine_results.R --metricType cellType --metric correlation  */*corrXcelltypes.tsv
-#' Rscript  combine_results.R --metricType sample --metric meanCorrelation */*corr.tsv
-#' Rscript  combine_results.R --metricType cellType --metric meanCorrelation  */*corrXcelltypes.tsv
-#' Rscript  combine_results.R --metricType js --metric distance */*dist.tsv
+#' Rscript  combine_results.R --metricType sample --metric correlation --repNumber 0 */*corr.tsv
+#' Rscript  combine_results.R --metricType cellType --metric correlation  --repNumber 0  */*corrXcelltypes.tsv
+#' Rscript  combine_results.R --metricType sample --metric meanCorrelation  --repNumber 0 */*corr.tsv
+#' Rscript  combine_results.R --metricType cellType --metric meanCorrelation  --repNumber 0  */*corrXcelltypes.tsv
+#' Rscript  combine_results.R --metricType js --metric distance  --repNumber 0  */*dist.tsv
 
 library(dplyr)
 library(argparser)
@@ -305,25 +305,26 @@ main<-function(){
 
   ##todo: store in synapse
   argv <- commandArgs(trailingOnly = TRUE)
-  file.list<-argv[3:length(argv)]
+  file.list<-argv[4:length(argv)]
   metric=argv[2]
   metricType = argv[1]
+  repNumber = argv[3]
   if(metric=='correlation' && metricType=='sample'){
     tab<-combinePatientCors(file.list,metric)
     print(dim(tab))
-    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+    write.table(tab,paste0('combined-', metricType, '-', metric,'-',repNumber,'.tsv'),row.names=F,col.names=T)
   }else if(metric=='correlation' && metricType=='cellType'){
     tab<-combineCellTypeCors(file.list,metric)
     print(dim(tab))
-    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+    write.table(tab,paste0('combined-', metricType, '-', metric,'-',repNumber,'.tsv'),row.names=F,col.names=T)
   } else if (metric=='meanCorrelation'){
     tab<-combineCorsMean(file.list,metric, metricType)
     print(dim(tab))
-    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+    write.table(tab,paste0('combined-', metricType, '-', metric,'-',repNumber,'.tsv'),row.names=F,col.names=T)
   }else if(metric=='distance'){
     tab<-combineDists(file.list,metric,metricType)
     print(dim(tab))
-    write.table(tab,paste0('combined-', metricType, '-', metric,'.tsv'),row.names=F,col.names=T)
+    write.table(tab,paste0('combined-', metricType, '-', metric,'-',repNumber,'.tsv'),row.names=F,col.names=T)
   }else{
     print("First argument must be metricType and second must be metric name")
 

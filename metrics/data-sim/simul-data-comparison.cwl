@@ -33,9 +33,12 @@ inputs:
       default: ['LM7c','LM9']
    simType: 
       type: string
-   sample:
+   sample:  #how much do want to sample the matrix? 
       type: int
       default: 100
+   repNumber: ##if you wanted to run this numer times
+      type: int
+      defalut 0
 
 outputs:
    cell-cor-tab:

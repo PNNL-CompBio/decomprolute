@@ -17,19 +17,19 @@ inputs:
 #      default: 10
    samples:
       type: int[]
-      default: [20,40,80]#[10,20,40,60,80,100]
+      default: [10,20,40,60,80,100]
    mrna-perms:
       type: string[]
-      default: ['1','2','3','4','5','6','7','8','9','10','pbmc']
+      default: ['1','2','3','4','5']#,'6','7','8','9','10','pbmc']
    prot-perms:
       type: string[]
-      default: ['1','2','3']##,'4','5']
+      default: ['1','2','3','4','5']
    prot-algorithms:
       type: string[]
       default:
       - mcpcounter
-    #  - xcell
-    #  - epic
+      - xcell
+      - epic
       - cibersort
    rna-sigs: 
       type: string[]
@@ -39,6 +39,9 @@ inputs:
       default: ['LM7c','LM9']
    simType: 
       type: string
+   repNumber:
+      type: int
+      default: 0
 
 outputs:
    cell-cor-tab:
@@ -50,7 +53,7 @@ outputs:
 
 steps:
    run-all-algs-by-mrna:
-     run: sim-loop.cwl #call-deconv-on-sim.cwl
+     run: call-deconv-on-sim.cwl #call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'mrna')
      scatter: [protAlg,simulation,signature,sample]
      scatterMethod: flat_crossproduct
@@ -59,15 +62,16 @@ steps:
         simulation: mrna-perms
         signature: rna-sigs
         sample: samples
+        sampleRep: repNumber
         sampleType:
           valueFrom: 'normal'
         dataType:
           valueFrom: 'prot'
         simType: simType
      out:
-       [cell-cor-files]
+       [cell-cor-file]
    run-all-algs-by-prot:
-     run: sim-loop.cwl #call-deconv-on-sim.cwl
+     run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'prot')
      scatter: [protAlg,simulation,signature,sample]
      scatterMethod: flat_crossproduct
@@ -75,6 +79,7 @@ steps:
         protAlg: prot-algorithms
         simulation: prot-perms
         sample: samples
+        sampleRep: repNumber
         signature: prot-sigs
         sampleType:
           valueFrom: 'normal'
@@ -82,56 +87,19 @@ steps:
           valueFrom: 'prot'
         simType: simType
      out:
-        [cell-cor-files]
-   arrayBusiness:
-     run:
-      class: ExpressionTool
-      inputs:
-        arrayTwoDim:
-          type:
-            type: array
-            items:
-              type: array
-              items: File
-          inputBinding:
-            loadContents: true
-      outputs:
-         array1d:
-          type: File[]
-      expression: >
-          ${
-             var newArray= [];
-             for (var i = 0; i < inputs.arrayTwoDim.length; i++) {
-                for (var k = 0; k < inputs.arrayTwoDim[i].length; k++) {
-                   newArray.push((inputs.arrayTwoDim[i])[k]);
-            }
-          }
-          return { 'array1d' : newArray }
-          }
-     in:
-       arrayTwoDim:
-        source:
-           - run-all-algs-by-mrna/cell-cor-files
-           - run-all-algs-by-prot/cell-cor-files
-        linkMerge: merge_flattened
-        pickValue: all_non_null
-     out: [array1d]
+        [cell-cor-file]
    get-celltype-cors:
       run: ../figures/plot-figs.cwl
       in:
         metricType:
             valueFrom: "cellType"
         files:
-            source: arrayBusiness/array1d
-        #    type:
-        #      type: array
-        #      items:
-        #         type: array
-        #         items: File
-        #    source:
-        #      - run-all-algs-by-mrna/cell-cor-files
-        #      - run-all-algs-by-prot/cell-cor-files
-        #    linkMerge: merge_flattened
-        #    pickValue: all_non_null
+            source:
+              - run-all-algs-by-mrna/cell-cor-file
+              - run-all-algs-by-prot/cell-cor-file
+            linkMerge: merge_flattened
+            pickValue: all_non_null
+        repNumber:
+            source: repNumber
       out:
          [table,fig]
