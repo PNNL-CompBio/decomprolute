@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - 'metrics/*'
+      - 'simulatedData/*'
+      - 'signatureMatrices/*'
 
 jobs:
   build-and-push-tools:
