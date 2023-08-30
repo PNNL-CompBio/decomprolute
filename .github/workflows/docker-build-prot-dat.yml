@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - "protData/*"
+      - "signature_matrices/*"
+      - "simulatedData/*"
 
 jobs:
   build-and-push-protData-sig-sim:

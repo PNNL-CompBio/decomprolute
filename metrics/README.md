@@ -27,7 +27,7 @@ These tests can be evaluated across signature matrices, tissue types (tumor, nor
 types. These tests are located in the [`mrna-prot` directory](./mrna-prot).
 
 ### Simulated data analysis
-Here we test how well each algorithm performs on simulated data.
+Here we test how well each algorithm performs on simulated data, with varying degrees of loss in protein/mRNA levels. 
 The documentation to test this is in the [`data-sim` directory](./data-sim).
 
 ### Immune subtype analysis
