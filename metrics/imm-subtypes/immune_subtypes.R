@@ -3,7 +3,7 @@ library(argparser)
 library(ggplot2)
 library(reshape2)
 library(nationalparkcolors)
-
+#general colors used
 pal <- c(park_palette('GeneralGrant'),
          park_palette('Redwoods'),
          park_palette('DeathValley'),
