@@ -1,5 +1,11 @@
 FROM rocker/r-ver:4
-RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >>"${R_HOME}/etc/Rprofile.site"
+
+RUN apt-get update && apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev 
+ENV SRC /usr/local/src
+ENV BIN /usr/local/bin
+
+WORKDIR $SRC
+
 
 #RUN Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")'
 RUN Rscript -e 'install.packages("remotes",dependences=TRUE); remotes::install_github("katiejolly/nationalparkcolors")'
