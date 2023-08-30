@@ -8,10 +8,11 @@ Status of docker builds:
 
 | Status | Description |
 | --- | --- |
-| ![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-1.yml/badge.svg) | Collects CPTAC protein data |
-| ![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-2.yml/badge.svg)| Collects CPTAC mRNA data |
+| ![Protein docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-prot-dat.yml/badge.svg) | Collects CPTAC protein data |
+| ![mRNA docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/docker-build-mrna-imput.yml/badge.svg)| Collects CPTAC mRNA data |
 | ![Algorithm docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/decon-alg-docker.yml/badge.svg) | Builds deconvolution docker images |
-| ![Metrics docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-docker-build.yml/badge.svg) | Builds metrics and figure docker images |
+| ![Figures and correlation docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-fig-cor-build.yml/badge.svg) | Builds metrics and figure docker images |
+![Immune subtypes docker builds](https://github.com/pnnl-compBio/decomprolute/actions/workflows/metrics-dist-immune-build.yml/badge.svg) | Builds immune subtypes and distance metric docker images |
 
 ## How to contribute
 
