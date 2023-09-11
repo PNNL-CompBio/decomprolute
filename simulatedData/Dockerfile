@@ -10,5 +10,4 @@ COPY mapSimDataMatrices.R /bin/
 RUN chmod 777 /bin/getSimDataMatrices.R
 RUN chmod 777 /bin/mapSimDataMatrices.R
 
-
 #VOLUME ['/tmp']
