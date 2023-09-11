@@ -5,16 +5,8 @@ defaults:
 on:
   push:
     paths:
-<<<<<<< HEAD:.github/workflows/dist-immune-build.yml
       - 'metrics/distance/*'
       - 'metrics/imm-subtypes/*'
-=======
-      - 'metrics/*'
-      - 'metrics/*/*'
-      - 'simulatedData/*'
-      - 'signatureMatrices/*'
->>>>>>> main:.github/workflows/metrics-docker-build.yml
-
 jobs:
   build-and-push-tools:
     runs-on: ubuntu-latest
