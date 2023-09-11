@@ -1,10 +1,11 @@
 tags
 test/*
-.pdf
-
+*.pdf
 .RData
 .Rhistory
 *~
+*csv
+*tsv
 .*~
 .DS_Store
 # Byte-compiled / optimized / DLL files

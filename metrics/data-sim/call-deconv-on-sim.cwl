@@ -35,15 +35,15 @@ outputs:
 #  matrix:
 #     type: File
 #     outputSource: get-sim-data/matrix
-#  cellPred:
-#     type: File
-#     outputSource: get-sim-data/cellType
+  cellPred:
+     type: File
+     outputSource: match-prot-to-sig/updated-cell-matrix
 #  deconvoluted:
 #     type: File
 #     outputSource: deconv-prot/deconvoluted
-#  deconv:
-#     type: File
-#     outputSource: match-prot-to-sig/updated-deconv
+  deconv:
+     type: File
+     outputSource: match-prot-to-sig/updated-deconv
   cell-cor-file:
      type: File
      outputSource: celltype-cor/corr

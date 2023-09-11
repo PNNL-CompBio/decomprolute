@@ -20,7 +20,7 @@ inputs:
       default: [10,20,40,60,80,100]
    mrna-perms:
       type: string[]
-      default: ['1','2','3','4','5']#,'6','7','8','9','10','pbmc']
+      default: ['1','2','3','4','5','6','7','8','9','10','pbmc']
    prot-perms:
       type: string[]
       default: ['1','2','3','4','5']

@@ -8,12 +8,13 @@ main <- function(){
     print(argv)
     deconv.mat <- read.table(argv[1],header=T,row.names=1,sep='\t', check.names = F) #matrix to be fixed
     sig.mat <- argv[2] #signature used to deconvolve matrix
+    sig.mat<-basename(sig.mat)
     sig.mat <-stringr::str_replace(sig.mat,'_[0-9]*','') ##added this due to sampling changes!!!
     sim.type <- tolower(argv[3]) #type of simulation performed
     cell.type <-read.table(argv[4],header=T,row.names=1,sep='\t', check.names = F)
 
-    sig.mat<-basename(sig.mat)
 
+    print(paste("mapping",sig.mat,"predictions to",sim.type,'simulations'))
     over <- intersect(rownames(deconv.mat),rownames(cell.type))
     print(paste0('Sig cell types: ',paste(rownames(deconv.mat),collapse=',')))
     print(paste0('Simulated cell types: ',paste(rownames(cell.type),collapse=',')))
@@ -24,7 +25,7 @@ main <- function(){
     ##maximize overlap
     rownames(deconv.mat)<-rownames(deconv.mat)%>%
         stringr::str_replace('Neutrophil$','Neutrophils')%>%
-        stringr::str_replace(fixed('MO'),'Monocytes')%>%
+        stringr::str_replace(stringr::fixed('MO'),'Monocytes')%>%
         stringr::str_replace('^T8 cells$','CD8 T cells')%>%
         stringr::str_replace('^T4 cells$','CD4 T cells')%>%
         stringr::str_replace(fixed('B-cells'),'B cells')%>%
