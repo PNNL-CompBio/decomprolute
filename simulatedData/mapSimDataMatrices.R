@@ -36,9 +36,12 @@ main <- function(){
         stringr::str_replace('DC$','Dendritic cells')%>%
         stringr::str_replace(fixed('T cells CD4'),'CD4 T cells')%>%
         stringr::str_replace('Eosinophil$','Eosinophils')%>%
-        stringr::str_replace(fixed('T cells CD4 naive'),'CD4 naive T-cells')%>%
-        stringr::str_replace(fixed('T cells CD4 memory activated'),'CD4 memory T-cells activated')%>%
-        stringr::str_replace(fixed('T cells CD4 memory resting'),'CD4 memory T-cells resting')
+        stringr::str_replace(fixed('T cells CD4 naive'),'CD4 naive T cells')%>%
+        stringr::str_replace(fixed('T cells CD4 memory activated'),'CD4 memory T cells activated')%>%
+        stringr::str_replace(fixed('T cells CD4 memory resting'),'CD4 memory T cells resting')|>
+      stringr::str_replace(fixed('CD4 T cells naive'),'CD4 naive T cells')%>%
+      stringr::str_replace(fixed('CD4 T cells memory activated'),'CD4 memory T cells activated')%>%
+      stringr::str_replace(fixed('CD4 T cells memory resting'),'CD4 memory T cells resting')
 
     ##now let's get the cell types to use the same nomenclature
     rownames(cell.type)<-rownames(cell.type)%>%
@@ -57,9 +60,10 @@ main <- function(){
         stringr::str_replace('^NK$','NK cells')%>%
         stringr::str_replace(fixed('B cells naive'),'Naive B cells')%>%
         stringr::str_replace(fixed('B cells memory'),'Memory B cells')%>%
-        stringr::str_replace(fixed('T cells CD4 naive'),'CD4 naive T-cells')%>%
-        stringr::str_replace(fixed('T cells CD4 memory activated'),'CD4 memory T-cells activated')
-
+        stringr::str_replace(fixed('T cells CD4 naive'),'CD4 T cells naive')%>%
+        stringr::str_replace(fixed('T cells CD4 memory activated'),'CD4 memory T cells activated')|>
+      stringr::str_replace(fixed('T cells CD4 memory resting'),'CD4 memory T cells resting')
+    
 
     ##massive if-else clause to match cell types :-/
     if(sig.mat=='LM9.txt'){
@@ -69,9 +73,9 @@ main <- function(){
         }else if(sim.type=='mrna'){
             #do nothing
         }else if(sim.type=='pbmc'){
-            cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
-                cell.type['CD4 memory T-cells resting',]+
-                cell.type['CD4 memory T-cells activated',]
+            cell.type['CD4 T cells',]<-cell.type['CD4 naive T cells',]+
+                cell.type['CD4 memory T cells resting',]+
+                cell.type['CD4 memory T cells activated',]
             cell.type['B cells',]<-cell.type['Naive B cells',]+
                 cell.type['Memory B cells',]
         }
@@ -79,22 +83,23 @@ main <- function(){
         #can convert to any other
         if(sim.type=='prot'){
             ##fix  t8 cells
-            deconv.mat['B cells',]<-deconv.mat['B cells naive',]+
-                deconv.mat['B cells memory',]
-            deconv.mat['CD4 T cells',]<- deconv.mat['T cells CD4 naive',]+
-                deconv.mat['T cells CD4 memory activated',]+
-                deconv.mat['T cells CD4 memory resting',]
+            deconv.mat['B cells',]<-deconv.mat['Naive B cells',]+
+                deconv.mat['Memory B cells',]
+            deconv.mat['CD4 T cells',]<- deconv.mat['CD4 naive T-cells',]+
+                deconv.mat['CD4 memory T-cells activated',]+
+                deconv.mat['CD4 memory T-cells resting',]
             deconv.mat['NK cells',]<-deconv.mat['NK cells activated',]+
                 deconv.mat['NK cells resting',]
             deconv.mat['Dendritic cells',]<-deconv.mat['Dendritic cells activated',]+
                 deconv.mat['Dendritic cells resting',]
 
         }else if(sim.type=='mrna'){
-            deconv.mat['B cells',]<-deconv.mat['B cells naive',]+
-                deconv.mat['B cells memory',]
-            deconv.mat['CD4 T cells',]<- deconv.mat['T cells CD4 naive',]+
-                deconv.mat['T cells CD4 memory activated',]+
-                deconv.mat['T cells CD4 memory resting',]
+          deconv.mat['B cells',]<-deconv.mat['Naive B cells',]+
+            deconv.mat['Memory B cells',]
+          deconv.mat['CD4 T cells',]<- deconv.mat['CD4 naive T cells',]+
+            deconv.mat['CD4 memory T cells activated',]+
+            deconv.mat['CD4 memory T cells resting',]
+                          deconv.mat['T cells CD4 memory resting',]
             deconv.mat['NK cells',]<-deconv.mat['NK cells activated',]+
                 deconv.mat['NK cells resting',]
         }else if(sim.type=='pbmc'){
@@ -111,9 +116,9 @@ main <- function(){
         }else if(sim.type=='mrna'){
             #do nothing
         }else if(sim.type=='pbmc'){
-             cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
-                cell.type['CD4 memory T-cells resting',]+
-                cell.type['CD4 memory T-cells activated',]
+             cell.type['CD4 T cells',]<-cell.type['CD4 naive T cells',]+
+                cell.type['CD4 memory T cells resting',]+
+                cell.type['CD4 memory T cells activated',]
             cell.type['B cells',]<-cell.type['Naive B cells',]+
                 cell.type['Memory B cells',]
 
@@ -125,9 +130,9 @@ main <- function(){
         }else if(sim.type=='mrna'){
                                         #do nothing
         }else if(sim.type=='pbmc'){
-            cell.type['CD4 T cells',]<-cell.type['CD4 naive T-cells',]+
-                cell.type['CD4 memory T-cells resting',]+
-                cell.type['CD4 memory T-cells activated',]
+            cell.type['CD4 T cells',]<-cell.type['CD4 naive T cells',]+
+                cell.type['CD4 memory T cells resting',]+
+                cell.type['CD4 memory T cells activated',]
 
             cell.type['B cells',]<-cell.type['Naive B cells',]+
                 cell.type['Memory B cells',]
