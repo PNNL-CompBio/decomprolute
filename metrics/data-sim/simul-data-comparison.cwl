@@ -88,6 +88,7 @@ steps:
       in:
         metricType:
             valueFrom: "cellType"
+        repNumber: repNumber
         files:
             source:
               - run-all-algs-by-mrna/cell-cor-file
