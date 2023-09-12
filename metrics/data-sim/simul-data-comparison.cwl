@@ -52,11 +52,11 @@ steps:
    run-all-algs-by-mrna:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'mrna')
-     scatter: [protAlg,permutation,signature]
+     scatter: [protAlg,simulation,signature]
      scatterMethod: flat_crossproduct
      in:
         protAlg: prot-algorithms
-        permutation: mrna-perms
+        simulation: mrna-perms
         signature: rna-sigs
         sample: sample
         sampleType:
@@ -69,11 +69,11 @@ steps:
    run-all-algs-by-prot:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'prot')
-     scatter: [protAlg,permutation,signature]
+     scatter: [protAlg,simulation,signature]
      scatterMethod: flat_crossproduct
      in:
         protAlg: prot-algorithms
-        permutation: prot-perms
+        simulation: prot-perms
         signature: prot-sigs
         sample: sample
         sampleType:
