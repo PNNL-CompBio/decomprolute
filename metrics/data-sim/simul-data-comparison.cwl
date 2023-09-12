@@ -38,7 +38,7 @@ inputs:
       default: 100
    repNumber: ##if you wanted to run this numer times
       type: int
-      defalut 0
+      default: 0
 
 outputs:
    cell-cor-tab:
