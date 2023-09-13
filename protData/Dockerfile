@@ -5,6 +5,6 @@ COPY protDataSetsCLI.py /bin/
 RUN chmod 777 /bin/protDataSetsCLI.py
 COPY getAllDatasets.py /bin/
 ENV CPTAC_BASE_DIR=/tmp/
-#RUN python /bin/getAllDatasets.py
+RUN python /bin/getAllDatasets.py
 VOLUME ['/tmp']
 WORKDIR ['/tmp']
