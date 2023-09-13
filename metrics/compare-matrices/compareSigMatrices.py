@@ -21,8 +21,8 @@ def get_cor_stat(dat, prot_markers):
 
     # we have to add data source
     sources = dat.list_data_sources()
-    psource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='proteomics']
-    tsource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='transcriptomics']
+    psource = [row['Available sources'][0] for index,row in sources.iterrows() if row['Data type']=='proteomics']
+    tsource = [row['Available sources'][0] for index,row in sources.iterrows() if row['Data type']=='transcriptomics']
     genes = [p for p in prot_markers['NAME']]
     #get the merged data frame from cptac data
     merged = dat.join_omics_to_omics(df1_name='proteomics', \
@@ -68,24 +68,41 @@ def get_na_counts(dat, prot_markers):
     '''
     # we have to add data source
     sources = dat.list_data_sources()
-    psource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='proteomics']
-    tsource = [row['Available sources'].split(',')[0] for index,row in sources.iterrows() if row['Data type']=='transcriptomics']
+    psource = [row['Available sources'][0] for index,row in sources.iterrows() if row['Data type']=='proteomics']
+    tsource = [row['Available sources'][0] for index,row in sources.iterrows() if row['Data type']=='transcriptomics']
     genes = [p for p in prot_markers['NAME']]
     #get the merged data frame from cptac data
-    merged = dat.join_omics_to_omics(df1_name='proteomics', \
-                                     df2_name='transcriptomics', \
-                                     df1_source=psource[0],\
-                                     df2_source=tsource[0],\
-                                     genes1=genes, genes2=genes)
+    #merged = dat.join_omics_to_omics(df1_name='proteomics', \
+    #                                 df2_name='transcriptomics', \
+    #                                 df1_source=psource[0],\
+    #                                 df2_source=tsource[0],\
+    #                                 genes1=genes, genes2=genes)
 
-    if merged.columns.nlevels == 2:
-        merged.columns = merged.columns.droplevel(1)
+    prot = dat.get_proteomics(psource[0])
+    trans = dat.get_transcriptomics(tsource[0])
+    
+    if prot.columns.nlevels == 2:
+        prot.columns = prot.columns.droplevel(1)
 
-    sums = merged.isna().sum()/merged.shape[0]
-    inds = sums.index.str.split('_', expand=False)
-    sumtab = pandas.DataFrame({'NAs':sums, 'NAME': [i[0] for i in inds], 'Data': [i[2] for i in inds]})
+    if trans.columns.nlevels == 2:
+        trans.columns = trans.columns.droplevel(1)        
 
-    counts = sumtab.merge(prot_markers).groupby(['cell_type', 'Data']).mean("NAs")
+    navals=[]
+    for k in genes:
+        if k in set(prot.columns):
+            navals.append({'NAME':k,'NAs':prot[k].isna().sum().min()/prot.shape[0],'Data':'Proteomics'})
+        else:
+            navals.append({'NAME':k,'NAs':1.0,'Data':'Proteomics'})
+        if k in set(trans.columns):
+            navals.append({'NAME':k,'NAs':trans[k].isna().sum().min()/trans.shape[0],'Data':'Transcriptomics'})
+        else:
+            navals.append({'NAME':k,'NAs':1.0,'Data':'Transcriptomics'})            
+
+
+    sumtab = pandas.DataFrame(navals).merge(prot_markers)[['cell_type','Data','NAs','NAME']]
+    #print(sumtab.head())
+    counts = sumtab.groupby(['cell_type', 'Data']).mean("NAs")
+    #print(counts.head())
     return counts
 
 def main():
@@ -141,43 +158,45 @@ def main():
             exit()
             ##now get the data, create one large data frame
             #compute correlation
-        dslist[ds] = get_cor_stat(dat, prot_markers)
-        dslist[ds]['Tumor'] = ds
+        #dslist[ds] = get_cor_stat(dat, prot_markers)
+        #dslist[ds]['Tumor'] = ds
         countlist[ds] = get_na_counts(dat, prot_markers)
         countlist[ds]['Tumor'] = ds
 
 
     mval= os.path.splitext(os.path.basename(args.matrix))[0]
-    #then plot cor values by cell type and cancer type
-    fulltab = pandas.concat([dslist[d] for d in dslist.keys()])
-    fulltab['Tumor'] = fulltab.Tumor.astype('category')
-    fulltab['cell_type'] = fulltab.cell_type.astype('category')
-    fulltab['sigMatrix'] = mval
-    fulltab.to_csv(mval+'_allCors.csv')
+    #ignore correlation for now
+    #
+    # #then plot cor values by cell type and cancer type
+    # fulltab = pandas.concat([dslist[d] for d in dslist.keys()])
+    # fulltab['Tumor'] = fulltab.Tumor.astype('category')
+    # fulltab['cell_type'] = fulltab.cell_type.astype('category')
+    # fulltab['sigMatrix'] = mval
+    # fulltab.to_csv(mval+'_allCors.csv')
 
 
-    ##now we can plot the statistics using the plotnine pacakge
-    print(fulltab.head())
-    plot = (
-        ggplot(fulltab, aes(x='cell_type', col='Tumor', fill='Tumor', y='prot', alpha=0.5))
-        + geom_jitter(width=0.3)
-        + geom_boxplot()
-        + xlab('Cell Type')
-        + ylab("Spearman rank correlation")
-        + theme(axis_text_x=element_text(rotation=90, hjust=1))
-    )
-    fname = mval+'_sigMatrix_box_and_points.pdf'
-    plot.save(fname)
+    # ##now we can plot the statistics using the plotnine pacakge
+    # print(fulltab.head())
+    # plot = (
+    #     ggplot(fulltab, aes(x='cell_type', col='Tumor', fill='Tumor', y='prot', alpha=0.5))
+    #     + geom_jitter(width=0.3)
+    #     + geom_boxplot()
+    #     + xlab('Cell Type')
+    #     + ylab("Spearman rank correlation")
+    #     + theme(axis_text_x=element_text(rotation=90, hjust=1))
+    # )
+    # fname = mval+'_sigMatrix_box_and_points.pdf'
+    # plot.save(fname)
 
-    plot = (
-        ggplot(fulltab, aes(x='cell_type', fill='Tumor', y='prot'))
-        + geom_boxplot(alpha=0.5)
-        + xlab('Cell Type')
-        + ylab("Spearman rank correlation")
-        + theme(axis_text_x=element_text(rotation=90, hjust=1))
-        )
-    fname = mval+'_sigMatrix_boxplot.pdf'
-    plot.save(fname, height=8, width=10)
+    # plot = (
+    #     ggplot(fulltab, aes(x='cell_type', fill='Tumor', y='prot'))
+    #     + geom_boxplot(alpha=0.5)
+    #     + xlab('Cell Type')
+    #     + ylab("Spearman rank correlation")
+    #     + theme(axis_text_x=element_text(rotation=90, hjust=1))
+    #     )
+    # fname = mval+'_sigMatrix_boxplot.pdf'
+    # plot.save(fname, height=8, width=10)
 
     counttab = pandas.concat([countlist[d] for d in countlist.keys()])
     counttab['SigMatrix']=mval

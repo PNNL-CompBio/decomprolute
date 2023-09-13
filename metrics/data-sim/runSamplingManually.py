@@ -6,7 +6,7 @@ run sampling manually to avoid having to loop in CWL, whcih turned out to be cum
 import os
 
 filelist = []
-for i in [0,1,2,3,4]:
+for i in [1,2,3,4]:
 #    estring = 'cwltool simul-data-sampling.cwl --prot-sigs LM9 --simType prot --repNumber '+str(i)
 #    print(estring)
 #    os.system(estring)
@@ -28,12 +28,12 @@ for i in [0,1,2,3,4]:
     os.rename(fname,'mrna-LM22-'+fname)
     filelist.append('mrna-LM22-'+fname)
 
-    estring = 'cwltool simul-data-sampling.cwl --rna-sigs PBMC --simType mrna --repNumber '+str(i)
-    print(estring)
-    os.system(estring)
-    fname='combined-cellType-correlation-'+str(i)+'.tsv'
-    os.rename(fname,'mrna-pbmc-'+fname)
-    filelist.append('mrna-pbmc-'+fname)
+#    estring = 'cwltool simul-data-sampling.cwl --rna-sigs PBMC --simType mrna --repNumber '+str(i)
+#    print(estring)
+#    os.system(estring)
+#    fname='combined-cellType-correlation-'+str(i)+'.tsv'
+#    os.rename(fname,'mrna-pbmc-'+fname)
+#    filelist.append('mrna-pbmc-'+fname)
 
 
 
