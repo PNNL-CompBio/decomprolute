@@ -8,7 +8,7 @@ main<-function(){
     sig_name <- trimws(argv[1])
 
     sampval <-as.numeric(trimws(argv[2]))
-    print(samval)    
+    print(sampval)    
     #reshape matrisome to adhere to standards
     if(tolower(sig_name)=='matrisome'){
       tab <- readxl::read_xlsx('/Hs_Matrisome_Masterlist_Naba et al_2012.xlsx')[,c(2:3)]|>
