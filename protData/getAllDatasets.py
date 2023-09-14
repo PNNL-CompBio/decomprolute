@@ -22,7 +22,7 @@ def getCancerObj(cancertype):
         dat = cptac.Lscc()
     elif cancertype == 'luad':
         dat = cptac.Luad()
-    elif cancertype == 'ov':
+    elif cancertype == 'ovarian':
         dat = cptac.Ov()
     elif cancertype =='pdac':
         dat = cptac.Pdac()
