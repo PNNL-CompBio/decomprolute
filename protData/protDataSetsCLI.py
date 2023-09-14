@@ -48,6 +48,8 @@ def main():
     tsource = dat_list['proteomics']
     df = dat.get_proteomics(tsource[0])
     
+    if df.columns.nlevels == 2:
+        df.columns = df.columns.droplevel(1)
 
     # Get the sample type specific dataframe
     # if opts.sample.lower() != 'all':
