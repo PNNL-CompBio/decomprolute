@@ -33,7 +33,7 @@ def main():
         dat = cptac.Luad()
     elif opts.type.lower() == 'ovarian':
         dat = cptac.Ov()
-    elif opts.type.loewr() == 'pdac':
+    elif opts.type.lower() == 'pdac':
         dat = cptac.Pdac()        
     else:
         exit()
