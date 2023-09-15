@@ -43,6 +43,7 @@ inputs:
     type: string
   sampleRep:
     type: int
+    default: 0
 
 outputs:
   corr:

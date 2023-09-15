@@ -30,6 +30,7 @@ inputs:
         position: 4
    repNumber:
      type: int
+     default: 0
      inputBinding:
         position: 3
 

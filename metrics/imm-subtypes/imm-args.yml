@@ -1,11 +1,16 @@
 tissueTypes:
   - tumor
 cancerTypes:
-  - endometrial
+  - hnscc
+  - gbm
   - luad
-  - colon
+  - coad
   - ovarian
   - ccrcc
+  - lscc
+  - brca
+  - pdac
+  - ucec
 signatures:
   - LM7c
   - LM22
