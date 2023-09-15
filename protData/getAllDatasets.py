@@ -34,7 +34,7 @@ def getCancerObj(cancertype):
     return dat
 
 
-for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ovarian', 'luad', 'hnscc', 'gbm','lscc']:
+for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ov', 'luad', 'hnscc', 'gbm','lscc']:
     dat=getCancerObj(ds)
 
     #this call changed in recent version

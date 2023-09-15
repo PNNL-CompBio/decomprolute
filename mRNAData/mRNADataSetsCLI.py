@@ -33,7 +33,7 @@ def main():
         dat = cptac.Luad()
     elif opts.type.lower() == 'ovarian':
         dat = cptac.Ov()
-    elif opts.type.loewr() == 'pdac':
+    elif opts.type.lower() == 'pdac':
         dat = cptac.Pdac()        
     else:
         exit()
@@ -48,6 +48,8 @@ def main():
     tsource = dat_list['transcriptomics']
     df = dat.get_transcriptomics(tsource[0])
     
+    if df.columns.nlevels == 2:
+        df.columns = df.columns.droplevel(1)
 
     # Get the sample type specific dataframe
     # if opts.sample.lower() != 'all':
