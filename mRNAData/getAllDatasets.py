@@ -46,4 +46,5 @@ for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ovarian', 'luad', 'hnscc', '
         cs = clinsource[0]
     dat.get_clinical(cs)
     tsource = dat_list['transcriptomics']
-    dat.get_transcriptomics(tsource[0])
+    res = dat.get_transcriptomics(tsource[0])
+    print(ds+':',res.shape)
