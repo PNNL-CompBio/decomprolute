@@ -1,9 +1,14 @@
 cancerTypes:
-  - endometrial
+  - ucec
+  - brca
+  - coad
+  - lscc
   - ccrcc
   - luad
   - hnscc
   - ovarian
+  - pdac
+  - gbm
 prot-algorithms:
   - mcpcounter
   - epic

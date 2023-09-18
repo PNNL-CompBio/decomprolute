@@ -34,7 +34,7 @@ def getCancerObj(cancertype):
     return dat
 
 
-for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ov', 'luad', 'hnscc', 'gbm','lscc']:
+for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ovarian', 'luad', 'hnscc', 'gbm','lscc']:
     dat=getCancerObj(ds)
 
     #this call changed in recent version
@@ -46,4 +46,5 @@ for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ov', 'luad', 'hnscc', 'gbm',
         cs = clinsource[0]
     dat.get_clinical(cs)
     tsource = dat_list['proteomics']
-    dat.get_proteomics(tsource[0])
+    df = dat.get_proteomics(tsource[0])
+    print(ds+':',df.shape)

@@ -6,7 +6,7 @@ run sampling manually to avoid having to loop in CWL, whcih turned out to be cum
 import os
 
 filelist = []
-for i in [2,3,4]:
+for i in [3,4]:
 #    estring = 'cwltool simul-data-sampling.cwl --prot-sigs LM9 --simType prot --repNumber '+str(i)
 #    print(estring)
 #    os.system(estring)
