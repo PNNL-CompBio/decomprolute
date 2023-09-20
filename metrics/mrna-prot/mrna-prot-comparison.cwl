@@ -37,21 +37,12 @@ outputs:
    prot-files:
       type: File[]
       outputSource: run-all-algs-by-sig/prot-file
-#   dist-files:
-#      type: File[]
-#      outputSource: run-all-algs-by-sig/mat-dist-file
-#   dist-fig:
-#      type: File[]
-#      outputSource: get-distances/fig
-#   dist-tab:
-#      type: File
-#      outputSource: get-distances/table
     
 
 steps:
    run-all-algs-by-sig:
       run: call-deconv-and-cor.cwl
-      scatter: [signature,mrna-alg,prot-alg,cancerType,tissueType]
+      scatter: [signature,mrna-alg,prot-alg,tissueType,cancerType]
       scatterMethod: flat_crossproduct
       in:
         signature: signatures

@@ -3,8 +3,7 @@
 Basic CLI to import CPTAC proteomic data
 '''
 import argparse
-import cptac
-
+import pandas
 
 def main():
     parser = argparse.ArgumentParser()
@@ -14,42 +13,9 @@ def main():
                         help='Sample type, tumor vs normal vs all (default), \
                         to be collected')
     opts = parser.parse_args()
+    df=pandas.read_csv("/data/"+opts.type+'.csv',index_col=0)
+#    df = df.reset_index()
 
-    if opts.type.lower() == 'brca':
-        dat = cptac.Brca()
-    elif opts.type.lower() == 'ccrcc':
-        dat = cptac.Ccrcc()
-    elif opts.type.lower() == 'coad':
-        dat = cptac.Coad()
-    elif opts.type.lower() == 'ucec':
-        dat = cptac.Ucec()
-    elif opts.type.lower() == 'gbm':
-        dat = cptac.Gbm()
-    elif opts.type.lower() == 'hnscc':
-        dat = cptac.Hnscc()
-    elif opts.type.lower() == 'lscc':
-        dat = cptac.Lscc()
-    elif opts.type.lower() == 'luad':
-        dat = cptac.Luad()
-    elif opts.type.lower() == 'ovarian':
-        dat = cptac.Ov()
-    elif opts.type.lower() == 'pdac':
-        dat = cptac.Pdac()        
-    else:
-        exit()
-        #this call changed in recent version
-    dat_list = dat.list_data_sources().set_index('Data type').to_dict()['Available sources']
-    clinsource = dat_list['clinical']
-    if 'harmonized' in clinsource:
-        cs = 'harmonized'
-    else:
-        cs = clinsource[0]
-    dat.get_clinical(cs)
-    tsource = dat_list['proteomics']
-    df = dat.get_proteomics(tsource[0])
-    
-    if df.columns.nlevels == 2:
-        df.columns = df.columns.droplevel(1)
 
     # Get the sample type specific dataframe
     # if opts.sample.lower() != 'all':

@@ -4,7 +4,8 @@ downloads data into docker image
 '''
 
 import cptac
-
+import os
+os.mkdir('/data/')
 
 def getCancerObj(cancertype):
    # cptac.download(dataset=cancertype,source='harmonized',)
@@ -47,4 +48,8 @@ for ds in ['brca', 'ccrcc', 'ucec', 'coad','pdac', 'ovarian', 'luad', 'hnscc', '
     dat.get_clinical(cs)
     tsource = dat_list['transcriptomics']
     res = dat.get_transcriptomics(tsource[0])
+    if res.columns.nlevels == 2:
+        res.columns = res.columns.droplevel(1)
+
     print(ds+':',res.shape)
+    res.to_csv('/data/'+ds+'.csv')
