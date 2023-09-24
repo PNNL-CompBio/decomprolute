@@ -1,21 +1,14 @@
 cancerTypes:
   - luad
   - ccrcc
-  - brca
-  - endometrial
 prot-algorithms:
   - mcpcounter
   - epic
-  - cibersort
-  - repbulk
 mrna-algorithms:
   - mcpcounter
   - epic
-  - cibersort
-  - repbulk
 tissueTypes:
    - tumor
 signatures:
   - LM7c
   - LM22
-  - Matrisome
