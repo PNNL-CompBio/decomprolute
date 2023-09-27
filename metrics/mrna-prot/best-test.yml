@@ -10,10 +10,10 @@ prot-algorithms:
 
 protFile:
   class: File
-  path: ../../toy_data/reduced_ov_prot.tsv
+  path: ../../toy_data/ov-all-prot-reduced.tsv
 
 rnaFile:
   class: File
-  path: ../../toy_data/reduced_ov_mrna.tsv
+  path: ../../toy_data/ov-all-mrna-reduced.tsv
 cancerType: test
 tissueType: test

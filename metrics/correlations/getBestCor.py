@@ -12,7 +12,7 @@ maxval = 0
 matrix = ""
 alg = ""
 for file in filelist:
-    [data,disease,mrna,to,prot,mat,cor] = os.path.basename(file).split('-')
+    [data,disease,mrna,to,prot,mat,frac,sample,rep,cor] = os.path.basename(file).split('-')
     if mrna == prot:
         tab = pandas.read_csv(file, sep='\t', header=None)
         meanVal = tab[1].mean()
