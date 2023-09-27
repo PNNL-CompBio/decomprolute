@@ -110,7 +110,7 @@ cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics
 To assess which algorithm/signature matrix best agree on simulated data, you can use *either* mRNA or protein data as input into the [run-best-alg-by-sim](./metrics/data-sim/run-best-alg-by-sim.cwl) workflow. Below is an example using our test data.
 
 ``` shell
-cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/data-sim/run-best-alg-by-sim.cwl --datFile https://raw.gihubusercontent.com/PNNL-CompBio/decomprolute/main/toy_data/TOY_log2ratio_protein_abundance_withNA.tsv --data-type prot
+cwltool https://raw.githubusercontent.com/PNNL-CompBio/decomprolute/main/metrics/data-sim/run-best-alg-by-sim.cwl --datFile https://raw.gihubusercontent.com/PNNL-CompBio/decomprolute/main/toy_data/ov-all-prot-reduced.tsv --data-type prot
 ```
 
 ## Evaluate metrics on new algorithm or signature matrix.
