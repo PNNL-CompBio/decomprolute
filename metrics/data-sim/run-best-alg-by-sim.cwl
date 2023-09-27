@@ -38,7 +38,7 @@ steps:
        out:
          [value]
    get-mat:
-       run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/signature_matrices/get-signature-matrix.cwl
+       run: ../../signature_matrices/get-signature-matrix.cwl
        in:
           sigMatrixName: get-best-sim-mat/value
        out:
@@ -52,7 +52,7 @@ steps:
       out:
         [value]
    run-best-algs-by-sig:
-      run: https://raw.githubusercontent.com/PNNL-CompBio/proteomicsTumorDeconv/main/tumorDeconvAlgs/run-deconv.cwl
+      run: ../../tumorDeconvAlgs/run-deconv.cwl
       in:
         signature: get-mat/sigMatrix
         alg: get-best-sim-alg/value

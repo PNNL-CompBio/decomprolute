@@ -10,10 +10,10 @@ prot-algorithms:
 
 protFile:
   class: File
-  path: ../../toy_data/TOY_log2ratio_protein_abundance_withNA.tsv
+  path: ../../toy_data/ov-all-prot-reduced.tsv
 
 rnaFile:
   class: File
-  path: ../../toy_data/TOY_rna_expression_imputed.tsv
+  path: ../../toy_data/ov-all-mrna-reduced.tsv
 cancerType: test
 tissueType: test
