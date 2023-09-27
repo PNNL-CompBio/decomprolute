@@ -38,7 +38,7 @@ inputs:
       default: 100
    repNumber: ##if you wanted to run this numer times
       type: int
-      defalut 0
+      default: 0
 
 outputs:
    cell-cor-tab:
@@ -52,11 +52,11 @@ steps:
    run-all-algs-by-mrna:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'mrna')
-     scatter: [protAlg,permutation,signature]
+     scatter: [protAlg,repNumber,signature]
      scatterMethod: flat_crossproduct
      in:
         protAlg: prot-algorithms
-        permutation: mrna-perms
+        repNumber: mrna-perms
         signature: rna-sigs
         sample: sample
         sampleType:
