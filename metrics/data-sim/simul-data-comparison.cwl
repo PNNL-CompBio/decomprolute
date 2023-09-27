@@ -69,11 +69,11 @@ steps:
    run-all-algs-by-prot:
      run: call-deconv-on-sim.cwl
      when: $(inputs.simType.trim() == 'prot')
-     scatter: [protAlg,permutation,signature]
+     scatter: [protAlg,simulation,signature]
      scatterMethod: flat_crossproduct
      in:
         protAlg: prot-algorithms
-        permutation: prot-perms
+        simulation: prot-perms
         signature: prot-sigs
         sample: sample
         sampleType:
@@ -88,6 +88,7 @@ steps:
       in:
         metricType:
             valueFrom: "cellType"
+        repNumber: repNumber
         files:
             source:
               - run-all-algs-by-mrna/cell-cor-file

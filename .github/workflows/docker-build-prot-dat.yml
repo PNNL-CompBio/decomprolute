@@ -4,7 +4,7 @@ defaults:
     working-directory: ./
 on:
   push:
-    branches:
+    paths:
       - "protData/*"
       - "signature_matrices/*"
       - "simulatedData/*"

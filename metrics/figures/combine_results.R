@@ -3,7 +3,7 @@
 #' 1 - assess correlations for each patient/disease
 #' 2- assess correlations for each celltype/matrix
 #'
-#'
+#' We generally only use correlation right now
 #' to run:
 #' Rscript  combine_results.R --metricType sample --metric correlation --repNumber 0 */*corr.tsv
 #' Rscript  combine_results.R --metricType cellType --metric correlation  --repNumber 0  */*corrXcelltypes.tsv
