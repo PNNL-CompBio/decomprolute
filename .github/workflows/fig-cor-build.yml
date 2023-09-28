@@ -1,4 +1,4 @@
-name: Docker-build-metrics
+name: Docker-metrics-figures-correlations
 defaults:
   run:
     working-directory: ./
