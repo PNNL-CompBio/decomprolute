@@ -40,7 +40,7 @@ if (length(args) > 1) {
         if (length(markers) == 0) {
             tempMarkers <- rownames(ref[ref[,s] > quantile(ref[,s], prob=0.5),])
             deOverMedians <- (ref[tempMarkers,s] - rowMedians(as.matrix(ref[tempMarkers,])))/rowMedians(as.matrix(ref[tempMarkers,]))
-            markers <- tempMarkers[deOverMedians > quantile(deOverMedians, prob=0.9)]
+            markers <- tempMarkers[deOverMedians >= quantile(deOverMedians, prob=0.9)]
         }
         marker[[i]] <- markers
         taggedNames <- c(taggedNames, paste0(colnames(ref)[i], "%", cellTypeNames[i], toString(i), "%", cellTypeNames[i], toString(i), ".txt"))
