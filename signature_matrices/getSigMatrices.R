@@ -10,16 +10,6 @@ main<-function(){
     sampval <-as.numeric(trimws(argv[2]))
     print(sampval)    
     #reshape matrisome to adhere to standards
-#    if(tolower(sig_name)=='matrisome'){
-#      tabi <- readxl::read_xlsx('/Hs_Matrisome_Masterlist_Naba et al_2012.xlsx')[,c(2:3)]|>
-#        mutate(value=1.0)|>
-#        tidyr::pivot_wider(names_from='Category',values_from='value',values_fill=0.001)|>
-#        tibble::column_to_rownames('Gene Symbol')
-#        
-#      write.table(tabi,'./Matrisome.txt',row.names=T,sep='\t',quote=F)
-#      
-#    }
-    
 
     print('providing sampled signature matrix')
     tab <- read.table(paste0('/',sig_name,'.txt'),header=T,sep='\t',row.names=1,check.names=F)
