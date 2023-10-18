@@ -76,4 +76,3 @@ if (length(args) > 1) {
     # write.table(dec, file = "deconvoluted.tsv", quote = FALSE, col.names = NA, sep = "\t")
 }
 
-#write.table(xc, file = "deconvoluted-pvalue.tsv", quote = FALSE, col.names = NA, sep = "\t")
