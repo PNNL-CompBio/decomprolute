@@ -4,6 +4,8 @@ The goal of this package is to provide a framework for the benchmarking of tumor
 Here we describe how to contribute to the project. We employ a modular, containerized, framework written in the Common Workflow Language to enable plug-n-play assessment of novel algorithms as described in the image below.
 <img src="docs/deconvFIgure1.png" width="400">
 
+![image](https://github.com/PNNL-CompBio/decomprolute/assets/1847866/84eb4737-e492-4e1c-be4e-fe6ad9d26348)
+
 Status of docker builds:
 
 | Status | Description |
