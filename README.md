@@ -1,3 +1,10 @@
+
+```
+This repository has been archived and is no longer maintained.
+The code is provided for historical reference and may contain unpatched or unknown vulnerabilities.
+It should not be used in production systems.
+```
+
 # Decomprolute: Benchmarking study of proteomic based tumor deconvolution
 The goal of this package is to provide a framework for the benchmarking of tumor deconvolution algorithms specifically on proteomics data. To run the platform, please see our [primary documentation site](https://pnnl-compbio.github.io/decomprolute). 
 
